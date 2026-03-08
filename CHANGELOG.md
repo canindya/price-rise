@@ -4,6 +4,13 @@
 
 ### Changed
 
+- **Dark Editorial Theme**: Complete UI overhaul to dark editorial aesthetic inspired by Anthropic's frontend aesthetics cookbook (Bloomberg Terminal meets The Economist)
+- **Design System**: Custom CSS variables for dark palette (#0c0f14 bg, #141820 cards, #1a1f2e elevated), Crimson Pro serif headings, DM Sans body, JetBrains Mono numbers
+- **CSS**: Added fadeUp animations with staggered delays, glass-card utility, mesh-bg radial gradients, toggle-switch component, glow effects
+- **All Components**: Updated 11 components and 5 pages from light to dark theme with vivid accent colors on dark backgrounds
+- **Charts**: Dark tooltips/legends, rgba borders, dark grid lines, consistent category color palette across TrendChart and ComparisonChart
+- **Modals**: MyBasket and AlertSetup modals restyled with dark cards, green accent buttons, dark form inputs
+- **Map**: Dark-themed WorldMap with dark tile layer, dark tooltips and legend
 - **Full UI Redesign**: Professional dashboard aesthetic inspired by Our World in Data / Bloomberg
 - **Layout**: Clean white header with gradient accent bar, sticky nav with active link indicators, mobile hamburger menu, alerts as bell icon with badge
 - **Explore Page**: Reorganized controls into logical groups, pill-shaped category toggles, toggle switch for world average, overflow-hidden chart container fixing event annotation bleed

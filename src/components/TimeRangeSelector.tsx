@@ -44,27 +44,32 @@ export default function TimeRangeSelector() {
 
   return (
     <div className="flex flex-col gap-2">
-      <div className="inline-flex items-center gap-0.5 rounded-full bg-gray-100 p-0.5">
+      <div
+        className="inline-flex items-center gap-0.5 rounded-full p-0.5"
+        style={{ backgroundColor: '#141820' }}
+      >
         {PRESET_OPTIONS.map((range) => (
           <button
             key={range}
             onClick={() => dispatch({ type: 'SET_TIME_RANGE', payload: range })}
-            className={`cursor-pointer rounded-full px-4 py-1.5 text-sm font-medium transition-all duration-200 ${
-              timeRange === range
-                ? 'bg-gray-900 text-white shadow-sm'
-                : 'text-gray-600 hover:bg-gray-200'
-            }`}
+            className="cursor-pointer rounded-full px-4 py-1.5 text-sm font-medium transition-all duration-200"
+            style={{
+              backgroundColor: timeRange === range ? '#4ade80' : 'transparent',
+              color: timeRange === range ? '#0c0f14' : '#8b95a5',
+              fontFamily: "'DM Sans', sans-serif",
+            }}
           >
             {range}
           </button>
         ))}
         <button
           onClick={handleCustomClick}
-          className={`cursor-pointer rounded-full px-4 py-1.5 text-sm font-medium transition-all duration-200 ${
-            timeRange === 'custom'
-              ? 'bg-gray-900 text-white shadow-sm'
-              : 'text-gray-600 hover:bg-gray-200'
-          }`}
+          className="cursor-pointer rounded-full px-4 py-1.5 text-sm font-medium transition-all duration-200"
+          style={{
+            backgroundColor: timeRange === 'custom' ? '#4ade80' : 'transparent',
+            color: timeRange === 'custom' ? '#0c0f14' : '#8b95a5',
+            fontFamily: "'DM Sans', sans-serif",
+          }}
         >
           Custom
         </button>
@@ -73,26 +78,38 @@ export default function TimeRangeSelector() {
       {timeRange === 'custom' && (
         <div className="flex items-center gap-3 pl-1">
           <label className="flex items-center gap-1.5">
-            <span className="text-xs font-medium text-gray-500">From</span>
+            <span className="text-xs font-medium" style={{ color: '#8b95a5', fontFamily: "'DM Sans', sans-serif" }}>From</span>
             <input
               type="number"
               min={MIN_YEAR}
               max={endYear}
               value={startYear}
               onChange={(e) => handleStartChange(Number(e.target.value))}
-              className="w-[4.5rem] rounded-lg border border-gray-300 px-2 py-1 text-sm tabular-nums transition-colors duration-150 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:ring-offset-1"
+              className="w-[4.5rem] rounded-lg px-2 py-1 text-sm tabular-nums transition-colors duration-150 focus:outline-none"
+              style={{
+                backgroundColor: '#141820',
+                border: '1px solid rgba(255,255,255,0.1)',
+                color: '#e8eaed',
+                fontFamily: "'JetBrains Mono', monospace",
+              }}
             />
           </label>
-          <span className="text-xs text-gray-300">&ndash;</span>
+          <span className="text-xs" style={{ color: '#555e6e' }}>&ndash;</span>
           <label className="flex items-center gap-1.5">
-            <span className="text-xs font-medium text-gray-500">To</span>
+            <span className="text-xs font-medium" style={{ color: '#8b95a5', fontFamily: "'DM Sans', sans-serif" }}>To</span>
             <input
               type="number"
               min={startYear}
               max={MAX_YEAR}
               value={endYear}
               onChange={(e) => handleEndChange(Number(e.target.value))}
-              className="w-[4.5rem] rounded-lg border border-gray-300 px-2 py-1 text-sm tabular-nums transition-colors duration-150 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:ring-offset-1"
+              className="w-[4.5rem] rounded-lg px-2 py-1 text-sm tabular-nums transition-colors duration-150 focus:outline-none"
+              style={{
+                backgroundColor: '#141820',
+                border: '1px solid rgba(255,255,255,0.1)',
+                color: '#e8eaed',
+                fontFamily: "'JetBrains Mono', monospace",
+              }}
             />
           </label>
         </div>

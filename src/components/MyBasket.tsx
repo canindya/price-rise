@@ -8,11 +8,11 @@ import {
 import { filterByTimeRange, calculateChange } from '../utils/dataTransforms';
 
 const CATEGORY_COLORS: Record<Category, string> = {
-  overall_cpi: '#6366f1',
-  food_cpi: '#f59e0b',
-  energy_benchmark: '#ef4444',
-  energy_retail: '#10b981',
-  education_spend: '#3b82f6',
+  overall_cpi: '#60a5fa',
+  food_cpi: '#4ade80',
+  energy_benchmark: '#fbbf24',
+  energy_retail: '#fb923c',
+  education_spend: '#c084fc',
 };
 
 interface MyBasketProps {
@@ -71,20 +71,33 @@ export default function MyBasket({
     <div
       onClick={handleOverlayClick}
       className={`fixed inset-0 z-50 flex items-center justify-center p-4 transition-colors duration-200 ${
-        visible ? 'bg-black/50' : 'bg-black/0'
+        visible ? 'bg-black/60' : 'bg-black/0'
       }`}
     >
       <div
-        className={`w-full max-w-lg rounded-2xl bg-white shadow-2xl transition-all duration-300 ${
+        className={`w-full max-w-lg rounded-2xl shadow-2xl transition-all duration-300 ${
           visible ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
         }`}
+        style={{
+          backgroundColor: '#141820',
+          border: '1px solid rgba(255,255,255,0.06)',
+        }}
       >
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-gray-100 px-6 pt-6 pb-4">
-          <h2 className="text-lg font-semibold text-gray-900">My Basket</h2>
+        <div
+          className="flex items-center justify-between px-6 pt-6 pb-4"
+          style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}
+        >
+          <h2
+            className="text-lg font-semibold"
+            style={{ color: '#e8eaed', fontFamily: "'Crimson Pro', serif" }}
+          >
+            My Basket
+          </h2>
           <button
             onClick={onClose}
-            className="cursor-pointer rounded-lg p-1.5 text-gray-400 transition-colors duration-150 hover:bg-gray-100 hover:text-gray-600"
+            className="cursor-pointer rounded-lg p-1.5 transition-colors duration-150"
+            style={{ color: '#555e6e' }}
             aria-label="Close"
           >
             <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -95,7 +108,10 @@ export default function MyBasket({
 
         {/* Body */}
         <div className="px-6 py-4">
-          <p className="mb-5 text-sm text-gray-500">
+          <p
+            className="mb-5 text-sm"
+            style={{ color: '#8b95a5', fontFamily: "'DM Sans', sans-serif" }}
+          >
             Adjust category weights to match your spending patterns. Weights auto-adjust to total 100%.
           </p>
 
@@ -111,18 +127,30 @@ export default function MyBasket({
                         className="inline-block h-2.5 w-2.5 rounded-full"
                         style={{ backgroundColor: color }}
                       />
-                      <span className="font-medium text-gray-700">{label}</span>
+                      <span
+                        className="font-medium"
+                        style={{ color: '#e8eaed', fontFamily: "'DM Sans', sans-serif" }}
+                      >
+                        {label}
+                      </span>
                     </div>
                     <div className="flex items-center gap-3">
                       {change != null && (
                         <span
-                          className={`text-xs ${change >= 0 ? 'text-red-500' : 'text-blue-500'}`}
+                          className="text-xs"
+                          style={{
+                            color: change >= 0 ? '#ef4444' : '#3b82f6',
+                            fontFamily: "'JetBrains Mono', monospace",
+                          }}
                         >
                           {change >= 0 ? '+' : ''}
                           {change.toFixed(1)}%
                         </span>
                       )}
-                      <span className="w-10 text-right font-mono text-xs font-medium text-gray-500">
+                      <span
+                        className="w-10 text-right text-xs font-medium"
+                        style={{ color: '#8b95a5', fontFamily: "'JetBrains Mono', monospace" }}
+                      >
                         {weights[key]}%
                       </span>
                     </div>
@@ -133,7 +161,8 @@ export default function MyBasket({
                     max={100}
                     value={weights[key]}
                     onChange={(e) => setWeight(key, Number(e.target.value))}
-                    className="h-1.5 w-full cursor-pointer appearance-none rounded-full bg-gray-200 accent-blue-600"
+                    className="h-1.5 w-full cursor-pointer appearance-none rounded-full"
+                    style={{ backgroundColor: '#1a1f2e', accentColor: '#4ade80' }}
                   />
                 </div>
               );
@@ -142,14 +171,25 @@ export default function MyBasket({
 
           {/* Personal inflation result */}
           {personalInflation != null && (
-            <div className="mt-6 rounded-xl bg-gradient-to-r from-blue-50 to-indigo-50 p-5 text-center">
-              <p className="text-xs font-medium uppercase tracking-wider text-gray-500">
+            <div
+              className="mt-6 rounded-xl p-5 text-center"
+              style={{
+                background: 'linear-gradient(135deg, rgba(74,222,128,0.08), rgba(99,102,241,0.08))',
+                border: '1px solid rgba(255,255,255,0.06)',
+              }}
+            >
+              <p
+                className="text-xs font-medium uppercase tracking-wider"
+                style={{ color: '#8b95a5', fontFamily: "'DM Sans', sans-serif" }}
+              >
                 Your Personal Inflation
               </p>
               <p
-                className={`mt-1.5 text-3xl font-bold tracking-tight ${
-                  personalInflation >= 0 ? 'text-red-600' : 'text-blue-600'
-                }`}
+                className="mt-1.5 text-3xl font-bold tracking-tight"
+                style={{
+                  color: personalInflation >= 0 ? '#ef4444' : '#3b82f6',
+                  fontFamily: "'JetBrains Mono', monospace",
+                }}
               >
                 {personalInflation >= 0 ? '+' : ''}
                 {personalInflation.toFixed(1)}%
@@ -159,16 +199,29 @@ export default function MyBasket({
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-between border-t border-gray-100 px-6 pt-4 pb-6">
+        <div
+          className="flex items-center justify-between px-6 pt-4 pb-6"
+          style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}
+        >
           <button
             onClick={resetToDefault}
-            className="cursor-pointer rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-600 transition-colors duration-150 hover:bg-gray-50"
+            className="cursor-pointer rounded-lg px-4 py-2 text-sm font-medium transition-colors duration-150"
+            style={{
+              border: '1px solid rgba(255,255,255,0.1)',
+              color: '#8b95a5',
+              fontFamily: "'DM Sans', sans-serif",
+            }}
           >
             Reset to Default
           </button>
           <button
             onClick={onClose}
-            className="cursor-pointer rounded-lg bg-gray-900 px-5 py-2 text-sm font-medium text-white transition-colors duration-150 hover:bg-gray-800"
+            className="cursor-pointer rounded-lg px-5 py-2 text-sm font-medium transition-colors duration-150"
+            style={{
+              backgroundColor: '#4ade80',
+              color: '#0c0f14',
+              fontFamily: "'DM Sans', sans-serif",
+            }}
           >
             Done
           </button>

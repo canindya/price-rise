@@ -18,11 +18,15 @@ export default function ViewModeSelector() {
         <button
           key={mode}
           onClick={() => dispatch({ type: 'SET_VIEW_MODE', payload: mode })}
-          className={`cursor-pointer rounded-lg border px-3 py-1 text-xs font-medium transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:ring-offset-1 ${
-            viewMode === mode
-              ? 'border-blue-300 bg-blue-50 text-blue-700'
-              : 'border-gray-300 bg-transparent text-gray-600 hover:bg-gray-50'
-          }`}
+          className="cursor-pointer rounded-lg px-3 py-1 text-xs font-medium transition-colors duration-150 focus:outline-none"
+          style={{
+            backgroundColor: viewMode === mode ? 'rgba(74,222,128,0.15)' : 'transparent',
+            border: viewMode === mode
+              ? '1px solid rgba(74,222,128,0.4)'
+              : '1px solid rgba(255,255,255,0.1)',
+            color: viewMode === mode ? '#4ade80' : '#8b95a5',
+            fontFamily: "'DM Sans', sans-serif",
+          }}
         >
           {label}
         </button>

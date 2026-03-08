@@ -33,20 +33,20 @@ const CATEGORY_LABELS: Record<Category, string> = {
 
 /** Country A uses blue-toned solid lines */
 const COLORS_A: Record<Category, string> = {
-  overall_cpi: '#2563eb',
-  food_cpi: '#3b82f6',
-  energy_benchmark: '#60a5fa',
-  energy_retail: '#93c5fd',
-  education_spend: '#7c3aed',
+  overall_cpi: '#60a5fa',
+  food_cpi: '#93c5fd',
+  energy_benchmark: '#38bdf8',
+  energy_retail: '#7dd3fc',
+  education_spend: '#a78bfa',
 };
 
-/** Country B uses red-toned dashed lines */
+/** Country B uses warm-toned dashed lines */
 const COLORS_B: Record<Category, string> = {
-  overall_cpi: '#dc2626',
-  food_cpi: '#ef4444',
-  energy_benchmark: '#f87171',
-  energy_retail: '#fca5a5',
-  education_spend: '#c084fc',
+  overall_cpi: '#f87171',
+  food_cpi: '#fb923c',
+  energy_benchmark: '#fbbf24',
+  energy_retail: '#34d399',
+  education_spend: '#f472b6',
 };
 
 /** Short labels for event annotations */
@@ -76,8 +76,15 @@ function CustomTooltip({ active, payload, label, labelA, labelB }: any) {
   if (!active || !payload || payload.length === 0) return null;
 
   return (
-    <div className="rounded-lg border border-gray-100 bg-white px-3 py-2.5 shadow-lg">
-      <p className="mb-1.5 text-xs font-semibold text-gray-500">{label}</p>
+    <div
+      className="rounded-lg px-3 py-2.5"
+      style={{
+        backgroundColor: '#1a1f2e',
+        border: '1px solid rgba(255,255,255,0.1)',
+        boxShadow: '0 8px 32px rgba(0,0,0,0.5)',
+      }}
+    >
+      <p className="mb-1.5 text-xs font-semibold" style={{ color: '#8b95a5' }}>{label}</p>
       <div className="space-y-1">
         {payload.map((entry: any) => {
           const nameStr = String(entry.name ?? entry.dataKey);
@@ -94,8 +101,8 @@ function CustomTooltip({ active, payload, label, labelA, labelB }: any) {
                 className="inline-block h-2 w-2 rounded-full flex-shrink-0"
                 style={{ backgroundColor: entry.color }}
               />
-              <span className="text-gray-600">{displayLabel}</span>
-              <span className="ml-auto font-semibold text-gray-900">{num}</span>
+              <span style={{ color: '#e8eaed' }}>{displayLabel}</span>
+              <span className="ml-auto font-semibold text-white" style={{ fontFamily: "'JetBrains Mono', monospace" }}>{num}</span>
             </div>
           );
         })}
@@ -118,7 +125,7 @@ function CustomLegend({ payload, labelA, labelB }: any) {
         const displayLabel = `${countryLabel} - ${catLabel}`;
 
         return (
-          <span key={nameStr} className="inline-flex items-center gap-1.5 text-xs text-gray-500">
+          <span key={nameStr} className="inline-flex items-center gap-1.5 text-xs" style={{ color: '#8b95a5' }}>
             <span
               className="inline-block h-2 w-2 rounded-full flex-shrink-0"
               style={{ backgroundColor: entry.color }}
@@ -193,9 +200,9 @@ export default function ComparisonChart({
 
   if (chartData.length === 0) {
     return (
-      <div className="flex h-[350px] items-center justify-center text-gray-400 md:h-[420px]">
+      <div className="flex h-[350px] items-center justify-center md:h-[420px]" style={{ color: '#8b95a5' }}>
         <div className="text-center">
-          <svg className="mx-auto mb-2 h-8 w-8 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg className="mx-auto mb-2 h-8 w-8" style={{ color: '#555e6e' }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
           </svg>
           <p className="text-sm">No data to display</p>
@@ -209,13 +216,13 @@ export default function ComparisonChart({
       <div className="h-[350px] md:h-[420px]">
         <ResponsiveContainer width="100%" height="100%">
           <ComposedChart data={chartData} margin={{ top: 16, right: 16, left: 4, bottom: 8 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" vertical={false} />
+            <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" vertical={false} />
 
             <XAxis
               dataKey="year"
               tickLine={false}
-              axisLine={{ stroke: '#e2e8f0' }}
-              tick={{ fontSize: 11, fill: '#94a3b8' }}
+              axisLine={{ stroke: 'rgba(255,255,255,0.1)' }}
+              tick={{ fontSize: 11, fill: '#8b95a5' }}
               interval={tickInterval}
               padding={{ left: 8, right: 8 }}
             />
@@ -224,14 +231,14 @@ export default function ComparisonChart({
               domain={['auto', 'auto']}
               tickLine={false}
               axisLine={false}
-              tick={{ fontSize: 11, fill: '#94a3b8' }}
+              tick={{ fontSize: 11, fill: '#8b95a5' }}
               width={50}
             />
 
             {/* Base reference line */}
             <ReferenceLine
               y={100}
-              stroke="#cbd5e1"
+              stroke="rgba(255,255,255,0.15)"
               strokeDasharray="6 3"
               strokeWidth={1}
             />
@@ -241,7 +248,7 @@ export default function ComparisonChart({
               <ReferenceLine
                 key={`${evt.year}-${evt.label}`}
                 x={evt.year}
-                stroke="#cbd5e1"
+                stroke="rgba(255,255,255,0.1)"
                 strokeDasharray="3 3"
                 strokeWidth={1}
                 ifOverflow="hidden"
@@ -249,7 +256,7 @@ export default function ComparisonChart({
                   value: shortenEventLabel(evt.label),
                   position: 'insideTopRight',
                   fontSize: 9,
-                  fill: '#94a3b8',
+                  fill: '#555e6e',
                   fontWeight: 500,
                 }}
               />
@@ -257,7 +264,7 @@ export default function ComparisonChart({
 
             <Tooltip
               content={<CustomTooltip labelA={labelA} labelB={labelB} />}
-              cursor={{ stroke: '#e2e8f0', strokeWidth: 1 }}
+              cursor={{ stroke: 'rgba(255,255,255,0.15)', strokeWidth: 1 }}
             />
 
             <Legend content={<CustomLegend labelA={labelA} labelB={labelB} />} />
@@ -270,7 +277,7 @@ export default function ComparisonChart({
                 dataKey={`a_${cat}`}
                 stroke="none"
                 fill={COLORS_A[cat]}
-                fillOpacity={0.04}
+                fillOpacity={0.06}
                 connectNulls
                 isAnimationActive={false}
               />
@@ -283,11 +290,11 @@ export default function ComparisonChart({
                 type="monotone"
                 dataKey={`a_${cat}`}
                 stroke={COLORS_A[cat]}
-                strokeWidth={2.5}
+                strokeWidth={3}
                 dot={false}
                 connectNulls
                 name={`a_${cat}`}
-                activeDot={{ r: 4, strokeWidth: 2, fill: '#fff', stroke: COLORS_A[cat] }}
+                activeDot={{ r: 4, strokeWidth: 2, fill: '#141820', stroke: COLORS_A[cat] }}
               />
             ))}
 
@@ -303,7 +310,7 @@ export default function ComparisonChart({
                 dot={false}
                 connectNulls
                 name={`b_${cat}`}
-                activeDot={{ r: 4, strokeWidth: 2, fill: '#fff', stroke: COLORS_B[cat] }}
+                activeDot={{ r: 4, strokeWidth: 2, fill: '#141820', stroke: COLORS_B[cat] }}
               />
             ))}
           </ComposedChart>

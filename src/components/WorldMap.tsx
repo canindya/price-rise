@@ -11,18 +11,18 @@ interface WorldMapProps {
   selectedCountry?: string | null;
 }
 
-/* ── Professional diverging color palette ─────────────────────────── */
+/* -- Dark editorial choropleth palette ------------------------------------ */
 
 const COLOR_RANGES = [
-  { min: -Infinity, max: 0, color: '#2563eb', label: 'Deflation' },
-  { min: 0, max: 10, color: '#93c5fd', label: 'Low' },
-  { min: 10, max: 25, color: '#fde68a', label: 'Moderate' },
-  { min: 25, max: 50, color: '#fdba74', label: 'High' },
-  { min: 50, max: 100, color: '#f87171', label: 'Very High' },
-  { min: 100, max: Infinity, color: '#991b1b', label: 'Extreme' },
+  { min: -Infinity, max: 0, color: '#3b82f6', label: 'Deflation' },
+  { min: 0, max: 10, color: '#22d3ee', label: 'Low' },
+  { min: 10, max: 25, color: '#fbbf24', label: 'Moderate' },
+  { min: 25, max: 50, color: '#f97316', label: 'High' },
+  { min: 50, max: 100, color: '#ef4444', label: 'Very High' },
+  { min: 100, max: Infinity, color: '#dc2626', label: 'Extreme' },
 ] as const;
 
-const NO_DATA_COLOR = '#e2e8f0';
+const NO_DATA_COLOR = '#1e293b';
 
 function getColor(pctChange: number | undefined): string {
   if (pctChange === undefined) return NO_DATA_COLOR;
@@ -41,7 +41,7 @@ function lightenColor(hex: string, amount: number): string {
   return `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)}`;
 }
 
-/* ── ISO‑3 extraction (checks common GeoJSON property variants) ─── */
+/* -- ISO-3 extraction (checks common GeoJSON property variants) ----------- */
 
 function getIso3(feature: Feature<Geometry>): string | undefined {
   const props = feature.properties;
@@ -60,12 +60,19 @@ function getCountryName(feature: Feature<Geometry>): string {
   return props?.NAME ?? props?.name ?? props?.ADMIN ?? getIso3(feature) ?? 'Unknown';
 }
 
-/* ── Legend component ─────────────────────────────────────────────── */
+/* -- Legend component ----------------------------------------------------- */
 
 function MapLegend() {
   return (
     <div className="pointer-events-auto absolute bottom-6 left-1/2 z-[1000] -translate-x-1/2">
-      <div className="rounded-lg border border-slate-200 bg-white/95 px-4 py-2.5 shadow-md backdrop-blur-sm">
+      <div
+        className="rounded-lg px-4 py-2.5 backdrop-blur-sm"
+        style={{
+          backgroundColor: 'rgba(20, 24, 32, 0.92)',
+          border: '1px solid rgba(255,255,255,0.08)',
+          boxShadow: '0 4px 24px rgba(0,0,0,0.4)',
+        }}
+      >
         <div className="flex items-center gap-0">
           {COLOR_RANGES.map((range, i) => (
             <div key={i} className="flex flex-col items-center">
@@ -86,11 +93,11 @@ function MapLegend() {
           <div className="ml-2 flex flex-col items-center">
             <div
               className="h-2.5 w-8 rounded"
-              style={{ backgroundColor: NO_DATA_COLOR }}
+              style={{ backgroundColor: NO_DATA_COLOR, border: '1px solid rgba(255,255,255,0.1)' }}
             />
           </div>
         </div>
-        <div className="mt-1 flex items-center text-[10px] font-medium text-slate-500">
+        <div className="mt-1 flex items-center text-[10px] font-medium" style={{ color: '#8b95a5' }}>
           <span className="w-12 text-center">{'< 0%'}</span>
           <span className="w-12 text-center">Low</span>
           <span className="w-12 text-center">Med</span>
@@ -104,13 +111,13 @@ function MapLegend() {
   );
 }
 
-/* ── Helper to configure the Leaflet map after mount ─────────────── */
+/* -- Helper to configure the Leaflet map after mount ---------------------- */
 
 function MapConfigurator() {
   const map = useMap();
 
   useEffect(() => {
-    // Disable scroll‑wheel zoom; users can still use +/- buttons
+    // Disable scroll-wheel zoom; users can still use +/- buttons
     map.scrollWheelZoom.disable();
 
     // Constrain panning so the user cannot scroll away from the world
@@ -130,7 +137,7 @@ function MapConfigurator() {
   return null;
 }
 
-/* ── Main component ──────────────────────────────────────────────── */
+/* -- Main component ------------------------------------------------------- */
 
 export default function WorldMap({
   countryChanges,
@@ -141,7 +148,7 @@ export default function WorldMap({
   const geoJsonRef = useRef<L.GeoJSON | null>(null);
   const mapRef = useRef<LeafletMap | null>(null);
 
-  /* ── Load GeoJSON ───────────────────────────────────────────────── */
+  /* -- Load GeoJSON ------------------------------------------------------- */
 
   useEffect(() => {
     fetch('/data/world.geojson')
@@ -150,7 +157,7 @@ export default function WorldMap({
       .catch((err) => console.error('Failed to load GeoJSON:', err));
   }, []);
 
-  /* ── Re‑style layers when selection / data change ───────────────── */
+  /* -- Re-style layers when selection / data change ----------------------- */
 
   useEffect(() => {
     if (!geoJsonRef.current) return;
@@ -165,14 +172,14 @@ export default function WorldMap({
     });
   }, [countryChanges, selectedCountry]);
 
-  /* ── Style helpers ──────────────────────────────────────────────── */
+  /* -- Style helpers ------------------------------------------------------ */
 
   const buildStyle = useCallback(
     (change: number | undefined, isSelected: boolean): PathOptions => ({
       fillColor: getColor(change),
-      fillOpacity: isSelected ? 0.9 : 0.8,
-      color: isSelected ? '#1e293b' : '#ffffff',
-      weight: isSelected ? 3 : 1,
+      fillOpacity: isSelected ? 0.95 : 0.8,
+      color: isSelected ? '#ffffff' : 'rgba(255,255,255,0.08)',
+      weight: isSelected ? 2.5 : 0.5,
       ...(isSelected ? { className: 'country-selected' } : {}),
     }),
     [],
@@ -189,7 +196,7 @@ export default function WorldMap({
     [countryChanges, selectedCountry, buildStyle],
   );
 
-  /* ── Interaction handlers ───────────────────────────────────────── */
+  /* -- Interaction handlers ----------------------------------------------- */
 
   const onEachFeature = useCallback(
     (feature: Feature<Geometry>, layer: Layer) => {
@@ -202,13 +209,13 @@ export default function WorldMap({
           : 'No data';
       const dotColor = getColor(change);
 
-      // Styled tooltip
+      // Styled tooltip — dark theme
       layer.bindTooltip(
         `<div style="display:flex;align-items:center;gap:6px;font-family:system-ui,sans-serif">
           <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${dotColor};flex-shrink:0"></span>
           <span>
-            <strong style="font-size:13px;color:#0f172a">${name}</strong><br/>
-            <span style="font-size:12px;color:#475569">${changeText}</span>
+            <strong style="font-size:13px;color:#e8eaed">${name}</strong><br/>
+            <span style="font-size:12px;color:#8b95a5;font-family:'JetBrains Mono',monospace">${changeText}</span>
           </span>
         </div>`,
         {
@@ -228,8 +235,8 @@ export default function WorldMap({
           const currentFill = getColor(change);
           target.setStyle({
             fillColor: lightenColor(currentFill, 30),
-            weight: iso3 === selectedCountry ? 3 : 2,
-            color: iso3 === selectedCountry ? '#1e293b' : '#94a3b8',
+            weight: iso3 === selectedCountry ? 2.5 : 1.5,
+            color: iso3 === selectedCountry ? '#ffffff' : 'rgba(255,255,255,0.25)',
           });
           target.bringToFront();
         },
@@ -252,13 +259,17 @@ export default function WorldMap({
     [countryChanges, selectedCountry, onCountrySelect, buildStyle],
   );
 
-  /* ── Loading state ──────────────────────────────────────────────── */
+  /* -- Loading state ------------------------------------------------------ */
 
   if (!geoData) {
     return (
-      <div className="flex h-[450px] items-center justify-center rounded-xl bg-slate-50 text-sm text-slate-400">
+      <div
+        className="flex h-[450px] items-center justify-center rounded-xl text-sm"
+        style={{ backgroundColor: '#141820', color: '#8b95a5' }}
+      >
         <svg
-          className="mr-2 h-5 w-5 animate-spin text-slate-300"
+          className="mr-2 h-5 w-5 animate-spin"
+          style={{ color: '#555e6e' }}
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
@@ -271,27 +282,30 @@ export default function WorldMap({
     );
   }
 
-  /* ── Render ─────────────────────────────────────────────────────── */
+  /* -- Render ------------------------------------------------------------- */
 
   return (
-    <div className="relative overflow-hidden rounded-xl border border-slate-200 shadow-sm">
-      {/* Inject tooltip & selected‑country styles */}
+    <div
+      className="relative overflow-hidden rounded-xl"
+      style={{ border: '1px solid rgba(255,255,255,0.06)' }}
+    >
+      {/* Inject tooltip & selected-country styles */}
       <style>{`
         .world-map-tooltip {
-          background: #ffffff !important;
-          border: 1px solid #e2e8f0 !important;
+          background: #1a1f2e !important;
+          border: 1px solid rgba(255,255,255,0.1) !important;
           border-radius: 8px !important;
-          box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important;
+          box-shadow: 0 8px 32px rgba(0,0,0,0.5) !important;
           padding: 8px 12px !important;
-          color: #0f172a !important;
+          color: #e8eaed !important;
           font-size: 13px !important;
           line-height: 1.4 !important;
         }
         .world-map-tooltip::before {
-          border-top-color: #ffffff !important;
+          border-top-color: #1a1f2e !important;
         }
         .country-selected {
-          filter: drop-shadow(0 0 4px rgba(30,41,59,0.35));
+          filter: drop-shadow(0 0 6px rgba(255,255,255,0.3));
         }
         .leaflet-container {
           cursor: grab;
@@ -305,8 +319,20 @@ export default function WorldMap({
         }
         .leaflet-control-attribution {
           font-size: 10px !important;
-          opacity: 0.5;
-          background: rgba(255,255,255,0.6) !important;
+          opacity: 0.4;
+          background: rgba(20,24,32,0.6) !important;
+          color: #555e6e !important;
+        }
+        .leaflet-control-attribution a {
+          color: #8b95a5 !important;
+        }
+        .leaflet-control-zoom a {
+          background: #1a1f2e !important;
+          color: #e8eaed !important;
+          border-color: rgba(255,255,255,0.1) !important;
+        }
+        .leaflet-control-zoom a:hover {
+          background: #242b3d !important;
         }
       `}</style>
 
@@ -319,7 +345,7 @@ export default function WorldMap({
         scrollWheelZoom={false}
         zoomControl={true}
         className="h-[450px] w-full"
-        style={{ background: '#f8fafc' }}
+        style={{ background: '#0c0f14' }}
       >
         <MapConfigurator />
         <GeoJSON

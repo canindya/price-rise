@@ -3,37 +3,46 @@ import { Link, useNavigate } from 'react-router-dom';
 import type { CountryMeta } from '../types/index';
 import { searchCountries } from '../utils/countryCodeMap';
 
+const ACCENT_BORDERS = [
+  'hover:border-[var(--color-accent)]',
+  'hover:border-[var(--color-cpi)]',
+  'hover:border-[var(--color-accent-warm)]',
+];
+
 const FEATURES = [
   {
     title: 'Time-Series Tracking',
     description:
       'Go beyond static snapshots. See how prices have evolved over 1, 5, and 10 years with interactive charts and indexed comparisons.',
     icon: (
-      <svg className="h-8 w-8 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <svg className="h-8 w-8 text-[var(--color-accent)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 17l6-6 4 4 8-8" />
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 7h4v4" />
       </svg>
     ),
+    accent: 0,
   },
   {
     title: 'Category Breakdown',
     description:
       'Drill into the categories that matter most: overall consumer prices, food and essentials, and energy benchmarks.',
     icon: (
-      <svg className="h-8 w-8 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <svg className="h-8 w-8 text-[var(--color-cpi)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 6h16M4 12h10M4 18h6" />
       </svg>
     ),
+    accent: 1,
   },
   {
     title: 'Country Comparison',
     description:
       'Compare cost of living trends across the globe with data sourced from the World Bank, FAO, and other international bodies.',
     icon: (
-      <svg className="h-8 w-8 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <svg className="h-8 w-8 text-[var(--color-accent-warm)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
       </svg>
     ),
+    accent: 2,
   },
 ];
 
@@ -108,24 +117,25 @@ export default function Home() {
   }, [query, results]);
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col mesh-bg">
       {/* Hero Section */}
-      <section className="bg-gradient-to-b from-white to-slate-50 pb-16 pt-12 sm:pb-24 sm:pt-20">
+      <section className="pb-16 pt-16 sm:pb-24 sm:pt-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-3xl text-center">
-            <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
-              Global Cost of Living Tracker
+            <h1 className="animate-fade-up text-5xl font-black tracking-tight sm:text-6xl lg:text-7xl" style={{ fontFamily: "'Crimson Pro', serif", color: 'var(--color-text)' }}>
+              How Has Your Cost of Living{' '}
+              <span className="text-[var(--color-accent)]">Changed</span>?
             </h1>
-            <p className="mt-6 text-lg leading-relaxed text-gray-600">
+            <p className="animate-fade-up delay-1 mt-6 text-lg leading-relaxed text-[var(--color-text-secondary)]">
               Track how consumer prices have changed across countries over time.
               Explore inflation trends broken down by what people actually spend on.
             </p>
 
             {/* Search bar */}
-            <div className="relative mx-auto mt-10 max-w-lg">
+            <div className="animate-fade-up delay-2 relative mx-auto mt-10 max-w-lg">
               <div className="relative">
                 <svg
-                  className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400"
+                  className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-[var(--color-text-muted)]"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -140,23 +150,24 @@ export default function Home() {
                   onBlur={handleBlur}
                   onFocus={handleFocus}
                   placeholder="Search for a country..."
-                  className="w-full rounded-xl border border-gray-300 py-3.5 pl-12 pr-4 text-base shadow-sm transition-shadow focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+                  className="w-full rounded-xl border border-white/[0.06] py-3.5 pl-12 pr-4 text-base text-[var(--color-text)] placeholder-[var(--color-text-muted)] shadow-sm transition-all focus:border-[var(--color-accent)] focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)]/20"
+                  style={{ backgroundColor: 'var(--color-bg-elevated)' }}
                 />
               </div>
               {isOpen && results.length > 0 && (
-                <ul className="absolute z-50 mt-2 max-h-72 w-full overflow-auto rounded-xl border border-gray-200 bg-white shadow-lg">
+                <ul className="absolute z-50 mt-2 max-h-72 w-full overflow-auto rounded-xl border border-white/[0.06] shadow-lg" style={{ backgroundColor: 'var(--color-bg-elevated)' }}>
                   {results.map((country, idx) => (
                     <li
                       key={country.iso3}
                       onMouseDown={() => selectCountry(country)}
                       className={`cursor-pointer px-4 py-3 text-sm ${
                         idx === highlightIdx
-                          ? 'bg-blue-50 text-blue-900'
-                          : 'text-gray-700 hover:bg-gray-50'
+                          ? 'bg-white/[0.08] text-white'
+                          : 'text-[var(--color-text-secondary)] hover:bg-white/[0.04]'
                       }`}
                     >
-                      <span className="font-medium">{country.name}</span>
-                      <span className="ml-2 text-gray-400">{country.iso3}</span>
+                      <span className="font-medium text-[var(--color-text)]">{country.name}</span>
+                      <span className="ml-2 font-mono text-[var(--color-text-muted)] text-xs">{country.iso3}</span>
                     </li>
                   ))}
                 </ul>
@@ -164,10 +175,11 @@ export default function Home() {
             </div>
 
             {/* CTA */}
-            <div className="mt-8">
+            <div className="animate-fade-up delay-3 mt-8">
               <Link
                 to="/explore"
-                className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-6 py-3 text-base font-semibold text-white shadow-sm transition-colors hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                className="inline-flex items-center gap-2 rounded-lg px-6 py-3 text-base font-semibold text-[var(--color-bg)] shadow-sm transition-all hover:shadow-[0_0_20px_rgba(74,222,128,0.25)]"
+                style={{ backgroundColor: 'var(--color-accent)' }}
               >
                 Explore All Countries
                 <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -180,31 +192,32 @@ export default function Home() {
       </section>
 
       {/* Stats Banner */}
-      <section className="border-y border-gray-200 bg-white py-10">
+      <section className="animate-fade-up delay-4 border-y border-white/[0.06] py-10">
         <div className="mx-auto grid max-w-7xl grid-cols-3 gap-8 px-4 sm:px-6 lg:px-8">
           {STATS.map((stat) => (
             <div key={stat.label} className="text-center">
-              <div className="text-3xl font-bold text-gray-900 sm:text-4xl">{stat.value}</div>
-              <div className="mt-1 text-sm font-medium text-gray-500">{stat.label}</div>
+              <div className="font-mono text-3xl font-bold text-[var(--color-text)] sm:text-4xl">{stat.value}</div>
+              <div className="mt-1 text-sm font-medium text-[var(--color-text-muted)]">{stat.label}</div>
             </div>
           ))}
         </div>
       </section>
 
       {/* Feature Cards */}
-      <section className="bg-white py-16 sm:py-20">
+      <section className="py-16 sm:py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-3">
-            {FEATURES.map((feature) => (
+            {FEATURES.map((feature, idx) => (
               <div
                 key={feature.title}
-                className="rounded-xl border border-gray-200 bg-white p-6 transition-shadow hover:shadow-md"
+                className={`animate-fade-up glass-card p-6 transition-all ${ACCENT_BORDERS[feature.accent]}`}
+                style={{ animationDelay: `${0.3 + idx * 0.1}s` }}
               >
-                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-gray-50">
+                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg" style={{ backgroundColor: 'var(--color-bg-elevated)' }}>
                   {feature.icon}
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900">{feature.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-gray-500">
+                <h3 className="text-lg font-semibold text-[var(--color-text)]" style={{ fontFamily: "'Crimson Pro', serif" }}>{feature.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-[var(--color-text-secondary)]">
                   {feature.description}
                 </p>
               </div>
@@ -214,13 +227,13 @@ export default function Home() {
       </section>
 
       {/* Footer attribution */}
-      <section className="border-t border-gray-200 bg-slate-50 py-10">
+      <section className="border-t border-white/[0.06] py-10">
         <div className="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-[var(--color-text-muted)]">
             Built with data from{' '}
-            <a href="https://data.worldbank.org" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">World Bank</a>,{' '}
-            <a href="https://www.fao.org/faostat" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">FAO</a>, and{' '}
-            <a href="https://www.worldbank.org/en/research/commodity-markets" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">UNESCO</a>
+            <a href="https://data.worldbank.org" target="_blank" rel="noopener noreferrer" className="text-[var(--color-cpi)] hover:underline">World Bank</a>,{' '}
+            <a href="https://www.fao.org/faostat" target="_blank" rel="noopener noreferrer" className="text-[var(--color-accent)] hover:underline">FAO</a>, and{' '}
+            <a href="https://www.worldbank.org/en/research/commodity-markets" target="_blank" rel="noopener noreferrer" className="text-[var(--color-education)] hover:underline">UNESCO</a>
           </p>
         </div>
       </section>

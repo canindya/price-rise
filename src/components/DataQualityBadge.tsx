@@ -6,25 +6,25 @@ interface DataQualityBadgeProps {
 
 const CONFIG: Record<
   DataQualityBadgeProps['quality'],
-  { dot: string; tooltip: string }
+  { color: string; tooltip: string }
 > = {
   complete: {
-    dot: 'bg-emerald-500',
+    color: '#4ade80',
     tooltip: 'Complete data',
   },
   partial: {
-    dot: 'bg-amber-400',
+    color: '#fbbf24',
     tooltip: 'Partial data (some gaps)',
   },
   sparse: {
-    dot: 'bg-red-400',
+    color: '#ef4444',
     tooltip: 'Sparse data',
   },
 };
 
 export default function DataQualityBadge({ quality }: DataQualityBadgeProps) {
   const [showTooltip, setShowTooltip] = useState(false);
-  const { dot, tooltip } = CONFIG[quality];
+  const { color, tooltip } = CONFIG[quality];
 
   return (
     <span
@@ -32,9 +32,20 @@ export default function DataQualityBadge({ quality }: DataQualityBadgeProps) {
       onMouseEnter={() => setShowTooltip(true)}
       onMouseLeave={() => setShowTooltip(false)}
     >
-      <span className={`inline-block h-1.5 w-1.5 rounded-full ${dot}`} />
+      <span
+        className="inline-block h-1.5 w-1.5 rounded-full"
+        style={{ backgroundColor: color }}
+      />
       {showTooltip && (
-        <span className="absolute bottom-full left-1/2 z-10 mb-1.5 -translate-x-1/2 whitespace-nowrap rounded bg-gray-800 px-2 py-1 text-[10px] font-medium text-white shadow-lg">
+        <span
+          className="absolute bottom-full left-1/2 z-10 mb-1.5 -translate-x-1/2 whitespace-nowrap rounded px-2 py-1 text-[10px] font-medium shadow-lg"
+          style={{
+            backgroundColor: '#1a1f2e',
+            border: '1px solid rgba(255,255,255,0.1)',
+            color: '#e8eaed',
+            fontFamily: "'DM Sans', sans-serif",
+          }}
+        >
           {tooltip}
         </span>
       )}

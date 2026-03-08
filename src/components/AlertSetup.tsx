@@ -125,24 +125,44 @@ export default function AlertSetup({ open, onClose }: AlertSetupProps) {
     if (e.target === e.currentTarget) onClose();
   }
 
+  const selectStyle: React.CSSProperties = {
+    backgroundColor: '#141820',
+    border: '1px solid rgba(255,255,255,0.1)',
+    color: '#e8eaed',
+    fontFamily: "'DM Sans', sans-serif",
+  };
+
   return (
     <div
       onClick={handleOverlayClick}
       className={`fixed inset-0 z-50 flex items-center justify-center p-4 transition-colors duration-200 ${
-        visible ? 'bg-black/50' : 'bg-black/0'
+        visible ? 'bg-black/60' : 'bg-black/0'
       }`}
     >
       <div
-        className={`w-full max-w-lg rounded-2xl bg-white shadow-2xl transition-all duration-300 ${
+        className={`w-full max-w-lg rounded-2xl shadow-2xl transition-all duration-300 ${
           visible ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
         }`}
+        style={{
+          backgroundColor: '#141820',
+          border: '1px solid rgba(255,255,255,0.06)',
+        }}
       >
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-gray-100 px-6 pt-6 pb-4">
-          <h2 className="text-lg font-semibold text-gray-900">Price Alerts</h2>
+        <div
+          className="flex items-center justify-between px-6 pt-6 pb-4"
+          style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}
+        >
+          <h2
+            className="text-lg font-semibold"
+            style={{ color: '#e8eaed', fontFamily: "'Crimson Pro', serif" }}
+          >
+            Price Alerts
+          </h2>
           <button
             onClick={onClose}
-            className="cursor-pointer rounded-lg p-1.5 text-gray-400 transition-colors duration-150 hover:bg-gray-100 hover:text-gray-600"
+            className="cursor-pointer rounded-lg p-1.5 transition-colors duration-150"
+            style={{ color: '#555e6e' }}
             aria-label="Close"
           >
             <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -153,19 +173,34 @@ export default function AlertSetup({ open, onClose }: AlertSetupProps) {
 
         {/* Body */}
         <div className="px-6 py-4">
-          <p className="mb-4 text-sm text-gray-500">
+          <p
+            className="mb-4 text-sm"
+            style={{ color: '#8b95a5', fontFamily: "'DM Sans', sans-serif" }}
+          >
             Get notified when inflation in a category exceeds your threshold.
           </p>
 
           {/* Add alert form */}
-          <div className="mb-5 rounded-xl border border-gray-200 bg-gray-50/50 p-4">
+          <div
+            className="mb-5 rounded-xl p-4"
+            style={{
+              backgroundColor: '#1a1f2e',
+              border: '1px solid rgba(255,255,255,0.06)',
+            }}
+          >
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
               <div className="flex flex-col gap-1">
-                <label className="text-xs font-medium text-gray-500">Country</label>
+                <label
+                  className="text-xs font-medium"
+                  style={{ color: '#8b95a5', fontFamily: "'DM Sans', sans-serif" }}
+                >
+                  Country
+                </label>
                 <select
                   value={selectedCountry}
                   onChange={(e) => setSelectedCountry(e.target.value)}
-                  className="cursor-pointer rounded-lg border border-gray-300 bg-white px-2.5 py-1.5 text-sm transition-colors duration-150 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:ring-offset-1"
+                  className="cursor-pointer rounded-lg px-2.5 py-1.5 text-sm transition-colors duration-150 focus:outline-none"
+                  style={selectStyle}
                 >
                   {COUNTRIES.map((c) => (
                     <option key={c.iso3} value={c.iso3}>
@@ -176,11 +211,17 @@ export default function AlertSetup({ open, onClose }: AlertSetupProps) {
               </div>
 
               <div className="flex flex-col gap-1">
-                <label className="text-xs font-medium text-gray-500">Category</label>
+                <label
+                  className="text-xs font-medium"
+                  style={{ color: '#8b95a5', fontFamily: "'DM Sans', sans-serif" }}
+                >
+                  Category
+                </label>
                 <select
                   value={selectedCategory}
                   onChange={(e) => setSelectedCategory(e.target.value as Category)}
-                  className="cursor-pointer rounded-lg border border-gray-300 bg-white px-2.5 py-1.5 text-sm transition-colors duration-150 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:ring-offset-1"
+                  className="cursor-pointer rounded-lg px-2.5 py-1.5 text-sm transition-colors duration-150 focus:outline-none"
+                  style={selectStyle}
                 >
                   {CATEGORY_OPTIONS.map((c) => (
                     <option key={c.key} value={c.key}>
@@ -191,16 +232,30 @@ export default function AlertSetup({ open, onClose }: AlertSetupProps) {
               </div>
 
               <div className="flex flex-col gap-1">
-                <label className="text-xs font-medium text-gray-500">Threshold</label>
+                <label
+                  className="text-xs font-medium"
+                  style={{ color: '#8b95a5', fontFamily: "'DM Sans', sans-serif" }}
+                >
+                  Threshold
+                </label>
                 <div className="relative">
                   <input
                     type="number"
                     value={threshold}
                     onChange={(e) => setThreshold(e.target.value)}
-                    className="w-full rounded-lg border border-gray-300 bg-white px-2.5 py-1.5 pr-7 text-sm transition-colors duration-150 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:ring-offset-1"
+                    className="w-full rounded-lg px-2.5 py-1.5 pr-7 text-sm transition-colors duration-150 focus:outline-none"
+                    style={{
+                      backgroundColor: '#141820',
+                      border: '1px solid rgba(255,255,255,0.1)',
+                      color: '#e8eaed',
+                      fontFamily: "'JetBrains Mono', monospace",
+                    }}
                     placeholder="10"
                   />
-                  <span className="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 text-xs text-gray-400">
+                  <span
+                    className="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 text-xs"
+                    style={{ color: '#555e6e' }}
+                  >
                     %
                   </span>
                 </div>
@@ -209,7 +264,12 @@ export default function AlertSetup({ open, onClose }: AlertSetupProps) {
 
             <button
               onClick={handleAdd}
-              className="mt-3 cursor-pointer rounded-lg bg-blue-600 px-4 py-1.5 text-sm font-medium text-white transition-colors duration-150 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:ring-offset-1"
+              className="mt-3 cursor-pointer rounded-lg px-4 py-1.5 text-sm font-medium transition-colors duration-150 focus:outline-none"
+              style={{
+                backgroundColor: '#4ade80',
+                color: '#0c0f14',
+                fontFamily: "'DM Sans', sans-serif",
+              }}
             >
               Add Alert
             </button>
@@ -220,7 +280,8 @@ export default function AlertSetup({ open, onClose }: AlertSetupProps) {
             {alerts.length === 0 && (
               <div className="flex flex-col items-center gap-2 py-8 text-center">
                 <svg
-                  className="h-8 w-8 text-gray-300"
+                  className="h-8 w-8"
+                  style={{ color: '#555e6e' }}
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -232,27 +293,42 @@ export default function AlertSetup({ open, onClose }: AlertSetupProps) {
                     d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0"
                   />
                 </svg>
-                <p className="text-sm text-gray-400">No alerts set up yet</p>
+                <p className="text-sm" style={{ color: '#555e6e', fontFamily: "'DM Sans', sans-serif" }}>
+                  No alerts set up yet
+                </p>
               </div>
             )}
             <div className="flex flex-col gap-2">
               {alerts.map((alert) => (
                 <div
                   key={alert.id}
-                  className="flex items-center justify-between rounded-lg border border-gray-200 bg-white px-3 py-2.5 transition-colors duration-150 hover:bg-gray-50"
+                  className="flex items-center justify-between rounded-lg px-3 py-2.5 transition-colors duration-150"
+                  style={{
+                    backgroundColor: '#1a1f2e',
+                    border: '1px solid rgba(255,255,255,0.06)',
+                  }}
                 >
-                  <div className="flex items-center gap-2 text-sm">
-                    <span className="font-medium text-gray-800">
+                  <div
+                    className="flex items-center gap-2 text-sm"
+                    style={{ fontFamily: "'DM Sans', sans-serif" }}
+                  >
+                    <span className="font-medium" style={{ color: '#e8eaed' }}>
                       {alert.countryName}
                     </span>
-                    <span className="text-gray-300">/</span>
-                    <span className="text-gray-600">{categoryLabel(alert.category)}</span>
-                    <span className="text-gray-300">&gt;</span>
-                    <span className="font-medium text-red-600">{alert.threshold}%</span>
+                    <span style={{ color: '#555e6e' }}>/</span>
+                    <span style={{ color: '#8b95a5' }}>{categoryLabel(alert.category)}</span>
+                    <span style={{ color: '#555e6e' }}>&gt;</span>
+                    <span
+                      className="font-medium"
+                      style={{ color: '#ef4444', fontFamily: "'JetBrains Mono', monospace" }}
+                    >
+                      {alert.threshold}%
+                    </span>
                   </div>
                   <button
                     onClick={() => handleDelete(alert.id)}
-                    className="cursor-pointer rounded-lg p-1.5 text-gray-400 transition-colors duration-150 hover:bg-red-50 hover:text-red-500"
+                    className="cursor-pointer rounded-lg p-1.5 transition-colors duration-150"
+                    style={{ color: '#555e6e' }}
                     aria-label="Delete alert"
                   >
                     <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -266,10 +342,18 @@ export default function AlertSetup({ open, onClose }: AlertSetupProps) {
         </div>
 
         {/* Footer */}
-        <div className="flex justify-end border-t border-gray-100 px-6 pt-4 pb-6">
+        <div
+          className="flex justify-end px-6 pt-4 pb-6"
+          style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}
+        >
           <button
             onClick={onClose}
-            className="cursor-pointer rounded-lg bg-gray-900 px-5 py-2 text-sm font-medium text-white transition-colors duration-150 hover:bg-gray-800"
+            className="cursor-pointer rounded-lg px-5 py-2 text-sm font-medium transition-colors duration-150"
+            style={{
+              backgroundColor: '#4ade80',
+              color: '#0c0f14',
+              fontFamily: "'DM Sans', sans-serif",
+            }}
           >
             Done
           </button>

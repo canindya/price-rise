@@ -1,14 +1,11 @@
-import { useCallback } from 'react';
 import {
   Line,
   XAxis,
   YAxis,
   Tooltip,
-  Legend,
   ReferenceLine,
   ResponsiveContainer,
   CartesianGrid,
-  Area,
   ComposedChart,
 } from 'recharts';
 import type { Category, DataPoint, EventAnnotation, TimeRange, ViewMode } from '../types/index';
@@ -26,37 +23,42 @@ interface TrendChartProps {
 }
 
 const CATEGORY_COLORS: Record<Category, string> = {
-  overall_cpi: '#3b82f6',
-  food_cpi: '#22c55e',
-  energy_benchmark: '#f59e0b',
-  energy_retail: '#f97316',
-  education_spend: '#8b5cf6',
+  overall_cpi: '#60a5fa',
+  food_cpi: '#4ade80',
+  energy_benchmark: '#fbbf24',
+  energy_retail: '#fb923c',
+  education_spend: '#c084fc',
 };
 
 const CATEGORY_LABELS: Record<Category, string> = {
   overall_cpi: 'Overall CPI',
-  food_cpi: 'Food & Essentials',
+  food_cpi: 'Food',
   energy_benchmark: 'Energy (Oil)',
   energy_retail: 'Retail Energy',
   education_spend: 'Education',
 };
 
-/** Short labels for event annotations */
-const EVENT_SHORT_LABELS: Record<string, string> = {
-  'Global Financial Crisis': 'GFC',
+const EVENT_SHORT: Record<string, string> = {
+  'Global Financial Crisis': 'GFC \'08',
   'COVID-19 Pandemic': 'COVID',
   'Russia-Ukraine War': 'Ukraine',
-  'Arab Spring': 'Arab Spr.',
+  'Ukraine Conflict / Energy Crisis': 'Ukraine',
+  'Arab Spring': 'Arab Spring',
   'Oil Price Crash': 'Oil Crash',
+  'Oil Price Collapse': 'Oil Crash',
   'Brexit Referendum': 'Brexit',
   'US-China Trade War': 'Trade War',
-  'Eurozone Crisis': 'Euro Crisis',
+  'US-China Trade War Begins': 'Trade War',
+  'Eurozone Crisis': 'Eurozone',
+  'European Debt Crisis': 'Euro Debt',
+  'Global Supply Chain Crisis': 'Supply Crisis',
+  'China Stock Market Crash': 'China \'15',
+  'Global Banking Stress': 'Bank \'23',
+  '2022 Food Price Crisis': 'Food Crisis',
 };
 
-function shortenEventLabel(label: string): string {
-  if (EVENT_SHORT_LABELS[label]) return EVENT_SHORT_LABELS[label];
-  // Truncate to 10 chars max
-  return label.length > 10 ? label.slice(0, 9) + '\u2026' : label;
+function shortLabel(label: string): string {
+  return EVENT_SHORT[label] ?? (label.length > 12 ? label.slice(0, 11) + '\u2026' : label);
 }
 
 interface ChartRow {
@@ -68,59 +70,57 @@ interface ChartRow {
 function CustomTooltip({ active, payload, label }: any) {
   if (!active || !payload || payload.length === 0) return null;
 
+  // Deduplicate: only show Line entries (skip Area which duplicates)
+  const seen = new Set<string>();
+  const entries = payload.filter((entry: any) => {
+    const key = String(entry.dataKey);
+    if (seen.has(key)) return false;
+    seen.add(key);
+    // Skip entries with null/undefined values
+    if (entry.value == null) return false;
+    return true;
+  });
+
+  if (entries.length === 0) return null;
+
   return (
-    <div className="rounded-lg border border-gray-100 bg-white px-3 py-2.5 shadow-lg">
-      <p className="mb-1.5 text-xs font-semibold text-gray-500">{label}</p>
-      <div className="space-y-1">
-        {payload.map((entry: any) => {
-          const nameStr = String(entry.name ?? entry.dataKey);
+    <div
+      className="rounded-lg px-4 py-3"
+      style={{
+        backgroundColor: '#1a1f2e',
+        border: '1px solid rgba(255,255,255,0.1)',
+        boxShadow: '0 8px 32px rgba(0,0,0,0.5)',
+        minWidth: 160,
+      }}
+    >
+      <p className="mb-2 text-sm font-bold text-white">{label}</p>
+      <div className="space-y-1.5">
+        {entries.map((entry: any) => {
+          const nameStr = String(entry.dataKey);
           const isAvg = nameStr.endsWith('_avg');
           const baseCat = isAvg ? nameStr.replace('_avg', '') : nameStr;
           const baseLabel = CATEGORY_LABELS[baseCat as Category] ?? baseCat;
-          const displayLabel = isAvg ? `${baseLabel} (Avg)` : baseLabel;
+          const displayLabel = isAvg ? `${baseLabel} (World)` : baseLabel;
           const num = typeof entry.value === 'number' ? entry.value.toFixed(1) : 'N/A';
 
           return (
-            <div key={nameStr} className="flex items-center gap-2 text-xs">
-              <span
-                className="inline-block h-2 w-2 rounded-full flex-shrink-0"
-                style={{ backgroundColor: entry.color }}
-              />
-              <span className="text-gray-600">{displayLabel}</span>
-              <span className="ml-auto font-semibold text-gray-900">{num}</span>
+            <div key={nameStr} className="flex items-center justify-between gap-4 text-sm">
+              <div className="flex items-center gap-2">
+                <span
+                  className="inline-block h-3 w-3 flex-shrink-0"
+                  style={{
+                    backgroundColor: entry.color,
+                    opacity: isAvg ? 0.5 : 1,
+                    borderRadius: isAvg ? '50%' : '2px',
+                  }}
+                />
+                <span style={{ color: isAvg ? '#8b95a5' : '#e8eaed' }}>{displayLabel}</span>
+              </div>
+              <span className="font-bold text-white tabular-nums" style={{ fontFamily: "'JetBrains Mono', monospace" }}>{num}</span>
             </div>
           );
         })}
       </div>
-    </div>
-  );
-}
-
-function CustomLegend({ payload }: any) {
-  if (!payload) return null;
-
-  return (
-    <div className="mt-2 flex flex-wrap justify-center gap-x-4 gap-y-1 px-2">
-      {payload.map((entry: any) => {
-        const nameStr = String(entry.value);
-        const isAvg = nameStr.endsWith('_avg');
-        const baseCat = isAvg ? nameStr.replace('_avg', '') : nameStr;
-        const baseLabel = CATEGORY_LABELS[baseCat as Category] ?? baseCat;
-        const displayLabel = isAvg ? `${baseLabel} (Avg)` : baseLabel;
-
-        return (
-          <span key={nameStr} className="inline-flex items-center gap-1.5 text-xs text-gray-500">
-            <span
-              className="inline-block h-2 w-2 rounded-full flex-shrink-0"
-              style={{
-                backgroundColor: entry.color,
-                opacity: isAvg ? 0.5 : 1,
-              }}
-            />
-            {displayLabel}
-          </span>
-        );
-      })}
     </div>
   );
 }
@@ -136,33 +136,30 @@ export default function TrendChart({
   showBenchmark,
   benchmarkData,
 }: TrendChartProps) {
-  const Y_AXIS_LABELS: Record<ViewMode, string> = {
-    indexed: 'Index (Base = 100)',
-    pct_change: 'YoY Change (%)',
-    local_currency: 'CPI Value',
-    ppp_adjusted: 'PPP-Adjusted',
-  };
+  const yAxisLabel = viewMode === 'pct_change'
+    ? 'YoY %'
+    : viewMode === 'local_currency'
+      ? 'CPI'
+      : viewMode === 'ppp_adjusted'
+        ? 'PPP'
+        : 'Index';
 
   // Build merged data array keyed by year
   const yearSet = new Set<number>();
-  const filteredData: Record<Category, DataPoint[]> = {} as Record<Category, DataPoint[]>;
-  const filteredBenchmark: Record<Category, DataPoint[]> = {} as Record<Category, DataPoint[]>;
+  const filteredData: Record<string, DataPoint[]> = {};
+  const filteredBenchmark: Record<string, DataPoint[]> = {};
 
   for (const cat of activeCategories) {
     const series = data[cat] ?? [];
     const filtered = transformForViewMode(filterByTimeRange(series, timeRange, undefined, customRange), viewMode);
     filteredData[cat] = filtered;
-    for (const dp of filtered) {
-      yearSet.add(dp.year);
-    }
+    for (const dp of filtered) yearSet.add(dp.year);
 
     if (showBenchmark && benchmarkData) {
       const benchSeries = benchmarkData[cat] ?? [];
-      const benchFiltered = filterByTimeRange(benchSeries, timeRange, undefined, customRange);
+      const benchFiltered = transformForViewMode(filterByTimeRange(benchSeries, timeRange, undefined, customRange), viewMode);
       filteredBenchmark[cat] = benchFiltered;
-      for (const dp of benchFiltered) {
-        yearSet.add(dp.year);
-      }
+      for (const dp of benchFiltered) yearSet.add(dp.year);
     }
   }
 
@@ -176,38 +173,34 @@ export default function TrendChart({
 
       if (showBenchmark && benchmarkData) {
         const benchDp = filteredBenchmark[cat]?.find((d) => d.year === year);
-        const avgKey = `${cat}_avg` as keyof ChartRow;
-        (row as Record<string, unknown>)[avgKey] = benchDp?.indexed ?? null;
+        (row as Record<string, unknown>)[`${cat}_avg`] = benchDp?.indexed ?? null;
       }
     }
     return row;
   });
 
-  // Filter events to visible range - pick only the most relevant (max 4)
-  const minYear = years.length > 0 ? years[0] : 0;
-  const maxYear = years.length > 0 ? years[years.length - 1] : 9999;
-  const visibleEvents = (events ?? [])
-    .filter(
-      (e) =>
-        e.year >= minYear &&
-        e.year <= maxYear &&
-        (e.category === 'all' || activeCategories.includes(e.category)),
-    )
-    .slice(0, 4);
+  // Event annotations — max 3, well-spaced (at least 2 years apart)
+  const minYear = years[0] ?? 0;
+  const maxYear = years[years.length - 1] ?? 9999;
+  const candidateEvents = (events ?? [])
+    .filter((e) => e.year >= minYear && e.year <= maxYear && (e.category === 'all' || activeCategories.includes(e.category)));
 
-  // Calculate responsive tick interval
-  const tickInterval = useCallback(() => {
-    const count = years.length;
-    if (count <= 10) return 0;
-    if (count <= 20) return 1;
-    return Math.floor(count / 10);
-  }, [years.length]);
+  const visibleEvents: EventAnnotation[] = [];
+  for (const evt of candidateEvents) {
+    if (visibleEvents.length >= 3) break;
+    const tooClose = visibleEvents.some((v) => Math.abs(v.year - evt.year) < 2);
+    if (!tooClose) visibleEvents.push(evt);
+  }
+
+  // Tick interval
+  const tickCount = years.length;
+  const tickInterval = tickCount <= 10 ? 0 : tickCount <= 20 ? 1 : Math.floor(tickCount / 8);
 
   if (chartData.length === 0) {
     return (
-      <div className="flex h-[350px] items-center justify-center text-gray-400 md:h-[420px]">
+      <div className="flex h-[400px] items-center justify-center md:h-[480px]" style={{ color: '#8b95a5' }}>
         <div className="text-center">
-          <svg className="mx-auto mb-2 h-8 w-8 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg className="mx-auto mb-2 h-10 w-10" style={{ color: '#555e6e' }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
           </svg>
           <p className="text-sm">No data to display</p>
@@ -216,111 +209,114 @@ export default function TrendChart({
     );
   }
 
+  // Build a clean legend manually (not using Recharts Legend to avoid Area duplicates)
+  const legendItems: { key: string; label: string; color: string; dashed: boolean }[] = activeCategories.map((cat) => ({
+    key: cat as string,
+    label: CATEGORY_LABELS[cat],
+    color: CATEGORY_COLORS[cat],
+    dashed: false,
+  }));
+  if (showBenchmark && benchmarkData) {
+    for (const cat of activeCategories) {
+      legendItems.push({
+        key: `${cat}_avg`,
+        label: `${CATEGORY_LABELS[cat]} (World)`,
+        color: CATEGORY_COLORS[cat],
+        dashed: true,
+      });
+    }
+  }
+
+  const refLineY = viewMode === 'indexed' ? 100 : viewMode === 'pct_change' ? 0 : null;
+
   return (
     <div className="w-full">
-      <div className="h-[350px] md:h-[420px]">
+      {/* Chart */}
+      <div className="h-[400px] md:h-[480px]">
         <ResponsiveContainer width="100%" height="100%">
-          <ComposedChart data={chartData} margin={{ top: 16, right: 16, left: 4, bottom: 8 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" vertical={false} />
+          <ComposedChart data={chartData} margin={{ top: 24, right: 20, left: 8, bottom: 16 }}>
+            <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" vertical={false} />
 
             <XAxis
               dataKey="year"
               tickLine={false}
-              axisLine={{ stroke: '#e2e8f0' }}
-              tick={{ fontSize: 11, fill: '#94a3b8' }}
-              interval={tickInterval()}
-              padding={{ left: 8, right: 8 }}
+              axisLine={{ stroke: 'rgba(255,255,255,0.1)' }}
+              tick={{ fontSize: 12, fill: '#8b95a5', fontWeight: 500 }}
+              interval={tickInterval}
+              padding={{ left: 12, right: 12 }}
             />
 
             <YAxis
               domain={['auto', 'auto']}
               tickLine={false}
               axisLine={false}
-              tick={{ fontSize: 11, fill: '#94a3b8' }}
-              width={50}
+              tick={{ fontSize: 11, fill: '#8b95a5' }}
+              width={48}
               label={{
-                value: Y_AXIS_LABELS[viewMode],
+                value: yAxisLabel,
                 angle: -90,
                 position: 'insideLeft',
-                offset: 10,
-                style: { textAnchor: 'middle', fontSize: 10, fill: '#94a3b8', fontWeight: 500 },
+                offset: 12,
+                style: { textAnchor: 'middle', fontSize: 11, fill: '#8b95a5', fontWeight: 600 },
               }}
             />
 
             {/* Base reference line */}
-            {viewMode === 'indexed' && (
+            {refLineY != null && (
               <ReferenceLine
-                y={100}
-                stroke="#cbd5e1"
-                strokeDasharray="6 3"
+                y={refLineY}
+                stroke="rgba(255,255,255,0.15)"
+                strokeDasharray="8 4"
                 strokeWidth={1}
-              />
-            )}
-            {viewMode === 'pct_change' && (
-              <ReferenceLine
-                y={0}
-                stroke="#cbd5e1"
-                strokeDasharray="6 3"
-                strokeWidth={1}
+                label={{
+                  value: viewMode === 'indexed' ? 'Base' : '0%',
+                  position: 'right',
+                  fontSize: 10,
+                  fill: '#555e6e',
+                }}
               />
             )}
 
-            {/* Event annotations - subtle, clipped, short labels */}
+            {/* Event annotations — max 3, subtle */}
             {visibleEvents.map((evt) => (
               <ReferenceLine
-                key={`${evt.year}-${evt.label}`}
+                key={`evt-${evt.year}`}
                 x={evt.year}
-                stroke="#cbd5e1"
-                strokeDasharray="3 3"
+                stroke="rgba(255,255,255,0.1)"
+                strokeDasharray="4 4"
                 strokeWidth={1}
                 ifOverflow="hidden"
                 label={{
-                  value: shortenEventLabel(evt.label),
-                  position: 'insideTopRight',
+                  value: shortLabel(evt.label),
+                  position: 'insideTopLeft',
                   fontSize: 9,
-                  fill: '#94a3b8',
-                  fontWeight: 500,
+                  fill: '#555e6e',
+                  offset: 4,
                 }}
               />
             ))}
 
             <Tooltip
               content={<CustomTooltip />}
-              cursor={{ stroke: '#e2e8f0', strokeWidth: 1 }}
+              cursor={{ stroke: 'rgba(255,255,255,0.15)', strokeWidth: 1, strokeDasharray: '4 4' }}
             />
 
-            <Legend content={<CustomLegend />} />
-
-            {/* Area fills under lines */}
-            {activeCategories.map((cat) => (
-              <Area
-                key={`area_${cat}`}
-                type="monotone"
-                dataKey={cat}
-                stroke="none"
-                fill={CATEGORY_COLORS[cat]}
-                fillOpacity={0.06}
-                connectNulls
-                isAnimationActive={false}
-              />
-            ))}
-
-            {/* Main data lines */}
+            {/* Main data lines — thicker, with dots on hover */}
             {activeCategories.map((cat) => (
               <Line
                 key={cat}
                 type="monotone"
                 dataKey={cat}
                 stroke={CATEGORY_COLORS[cat]}
-                strokeWidth={2.5}
+                strokeWidth={3}
                 dot={false}
                 connectNulls
                 name={cat}
-                activeDot={{ r: 4, strokeWidth: 2, fill: '#fff', stroke: CATEGORY_COLORS[cat] }}
+                activeDot={{ r: 5, strokeWidth: 2, fill: '#141820', stroke: CATEGORY_COLORS[cat] }}
               />
             ))}
 
-            {/* Benchmark lines */}
+            {/* Benchmark lines — thinner, dashed */}
             {showBenchmark && benchmarkData && activeCategories.map((cat) => (
               <Line
                 key={`${cat}_avg`}
@@ -328,7 +324,7 @@ export default function TrendChart({
                 dataKey={`${cat}_avg`}
                 stroke={CATEGORY_COLORS[cat]}
                 strokeWidth={1.5}
-                strokeDasharray="4 4"
+                strokeDasharray="6 4"
                 strokeOpacity={0.4}
                 dot={false}
                 connectNulls
@@ -337,6 +333,28 @@ export default function TrendChart({
             ))}
           </ComposedChart>
         </ResponsiveContainer>
+      </div>
+
+      {/* Custom legend — clean, no duplicates */}
+      <div className="mt-3 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 px-4">
+        {legendItems.map((item) => (
+          <div key={item.key} className="flex items-center gap-2 text-sm">
+            {item.dashed ? (
+              <span
+                className="inline-block h-0 w-5 border-t-2 border-dashed flex-shrink-0"
+                style={{ borderColor: item.color, opacity: 0.5 }}
+              />
+            ) : (
+              <span
+                className="inline-block h-3 w-3 rounded-sm flex-shrink-0"
+                style={{ backgroundColor: item.color }}
+              />
+            )}
+            <span style={{ color: item.dashed ? '#555e6e' : '#8b95a5' }}>
+              {item.label}
+            </span>
+          </div>
+        ))}
       </div>
     </div>
   );
