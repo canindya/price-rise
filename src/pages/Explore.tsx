@@ -27,11 +27,11 @@ const CATEGORY_LABELS: Record<Category, string> = {
 };
 
 const CATEGORY_COLORS: Record<Category, { active: string; border: string; text: string }> = {
-  overall_cpi: { active: 'bg-[#60a5fa] text-black', border: 'border-[#60a5fa]/40 hover:border-[#60a5fa]/70', text: 'text-[#60a5fa]' },
-  food_cpi: { active: 'bg-[#4ade80] text-black', border: 'border-[#4ade80]/40 hover:border-[#4ade80]/70', text: 'text-[#4ade80]' },
-  energy_benchmark: { active: 'bg-[#fbbf24] text-black', border: 'border-[#fbbf24]/40 hover:border-[#fbbf24]/70', text: 'text-[#fbbf24]' },
-  energy_retail: { active: 'bg-[#fb923c] text-black', border: 'border-[#fb923c]/40 hover:border-[#fb923c]/70', text: 'text-[#fb923c]' },
-  education_spend: { active: 'bg-[#c084fc] text-black', border: 'border-[#c084fc]/40 hover:border-[#c084fc]/70', text: 'text-[#c084fc]' },
+  overall_cpi: { active: 'bg-[var(--color-cpi)] text-black', border: 'border-[var(--color-cpi)]/40 hover:border-[var(--color-cpi)]/70', text: 'text-[var(--color-cpi)]' },
+  food_cpi: { active: 'bg-[var(--color-food)] text-black', border: 'border-[var(--color-food)]/40 hover:border-[var(--color-food)]/70', text: 'text-[var(--color-food)]' },
+  energy_benchmark: { active: 'bg-[var(--color-energy)] text-black', border: 'border-[var(--color-energy)]/40 hover:border-[var(--color-energy)]/70', text: 'text-[var(--color-energy)]' },
+  energy_retail: { active: 'bg-[var(--color-retail)] text-black', border: 'border-[var(--color-retail)]/40 hover:border-[var(--color-retail)]/70', text: 'text-[var(--color-retail)]' },
+  education_spend: { active: 'bg-[var(--color-education)] text-black', border: 'border-[var(--color-education)]/40 hover:border-[var(--color-education)]/70', text: 'text-[var(--color-education)]' },
 };
 
 

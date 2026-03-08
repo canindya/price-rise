@@ -23,11 +23,11 @@ interface TrendChartProps {
 }
 
 const CATEGORY_COLORS: Record<Category, string> = {
-  overall_cpi: '#60a5fa',
-  food_cpi: '#4ade80',
-  energy_benchmark: '#fbbf24',
-  energy_retail: '#fb923c',
-  education_spend: '#c084fc',
+  overall_cpi: 'var(--color-cpi)',
+  food_cpi: 'var(--color-food)',
+  energy_benchmark: 'var(--color-energy)',
+  energy_retail: 'var(--color-retail)',
+  education_spend: 'var(--color-education)',
 };
 
 const CATEGORY_LABELS: Record<Category, string> = {
@@ -87,8 +87,8 @@ function CustomTooltip({ active, payload, label }: any) {
     <div
       className="rounded-lg px-4 py-3"
       style={{
-        backgroundColor: '#1a1f2e',
-        border: '1px solid rgba(255,255,255,0.1)',
+        backgroundColor: 'var(--color-bg-elevated)',
+        border: '1px solid var(--color-border-hover)',
         boxShadow: '0 8px 32px rgba(0,0,0,0.5)',
         minWidth: 160,
       }}
@@ -114,7 +114,7 @@ function CustomTooltip({ active, payload, label }: any) {
                     borderRadius: isAvg ? '50%' : '2px',
                   }}
                 />
-                <span style={{ color: isAvg ? '#8b95a5' : '#e8eaed' }}>{displayLabel}</span>
+                <span style={{ color: isAvg ? 'var(--color-text-secondary)' : 'var(--color-text)' }}>{displayLabel}</span>
               </div>
               <span className="font-bold text-white tabular-nums" style={{ fontFamily: "'JetBrains Mono', monospace" }}>{num}</span>
             </div>
@@ -198,9 +198,9 @@ export default function TrendChart({
 
   if (chartData.length === 0) {
     return (
-      <div className="flex h-[400px] items-center justify-center md:h-[480px]" style={{ color: '#8b95a5' }}>
+      <div className="flex h-[400px] items-center justify-center md:h-[480px]" style={{ color: 'var(--color-text-secondary)' }}>
         <div className="text-center">
-          <svg className="mx-auto mb-2 h-10 w-10" style={{ color: '#555e6e' }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg className="mx-auto mb-2 h-10 w-10" style={{ color: 'var(--color-text-muted)' }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
           </svg>
           <p className="text-sm">No data to display</p>
@@ -235,13 +235,13 @@ export default function TrendChart({
       <div className="h-[400px] md:h-[480px]">
         <ResponsiveContainer width="100%" height="100%">
           <ComposedChart data={chartData} margin={{ top: 24, right: 20, left: 8, bottom: 16 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" vertical={false} />
+            <CartesianGrid strokeDasharray="3 3" stroke="var(--color-grid)" vertical={false} />
 
             <XAxis
               dataKey="year"
               tickLine={false}
-              axisLine={{ stroke: 'rgba(255,255,255,0.1)' }}
-              tick={{ fontSize: 12, fill: '#8b95a5', fontWeight: 500 }}
+              axisLine={{ stroke: 'var(--color-axis)' }}
+              tick={{ fontSize: 12, fill: 'var(--color-text-secondary)', fontWeight: 500 }}
               interval={tickInterval}
               padding={{ left: 12, right: 12 }}
             />
@@ -250,14 +250,14 @@ export default function TrendChart({
               domain={['auto', 'auto']}
               tickLine={false}
               axisLine={false}
-              tick={{ fontSize: 11, fill: '#8b95a5' }}
+              tick={{ fontSize: 11, fill: 'var(--color-text-secondary)' }}
               width={48}
               label={{
                 value: yAxisLabel,
                 angle: -90,
                 position: 'insideLeft',
                 offset: 12,
-                style: { textAnchor: 'middle', fontSize: 11, fill: '#8b95a5', fontWeight: 600 },
+                style: { textAnchor: 'middle', fontSize: 11, fill: 'var(--color-text-secondary)', fontWeight: 600 },
               }}
             />
 
@@ -265,14 +265,14 @@ export default function TrendChart({
             {refLineY != null && (
               <ReferenceLine
                 y={refLineY}
-                stroke="rgba(255,255,255,0.15)"
+                stroke="var(--color-ref-line)"
                 strokeDasharray="8 4"
                 strokeWidth={1}
                 label={{
                   value: viewMode === 'indexed' ? 'Base' : '0%',
                   position: 'right',
                   fontSize: 10,
-                  fill: '#555e6e',
+                  fill: 'var(--color-event-label)',
                 }}
               />
             )}
@@ -282,7 +282,7 @@ export default function TrendChart({
               <ReferenceLine
                 key={`evt-${evt.year}`}
                 x={evt.year}
-                stroke="rgba(255,255,255,0.1)"
+                stroke="var(--color-event-line)"
                 strokeDasharray="4 4"
                 strokeWidth={1}
                 ifOverflow="hidden"
@@ -290,7 +290,7 @@ export default function TrendChart({
                   value: shortLabel(evt.label),
                   position: 'insideTopLeft',
                   fontSize: 9,
-                  fill: '#555e6e',
+                  fill: 'var(--color-event-label)',
                   offset: 4,
                 }}
               />
@@ -298,7 +298,7 @@ export default function TrendChart({
 
             <Tooltip
               content={<CustomTooltip />}
-              cursor={{ stroke: 'rgba(255,255,255,0.15)', strokeWidth: 1, strokeDasharray: '4 4' }}
+              cursor={{ stroke: 'var(--color-cursor)', strokeWidth: 1, strokeDasharray: '4 4' }}
             />
 
             {/* Main data lines — thicker, with dots on hover */}
@@ -312,7 +312,7 @@ export default function TrendChart({
                 dot={false}
                 connectNulls
                 name={cat}
-                activeDot={{ r: 5, strokeWidth: 2, fill: '#141820', stroke: CATEGORY_COLORS[cat] }}
+                activeDot={{ r: 5, strokeWidth: 2, fill: 'var(--color-dot-fill)', stroke: CATEGORY_COLORS[cat] }}
               />
             ))}
 
@@ -350,7 +350,7 @@ export default function TrendChart({
                 style={{ backgroundColor: item.color }}
               />
             )}
-            <span style={{ color: item.dashed ? '#555e6e' : '#8b95a5' }}>
+            <span style={{ color: item.dashed ? 'var(--color-text-muted)' : 'var(--color-text-secondary)' }}>
               {item.label}
             </span>
           </div>

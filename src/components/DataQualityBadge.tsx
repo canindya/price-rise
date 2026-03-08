@@ -40,9 +40,9 @@ export default function DataQualityBadge({ quality }: DataQualityBadgeProps) {
         <span
           className="absolute bottom-full left-1/2 z-10 mb-1.5 -translate-x-1/2 whitespace-nowrap rounded px-2 py-1 text-[10px] font-medium shadow-lg"
           style={{
-            backgroundColor: '#1a1f2e',
-            border: '1px solid rgba(255,255,255,0.1)',
-            color: '#e8eaed',
+            backgroundColor: 'var(--color-bg-elevated)',
+            border: '1px solid var(--color-border-hover)',
+            color: 'var(--color-text)',
             fontFamily: "'DM Sans', sans-serif",
           }}
         >

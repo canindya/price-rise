@@ -79,12 +79,12 @@ function CustomTooltip({ active, payload, label, labelA, labelB }: any) {
     <div
       className="rounded-lg px-3 py-2.5"
       style={{
-        backgroundColor: '#1a1f2e',
-        border: '1px solid rgba(255,255,255,0.1)',
+        backgroundColor: 'var(--color-bg-elevated)',
+        border: '1px solid var(--color-border-hover)',
         boxShadow: '0 8px 32px rgba(0,0,0,0.5)',
       }}
     >
-      <p className="mb-1.5 text-xs font-semibold" style={{ color: '#8b95a5' }}>{label}</p>
+      <p className="mb-1.5 text-xs font-semibold" style={{ color: 'var(--color-text-secondary)' }}>{label}</p>
       <div className="space-y-1">
         {payload.map((entry: any) => {
           const nameStr = String(entry.name ?? entry.dataKey);
@@ -101,7 +101,7 @@ function CustomTooltip({ active, payload, label, labelA, labelB }: any) {
                 className="inline-block h-2 w-2 rounded-full flex-shrink-0"
                 style={{ backgroundColor: entry.color }}
               />
-              <span style={{ color: '#e8eaed' }}>{displayLabel}</span>
+              <span style={{ color: 'var(--color-text)' }}>{displayLabel}</span>
               <span className="ml-auto font-semibold text-white" style={{ fontFamily: "'JetBrains Mono', monospace" }}>{num}</span>
             </div>
           );
@@ -125,7 +125,7 @@ function CustomLegend({ payload, labelA, labelB }: any) {
         const displayLabel = `${countryLabel} - ${catLabel}`;
 
         return (
-          <span key={nameStr} className="inline-flex items-center gap-1.5 text-xs" style={{ color: '#8b95a5' }}>
+          <span key={nameStr} className="inline-flex items-center gap-1.5 text-xs" style={{ color: 'var(--color-text-secondary)' }}>
             <span
               className="inline-block h-2 w-2 rounded-full flex-shrink-0"
               style={{ backgroundColor: entry.color }}
@@ -200,9 +200,9 @@ export default function ComparisonChart({
 
   if (chartData.length === 0) {
     return (
-      <div className="flex h-[350px] items-center justify-center md:h-[420px]" style={{ color: '#8b95a5' }}>
+      <div className="flex h-[350px] items-center justify-center md:h-[420px]" style={{ color: 'var(--color-text-secondary)' }}>
         <div className="text-center">
-          <svg className="mx-auto mb-2 h-8 w-8" style={{ color: '#555e6e' }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg className="mx-auto mb-2 h-8 w-8" style={{ color: 'var(--color-text-muted)' }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
           </svg>
           <p className="text-sm">No data to display</p>
@@ -216,13 +216,13 @@ export default function ComparisonChart({
       <div className="h-[350px] md:h-[420px]">
         <ResponsiveContainer width="100%" height="100%">
           <ComposedChart data={chartData} margin={{ top: 16, right: 16, left: 4, bottom: 8 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" vertical={false} />
+            <CartesianGrid strokeDasharray="3 3" stroke="var(--color-grid)" vertical={false} />
 
             <XAxis
               dataKey="year"
               tickLine={false}
-              axisLine={{ stroke: 'rgba(255,255,255,0.1)' }}
-              tick={{ fontSize: 11, fill: '#8b95a5' }}
+              axisLine={{ stroke: 'var(--color-axis)' }}
+              tick={{ fontSize: 11, fill: 'var(--color-text-secondary)' }}
               interval={tickInterval}
               padding={{ left: 8, right: 8 }}
             />
@@ -231,14 +231,14 @@ export default function ComparisonChart({
               domain={['auto', 'auto']}
               tickLine={false}
               axisLine={false}
-              tick={{ fontSize: 11, fill: '#8b95a5' }}
+              tick={{ fontSize: 11, fill: 'var(--color-text-secondary)' }}
               width={50}
             />
 
             {/* Base reference line */}
             <ReferenceLine
               y={100}
-              stroke="rgba(255,255,255,0.15)"
+              stroke="var(--color-ref-line)"
               strokeDasharray="6 3"
               strokeWidth={1}
             />
@@ -248,7 +248,7 @@ export default function ComparisonChart({
               <ReferenceLine
                 key={`${evt.year}-${evt.label}`}
                 x={evt.year}
-                stroke="rgba(255,255,255,0.1)"
+                stroke="var(--color-event-line)"
                 strokeDasharray="3 3"
                 strokeWidth={1}
                 ifOverflow="hidden"
@@ -256,7 +256,7 @@ export default function ComparisonChart({
                   value: shortenEventLabel(evt.label),
                   position: 'insideTopRight',
                   fontSize: 9,
-                  fill: '#555e6e',
+                  fill: 'var(--color-event-label)',
                   fontWeight: 500,
                 }}
               />
@@ -264,7 +264,7 @@ export default function ComparisonChart({
 
             <Tooltip
               content={<CustomTooltip labelA={labelA} labelB={labelB} />}
-              cursor={{ stroke: 'rgba(255,255,255,0.15)', strokeWidth: 1 }}
+              cursor={{ stroke: 'var(--color-cursor)', strokeWidth: 1 }}
             />
 
             <Legend content={<CustomLegend labelA={labelA} labelB={labelB} />} />
@@ -294,7 +294,7 @@ export default function ComparisonChart({
                 dot={false}
                 connectNulls
                 name={`a_${cat}`}
-                activeDot={{ r: 4, strokeWidth: 2, fill: '#141820', stroke: COLORS_A[cat] }}
+                activeDot={{ r: 4, strokeWidth: 2, fill: 'var(--color-dot-fill)', stroke: COLORS_A[cat] }}
               />
             ))}
 
@@ -310,7 +310,7 @@ export default function ComparisonChart({
                 dot={false}
                 connectNulls
                 name={`b_${cat}`}
-                activeDot={{ r: 4, strokeWidth: 2, fill: '#141820', stroke: COLORS_B[cat] }}
+                activeDot={{ r: 4, strokeWidth: 2, fill: 'var(--color-dot-fill)', stroke: COLORS_B[cat] }}
               />
             ))}
           </ComposedChart>

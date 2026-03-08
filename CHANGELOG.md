@@ -2,6 +2,21 @@
 
 ## [2026-03-08]
 
+### Added
+
+- **Dark Mode Toggle**: Sun/moon icon in header to switch between light and dark themes, with localStorage persistence
+- **Theme Hook**: `useTheme` hook managing theme state, toggling `.dark` class on `<html>`, saving preference
+- **Light Theme**: Full light color palette (`:root` default) with cream backgrounds, dark text, rich category colors
+- **Flash Prevention**: Inline script in `index.html` applies saved theme before React renders
+
+### Changed
+
+- **CSS Variables**: Expanded from 12 to 30+ CSS variables covering all theme-dependent colors (backgrounds, text, borders, charts, nav, toggles)
+- **All Components**: Replaced hardcoded hex/rgba dark colors with `var(--color-*)` CSS variables across 11 components and 5 pages
+- **Charts**: TrendChart and ComparisonChart use theme-aware grid, axis, cursor, reference line, and event label colors
+- **Map**: WorldMap uses theme-aware background, borders, tooltips, legend, and zoom controls
+- **Modals**: MyBasket and AlertSetup use theme-aware card, input, and button colors
+
 ### Fixed
 
 - **Energy Data**: Fixed energy_retail using ISO-2 codes (US, GB) while app expects ISO-3 (USA, GBR) — added re-keying on load

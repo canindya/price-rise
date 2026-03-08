@@ -22,7 +22,7 @@ const COLOR_RANGES = [
   { min: 100, max: Infinity, color: '#dc2626', label: 'Extreme' },
 ] as const;
 
-const NO_DATA_COLOR = '#1e293b';
+const NO_DATA_COLOR = 'var(--color-bg-elevated)';
 
 function getColor(pctChange: number | undefined): string {
   if (pctChange === undefined) return NO_DATA_COLOR;
@@ -68,8 +68,8 @@ function MapLegend() {
       <div
         className="rounded-lg px-4 py-2.5 backdrop-blur-sm"
         style={{
-          backgroundColor: 'rgba(20, 24, 32, 0.92)',
-          border: '1px solid rgba(255,255,255,0.08)',
+          backgroundColor: 'var(--color-bg-card)',
+          border: '1px solid var(--color-border)',
           boxShadow: '0 4px 24px rgba(0,0,0,0.4)',
         }}
       >
@@ -93,11 +93,11 @@ function MapLegend() {
           <div className="ml-2 flex flex-col items-center">
             <div
               className="h-2.5 w-8 rounded"
-              style={{ backgroundColor: NO_DATA_COLOR, border: '1px solid rgba(255,255,255,0.1)' }}
+              style={{ backgroundColor: NO_DATA_COLOR, border: '1px solid var(--color-border-hover)' }}
             />
           </div>
         </div>
-        <div className="mt-1 flex items-center text-[10px] font-medium" style={{ color: '#8b95a5' }}>
+        <div className="mt-1 flex items-center text-[10px] font-medium" style={{ color: 'var(--color-text-secondary)' }}>
           <span className="w-12 text-center">{'< 0%'}</span>
           <span className="w-12 text-center">Low</span>
           <span className="w-12 text-center">Med</span>
@@ -178,7 +178,7 @@ export default function WorldMap({
     (change: number | undefined, isSelected: boolean): PathOptions => ({
       fillColor: getColor(change),
       fillOpacity: isSelected ? 0.95 : 0.8,
-      color: isSelected ? '#ffffff' : 'rgba(255,255,255,0.08)',
+      color: isSelected ? '#ffffff' : 'var(--color-border)',
       weight: isSelected ? 2.5 : 0.5,
       ...(isSelected ? { className: 'country-selected' } : {}),
     }),
@@ -214,8 +214,8 @@ export default function WorldMap({
         `<div style="display:flex;align-items:center;gap:6px;font-family:system-ui,sans-serif">
           <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${dotColor};flex-shrink:0"></span>
           <span>
-            <strong style="font-size:13px;color:#e8eaed">${name}</strong><br/>
-            <span style="font-size:12px;color:#8b95a5;font-family:'JetBrains Mono',monospace">${changeText}</span>
+            <strong style="font-size:13px;color:var(--color-text)">${name}</strong><br/>
+            <span style="font-size:12px;color:var(--color-text-secondary);font-family:'JetBrains Mono',monospace">${changeText}</span>
           </span>
         </div>`,
         {
@@ -265,11 +265,11 @@ export default function WorldMap({
     return (
       <div
         className="flex h-[450px] items-center justify-center rounded-xl text-sm"
-        style={{ backgroundColor: '#141820', color: '#8b95a5' }}
+        style={{ backgroundColor: 'var(--color-bg-card)', color: 'var(--color-text-secondary)' }}
       >
         <svg
           className="mr-2 h-5 w-5 animate-spin"
-          style={{ color: '#555e6e' }}
+          style={{ color: 'var(--color-text-muted)' }}
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
@@ -287,22 +287,22 @@ export default function WorldMap({
   return (
     <div
       className="relative overflow-hidden rounded-xl"
-      style={{ border: '1px solid rgba(255,255,255,0.06)' }}
+      style={{ border: '1px solid var(--color-border)' }}
     >
       {/* Inject tooltip & selected-country styles */}
       <style>{`
         .world-map-tooltip {
-          background: #1a1f2e !important;
-          border: 1px solid rgba(255,255,255,0.1) !important;
+          background: var(--color-bg-elevated) !important;
+          border: 1px solid var(--color-border-hover) !important;
           border-radius: 8px !important;
           box-shadow: 0 8px 32px rgba(0,0,0,0.5) !important;
           padding: 8px 12px !important;
-          color: #e8eaed !important;
+          color: var(--color-text) !important;
           font-size: 13px !important;
           line-height: 1.4 !important;
         }
         .world-map-tooltip::before {
-          border-top-color: #1a1f2e !important;
+          border-top-color: var(--color-bg-elevated) !important;
         }
         .country-selected {
           filter: drop-shadow(0 0 6px rgba(255,255,255,0.3));
@@ -320,16 +320,16 @@ export default function WorldMap({
         .leaflet-control-attribution {
           font-size: 10px !important;
           opacity: 0.4;
-          background: rgba(20,24,32,0.6) !important;
-          color: #555e6e !important;
+          background: var(--color-bg-card) !important;
+          color: var(--color-text-muted) !important;
         }
         .leaflet-control-attribution a {
-          color: #8b95a5 !important;
+          color: var(--color-text-secondary) !important;
         }
         .leaflet-control-zoom a {
-          background: #1a1f2e !important;
-          color: #e8eaed !important;
-          border-color: rgba(255,255,255,0.1) !important;
+          background: var(--color-bg-elevated) !important;
+          color: var(--color-text) !important;
+          border-color: var(--color-border-hover) !important;
         }
         .leaflet-control-zoom a:hover {
           background: #242b3d !important;
@@ -345,7 +345,7 @@ export default function WorldMap({
         scrollWheelZoom={false}
         zoomControl={true}
         className="h-[450px] w-full"
-        style={{ background: '#0c0f14' }}
+        style={{ background: 'var(--color-bg)' }}
       >
         <MapConfigurator />
         <GeoJSON

@@ -1,8 +1,50 @@
 @import "tailwindcss";
 @import url('https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@200;400;700;900&family=JetBrains+Mono:wght@400;700&family=DM+Sans:wght@400;500;700&display=swap');
 
+/* ── Light theme (default) ── */
 :root {
-  /* Dark editorial palette */
+  --color-bg: #f8f9fa;
+  --color-bg-card: #ffffff;
+  --color-bg-elevated: #f0f1f3;
+  --color-border: rgba(0, 0, 0, 0.08);
+  --color-border-hover: rgba(0, 0, 0, 0.15);
+  --color-text: #1a1a2e;
+  --color-text-secondary: #5a6072;
+  --color-text-muted: #8b8fa3;
+  --color-accent: #16a34a;
+  --color-accent-warm: #d97706;
+  --color-danger: #dc2626;
+  --color-overlay: rgba(0, 0, 0, 0.4);
+
+  /* Category colors — rich on light */
+  --color-cpi: #2563eb;
+  --color-food: #16a34a;
+  --color-energy: #d97706;
+  --color-retail: #ea580c;
+  --color-education: #9333ea;
+
+  /* Chart-specific */
+  --color-grid: rgba(0, 0, 0, 0.06);
+  --color-axis: rgba(0, 0, 0, 0.15);
+  --color-cursor: rgba(0, 0, 0, 0.1);
+  --color-ref-line: rgba(0, 0, 0, 0.12);
+  --color-event-line: rgba(0, 0, 0, 0.08);
+  --color-event-label: #8b8fa3;
+
+  /* Active dot fill */
+  --color-dot-fill: #ffffff;
+
+  /* Nav */
+  --color-nav-active: #1a1a2e;
+  --color-nav-inactive: #5a6072;
+  --color-nav-hover: #1a1a2e;
+
+  /* Toggle switch track */
+  --color-toggle-track: #cbd5e1;
+}
+
+/* ── Dark theme ── */
+.dark {
   --color-bg: #0c0f14;
   --color-bg-card: #141820;
   --color-bg-elevated: #1a1f2e;
@@ -11,9 +53,10 @@
   --color-text: #e8eaed;
   --color-text-secondary: #8b95a5;
   --color-text-muted: #555e6e;
-  --color-accent: #4ade80;        /* Sharp green accent */
-  --color-accent-warm: #f59e0b;   /* Warm amber */
+  --color-accent: #4ade80;
+  --color-accent-warm: #f59e0b;
   --color-danger: #ef4444;
+  --color-overlay: rgba(0, 0, 0, 0.6);
 
   /* Category colors — vivid on dark */
   --color-cpi: #60a5fa;
@@ -21,6 +64,25 @@
   --color-energy: #fbbf24;
   --color-retail: #fb923c;
   --color-education: #c084fc;
+
+  /* Chart-specific */
+  --color-grid: rgba(255, 255, 255, 0.05);
+  --color-axis: rgba(255, 255, 255, 0.1);
+  --color-cursor: rgba(255, 255, 255, 0.15);
+  --color-ref-line: rgba(255, 255, 255, 0.15);
+  --color-event-line: rgba(255, 255, 255, 0.1);
+  --color-event-label: #555e6e;
+
+  /* Active dot fill */
+  --color-dot-fill: #141820;
+
+  /* Nav */
+  --color-nav-active: #ffffff;
+  --color-nav-inactive: #9ca3af;
+  --color-nav-hover: #ffffff;
+
+  /* Toggle switch track */
+  --color-toggle-track: #334155;
 }
 
 * { box-sizing: border-box; }
@@ -32,6 +94,7 @@ body {
   font-family: 'DM Sans', sans-serif;
   color: var(--color-text);
   -webkit-font-smoothing: antialiased;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* Headline font */
@@ -57,16 +120,23 @@ h1, h2, h3 { font-family: 'Crimson Pro', serif; }
 
 /* Subtle glow for accent elements */
 .glow-green { box-shadow: 0 0 20px rgba(74, 222, 128, 0.15); }
+:root:not(.dark) .glow-green { box-shadow: 0 0 20px rgba(22, 163, 74, 0.12); }
 
 /* Glass card */
 .glass-card {
   background: var(--color-bg-card);
   border: 1px solid var(--color-border);
   border-radius: 12px;
-  backdrop-filter: blur(8px);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.3s ease;
 }
 .glass-card:hover {
   border-color: var(--color-border-hover);
+}
+:root:not(.dark) .glass-card {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+:root:not(.dark) .glass-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 /* Background mesh gradient */
@@ -77,13 +147,20 @@ h1, h2, h3 { font-family: 'Crimson Pro', serif; }
     radial-gradient(ellipse at 50% 80%, rgba(192, 132, 252, 0.03) 0%, transparent 50%),
     var(--color-bg);
 }
+:root:not(.dark) .mesh-bg {
+  background:
+    radial-gradient(ellipse at 20% 50%, rgba(22, 163, 74, 0.03) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(37, 99, 235, 0.03) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 80%, rgba(147, 51, 234, 0.02) 0%, transparent 50%),
+    var(--color-bg);
+}
 
 /* Toggle switch */
 .toggle-switch {
   position: relative;
   width: 2.75rem;
   height: 1.5rem;
-  background-color: #334155;
+  background-color: var(--color-toggle-track);
   border-radius: 9999px;
   cursor: pointer;
   transition: background-color 0.2s ease;
@@ -102,3 +179,11 @@ h1, h2, h3 { font-family: 'Crimson Pro', serif; }
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 .toggle-switch.active::after { transform: translateX(1.25rem); }
+
+/* Theme transition on key elements */
+.glass-card,
+header,
+nav,
+main {
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}

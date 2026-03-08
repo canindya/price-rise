@@ -9,20 +9,20 @@ interface CategoryCardsProps {
 }
 
 const CATEGORIES: { key: Category; label: string; note?: string; color: string }[] = [
-  { key: 'overall_cpi', label: 'Overall CPI', color: '#60a5fa' },
-  { key: 'food_cpi', label: 'Food & Essentials', color: '#4ade80' },
-  { key: 'energy_benchmark', label: 'Energy (Oil)', color: '#fbbf24' },
+  { key: 'overall_cpi', label: 'Overall CPI', color: 'var(--color-cpi)' },
+  { key: 'food_cpi', label: 'Food & Essentials', color: 'var(--color-food)' },
+  { key: 'energy_benchmark', label: 'Energy (Oil)', color: 'var(--color-energy)' },
   {
     key: 'energy_retail',
     label: 'Retail Energy',
     note: 'Gasoline prices (USD/liter)',
-    color: '#fb923c',
+    color: 'var(--color-retail)',
   },
   {
     key: 'education_spend',
     label: 'Education (% GDP)',
     note: 'Government spending',
-    color: '#c084fc',
+    color: 'var(--color-education)',
   },
 ];
 
@@ -52,7 +52,7 @@ function ArrowDown() {
 
 function EmptyStateIcon() {
   return (
-    <svg className="h-6 w-6" style={{ color: '#555e6e' }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+    <svg className="h-6 w-6" style={{ color: 'var(--color-text-muted)' }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
       <path
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -77,8 +77,8 @@ export default function CategoryCards({ data, timeRange, customRange }: Category
               key={key}
               className="rounded-xl p-5"
               style={{
-                backgroundColor: '#141820',
-                border: '1px solid rgba(255,255,255,0.06)',
+                backgroundColor: 'var(--color-bg-card)',
+                border: '1px solid var(--color-border)',
                 borderLeft: `4px solid ${color}`,
               }}
             >
@@ -90,7 +90,7 @@ export default function CategoryCards({ data, timeRange, customRange }: Category
                 />
                 <h3
                   className="text-sm font-medium truncate"
-                  style={{ color: '#8b95a5' }}
+                  style={{ color: 'var(--color-text-secondary)' }}
                 >
                   {label}
                 </h3>
@@ -104,7 +104,7 @@ export default function CategoryCards({ data, timeRange, customRange }: Category
                 <EmptyStateIcon />
                 <p
                   className="mt-1.5 text-xs"
-                  style={{ color: '#555e6e' }}
+                  style={{ color: 'var(--color-text-muted)' }}
                 >
                   Insufficient data
                 </p>
@@ -121,17 +121,17 @@ export default function CategoryCards({ data, timeRange, customRange }: Category
             key={key}
             className="rounded-xl p-5 transition-all duration-200"
             style={{
-              backgroundColor: '#141820',
-              border: '1px solid rgba(255,255,255,0.06)',
+              backgroundColor: 'var(--color-bg-card)',
+              border: '1px solid var(--color-border)',
               borderLeft: `4px solid ${color}`,
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)';
+              e.currentTarget.style.borderColor = 'var(--color-border-hover)';
               e.currentTarget.style.borderLeftColor = color;
               e.currentTarget.style.boxShadow = '0 4px 24px rgba(0,0,0,0.3)';
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.borderColor = 'rgba(255,255,255,0.06)';
+              e.currentTarget.style.borderColor = 'var(--color-border)';
               e.currentTarget.style.borderLeftColor = color;
               e.currentTarget.style.boxShadow = 'none';
             }}
@@ -144,7 +144,7 @@ export default function CategoryCards({ data, timeRange, customRange }: Category
               />
               <h3
                 className="text-sm font-medium truncate"
-                style={{ color: '#8b95a5', fontFamily: "'DM Sans', sans-serif" }}
+                style={{ color: 'var(--color-text-secondary)', fontFamily: "'DM Sans', sans-serif" }}
               >
                 {label}
               </h3>
@@ -156,7 +156,7 @@ export default function CategoryCards({ data, timeRange, customRange }: Category
             {note && (
               <p
                 className="mt-0.5 pl-4 text-[10px]"
-                style={{ color: '#555e6e', fontFamily: "'DM Sans', sans-serif" }}
+                style={{ color: 'var(--color-text-muted)', fontFamily: "'DM Sans', sans-serif" }}
               >
                 {note}
               </p>
@@ -174,7 +174,7 @@ export default function CategoryCards({ data, timeRange, customRange }: Category
               </div>
               <div
                 className="mt-1 flex items-center gap-1 text-sm"
-                style={{ color: '#8b95a5', fontFamily: "'DM Sans', sans-serif" }}
+                style={{ color: 'var(--color-text-secondary)', fontFamily: "'DM Sans', sans-serif" }}
               >
                 {totalPct >= 0 ? <ArrowUp /> : <ArrowDown />}
                 <span
@@ -190,7 +190,7 @@ export default function CategoryCards({ data, timeRange, customRange }: Category
             <div className="mt-3">
               <div
                 className="h-1 w-full overflow-hidden rounded-full"
-                style={{ backgroundColor: '#1a1f2e' }}
+                style={{ backgroundColor: 'var(--color-bg-elevated)' }}
               >
                 <div
                   className="h-full rounded-full"

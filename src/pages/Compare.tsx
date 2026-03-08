@@ -103,28 +103,28 @@ function CountryPicker({ label, value, onChange, accentColor = 'blue' }: Country
     }
   }, [query, results]);
 
-  const accentHex = accentColor === 'emerald' ? '#4ade80' : '#60a5fa';
+  const accentHex = accentColor === 'emerald' ? 'var(--color-accent)' : 'var(--color-cpi)';
 
   return (
     <div className="flex-1">
       <label
         className="mb-1.5 block text-sm font-semibold"
-        style={{ color: '#8b95a5', fontFamily: "'DM Sans', sans-serif" }}
+        style={{ color: 'var(--color-text-secondary)', fontFamily: "'DM Sans', sans-serif" }}
       >
         {label}
       </label>
       <div
         className="relative w-full rounded-2xl p-4"
         style={{
-          backgroundColor: '#141820',
-          border: '1px solid rgba(255,255,255,0.06)',
+          backgroundColor: 'var(--color-bg-card)',
+          border: '1px solid var(--color-border)',
           borderTop: `2px solid ${accentHex}`,
         }}
       >
         <div className="relative">
           <svg
             className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2"
-            style={{ color: '#555e6e' }}
+            style={{ color: 'var(--color-text-muted)' }}
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -141,9 +141,9 @@ function CountryPicker({ label, value, onChange, accentColor = 'blue' }: Country
             placeholder="Search country..."
             className="w-full rounded-lg py-2.5 pl-10 pr-3 text-sm transition-shadow focus:outline-none focus:ring-2"
             style={{
-              backgroundColor: '#1a1f2e',
-              border: '1px solid rgba(255,255,255,0.1)',
-              color: '#e8eaed',
+              backgroundColor: 'var(--color-bg-elevated)',
+              border: '1px solid var(--color-border-hover)',
+              color: 'var(--color-text)',
               fontFamily: "'DM Sans', sans-serif",
               ['--tw-ring-color' as string]: `${accentHex}33`,
             }}
@@ -153,8 +153,8 @@ function CountryPicker({ label, value, onChange, accentColor = 'blue' }: Country
           <ul
             className="absolute left-0 right-0 z-50 mt-2 max-h-60 overflow-auto rounded-2xl"
             style={{
-              backgroundColor: '#1a1f2e',
-              border: '1px solid rgba(255,255,255,0.1)',
+              backgroundColor: 'var(--color-bg-elevated)',
+              border: '1px solid var(--color-border-hover)',
               boxShadow: '0 10px 40px rgba(0,0,0,0.5)',
             }}
           >
@@ -164,13 +164,13 @@ function CountryPicker({ label, value, onChange, accentColor = 'blue' }: Country
                 onMouseDown={() => selectCountry(country)}
                 className="cursor-pointer px-4 py-2.5 text-sm transition-colors"
                 style={{
-                  color: idx === highlightIdx ? '#e8eaed' : '#8b95a5',
-                  backgroundColor: idx === highlightIdx ? 'rgba(255,255,255,0.08)' : 'transparent',
+                  color: idx === highlightIdx ? 'var(--color-text)' : 'var(--color-text-secondary)',
+                  backgroundColor: idx === highlightIdx ? 'var(--color-border)' : 'transparent',
                   fontFamily: "'DM Sans', sans-serif",
                 }}
               >
                 <span className="font-medium">{country.name}</span>
-                <span className="ml-2" style={{ color: '#555e6e' }}>{country.iso3}</span>
+                <span className="ml-2" style={{ color: 'var(--color-text-muted)' }}>{country.iso3}</span>
               </li>
             ))}
           </ul>
@@ -178,7 +178,7 @@ function CountryPicker({ label, value, onChange, accentColor = 'blue' }: Country
         {value && !isOpen && (
           <div
             className="mt-3 text-lg font-bold"
-            style={{ color: '#e8eaed', fontFamily: "'Crimson Pro', serif" }}
+            style={{ color: 'var(--color-text)', fontFamily: "'Crimson Pro', serif" }}
           >
             {getCountryByIso3(value)?.name ?? value}
           </div>
@@ -248,13 +248,13 @@ export default function Compare() {
 
   if (isLoading) {
     return (
-      <div className="flex min-h-[60vh] items-center justify-center" style={{ backgroundColor: '#0c0f14' }}>
+      <div className="flex min-h-[60vh] items-center justify-center" style={{ backgroundColor: 'var(--color-bg)' }}>
         <div className="flex flex-col items-center gap-3">
           <div
             className="h-10 w-10 animate-spin rounded-full"
-            style={{ border: '4px solid rgba(96,165,250,0.2)', borderTopColor: '#60a5fa' }}
+            style={{ border: '4px solid rgba(96,165,250,0.2)', borderTopColor: 'var(--color-cpi)' }}
           />
-          <p className="text-sm" style={{ color: '#555e6e', fontFamily: "'DM Sans', sans-serif" }}>
+          <p className="text-sm" style={{ color: 'var(--color-text-muted)', fontFamily: "'DM Sans', sans-serif" }}>
             Loading data...
           </p>
         </div>
@@ -264,7 +264,7 @@ export default function Compare() {
 
   if (error) {
     return (
-      <div className="flex min-h-[60vh] items-center justify-center" style={{ backgroundColor: '#0c0f14' }}>
+      <div className="flex min-h-[60vh] items-center justify-center" style={{ backgroundColor: 'var(--color-bg)' }}>
         <div
           className="rounded-2xl p-6 text-center"
           style={{ backgroundColor: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.2)' }}
@@ -289,13 +289,13 @@ export default function Compare() {
         <div>
           <h1
             className="text-2xl font-bold sm:text-3xl"
-            style={{ color: '#e8eaed', fontFamily: "'Crimson Pro', serif" }}
+            style={{ color: 'var(--color-text)', fontFamily: "'Crimson Pro', serif" }}
           >
             Compare Countries
           </h1>
           <p
             className="mt-2"
-            style={{ color: '#8b95a5', fontFamily: "'DM Sans', sans-serif" }}
+            style={{ color: 'var(--color-text-secondary)', fontFamily: "'DM Sans', sans-serif" }}
           >
             Select two countries to compare their cost of living trends side by side.
           </p>
@@ -307,7 +307,7 @@ export default function Compare() {
           <div className="flex items-center justify-center sm:px-4 sm:pt-6">
             <span
               className="flex h-10 w-10 items-center justify-center rounded-full text-sm font-bold"
-              style={{ backgroundColor: '#1a1f2e', color: '#555e6e', fontFamily: "'DM Sans', sans-serif" }}
+              style={{ backgroundColor: 'var(--color-bg-elevated)', color: 'var(--color-text-muted)', fontFamily: "'DM Sans', sans-serif" }}
             >
               vs
             </span>
@@ -318,20 +318,20 @@ export default function Compare() {
         {/* Shared Controls */}
         <div
           className="rounded-2xl p-4"
-          style={{ backgroundColor: '#141820', border: '1px solid rgba(255,255,255,0.06)' }}
+          style={{ backgroundColor: 'var(--color-bg-card)', border: '1px solid var(--color-border)' }}
         >
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             {/* Time range */}
             <div className="flex items-center gap-2">
               <span
                 className="text-sm font-medium"
-                style={{ color: '#555e6e', fontFamily: "'DM Sans', sans-serif" }}
+                style={{ color: 'var(--color-text-muted)', fontFamily: "'DM Sans', sans-serif" }}
               >
                 Time Range:
               </span>
               <div
                 className="inline-flex rounded-lg p-0.5"
-                style={{ backgroundColor: '#1a1f2e' }}
+                style={{ backgroundColor: 'var(--color-bg-elevated)' }}
               >
                 {TIME_RANGES.map((range) => (
                   <button
@@ -339,10 +339,10 @@ export default function Compare() {
                     onClick={() => setTimeRange(range)}
                     className="rounded-md px-4 py-1.5 text-sm font-medium transition-colors"
                     style={{
-                      backgroundColor: timeRange === range ? '#141820' : 'transparent',
-                      color: timeRange === range ? '#e8eaed' : '#8b95a5',
+                      backgroundColor: timeRange === range ? 'var(--color-bg-card)' : 'transparent',
+                      color: timeRange === range ? 'var(--color-text)' : 'var(--color-text-secondary)',
                       boxShadow: timeRange === range ? '0 1px 3px rgba(0,0,0,0.3)' : 'none',
-                      border: timeRange === range ? '1px solid rgba(255,255,255,0.06)' : '1px solid transparent',
+                      border: timeRange === range ? '1px solid var(--color-border)' : '1px solid transparent',
                       fontFamily: "'DM Sans', sans-serif",
                     }}
                   >
@@ -356,7 +356,7 @@ export default function Compare() {
             <div className="flex flex-wrap items-center gap-1.5">
               <span
                 className="mr-1 text-sm font-medium"
-                style={{ color: '#555e6e', fontFamily: "'DM Sans', sans-serif" }}
+                style={{ color: 'var(--color-text-muted)', fontFamily: "'DM Sans', sans-serif" }}
               >
                 Categories:
               </span>
@@ -364,9 +364,9 @@ export default function Compare() {
                 onClick={() => setActiveCategories([...ALL_CATEGORIES])}
                 className="rounded-lg px-3 py-1.5 text-sm font-medium transition-colors"
                 style={{
-                  backgroundColor: allActive ? '#e8eaed' : '#1a1f2e',
-                  color: allActive ? '#0c0f14' : '#8b95a5',
-                  border: allActive ? '1px solid transparent' : '1px solid rgba(255,255,255,0.06)',
+                  backgroundColor: allActive ? 'var(--color-text)' : 'var(--color-bg-elevated)',
+                  color: allActive ? 'var(--color-bg)' : 'var(--color-text-secondary)',
+                  border: allActive ? '1px solid transparent' : '1px solid var(--color-border)',
                   fontFamily: "'DM Sans', sans-serif",
                 }}
               >
@@ -378,9 +378,9 @@ export default function Compare() {
                   onClick={() => toggleCategory(cat)}
                   className="rounded-lg px-3 py-1.5 text-sm font-medium transition-colors"
                   style={{
-                    backgroundColor: activeCategories.includes(cat) ? '#60a5fa' : '#1a1f2e',
-                    color: activeCategories.includes(cat) ? '#0c0f14' : '#8b95a5',
-                    border: activeCategories.includes(cat) ? '1px solid transparent' : '1px solid rgba(255,255,255,0.06)',
+                    backgroundColor: activeCategories.includes(cat) ? 'var(--color-cpi)' : 'var(--color-bg-elevated)',
+                    color: activeCategories.includes(cat) ? 'var(--color-bg)' : 'var(--color-text-secondary)',
+                    border: activeCategories.includes(cat) ? '1px solid transparent' : '1px solid var(--color-border)',
                     fontFamily: "'DM Sans', sans-serif",
                   }}
                 >
@@ -395,25 +395,25 @@ export default function Compare() {
         {bothSelected ? (
           <div
             className="rounded-2xl p-6"
-            style={{ backgroundColor: '#141820', border: '1px solid rgba(255,255,255,0.06)' }}
+            style={{ backgroundColor: 'var(--color-bg-card)', border: '1px solid var(--color-border)' }}
           >
             <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
               <h2
                 className="text-lg font-semibold"
-                style={{ color: '#e8eaed', fontFamily: "'Crimson Pro', serif" }}
+                style={{ color: 'var(--color-text)', fontFamily: "'Crimson Pro', serif" }}
               >
                 {nameA} vs {nameB}
               </h2>
               <div
                 className="flex items-center gap-4 text-xs"
-                style={{ color: '#555e6e', fontFamily: "'DM Sans', sans-serif" }}
+                style={{ color: 'var(--color-text-muted)', fontFamily: "'DM Sans', sans-serif" }}
               >
                 <span className="flex items-center gap-1.5">
-                  <span className="inline-block h-0.5 w-5" style={{ backgroundColor: '#60a5fa' }} />
+                  <span className="inline-block h-0.5 w-5" style={{ backgroundColor: 'var(--color-cpi)' }} />
                   {nameA} (solid)
                 </span>
                 <span className="flex items-center gap-1.5">
-                  <span className="inline-block h-0.5 w-5" style={{ borderBottom: '2px dashed #4ade80' }} />
+                  <span className="inline-block h-0.5 w-5" style={{ borderBottom: '2px dashed var(--color-accent)' }} />
                   {nameB} (dashed)
                 </span>
               </div>
@@ -432,17 +432,17 @@ export default function Compare() {
           <div
             className="flex h-[400px] items-center justify-center rounded-2xl"
             style={{
-              backgroundColor: '#141820',
-              border: '1px dashed rgba(255,255,255,0.1)',
+              backgroundColor: 'var(--color-bg-card)',
+              border: '1px dashed var(--color-border-hover)',
             }}
           >
             <div className="text-center">
-              <svg className="mx-auto h-12 w-12" style={{ color: '#555e6e' }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className="mx-auto h-12 w-12" style={{ color: 'var(--color-text-muted)' }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
               <p
                 className="mt-3 text-sm"
-                style={{ color: '#555e6e', fontFamily: "'DM Sans', sans-serif" }}
+                style={{ color: 'var(--color-text-muted)', fontFamily: "'DM Sans', sans-serif" }}
               >
                 Select two countries above to compare their trends
               </p>
@@ -461,35 +461,35 @@ export default function Compare() {
           >
             <h3
               className="mb-3 text-sm font-semibold uppercase tracking-wider"
-              style={{ color: '#60a5fa', fontFamily: "'DM Sans', sans-serif" }}
+              style={{ color: 'var(--color-cpi)', fontFamily: "'DM Sans', sans-serif" }}
             >
               Summary
             </h3>
-            <p style={{ color: '#8b95a5', fontFamily: "'Crimson Pro', serif", fontSize: '1.125rem', lineHeight: '1.75' }}>
+            <p style={{ color: 'var(--color-text-secondary)', fontFamily: "'Crimson Pro', serif", fontSize: '1.125rem', lineHeight: '1.75' }}>
               Over the last {rangeLabel},{' '}
               {changeA ? (
                 <>
-                  <strong style={{ color: '#e8eaed' }}>{nameA}</strong>&apos;s CPI changed by{' '}
-                  <span style={{ fontWeight: 700, color: changeA.totalPct >= 0 ? '#60a5fa' : '#4ade80' }}>
+                  <strong style={{ color: 'var(--color-text)' }}>{nameA}</strong>&apos;s CPI changed by{' '}
+                  <span style={{ fontWeight: 700, color: changeA.totalPct >= 0 ? 'var(--color-cpi)' : 'var(--color-accent)' }}>
                     {changeA.totalPct >= 0 ? '+' : ''}{changeA.totalPct.toFixed(1)}%
                   </span>
                 </>
               ) : (
                 <>
-                  <strong style={{ color: '#e8eaed' }}>{nameA}</strong> has insufficient data
+                  <strong style={{ color: 'var(--color-text)' }}>{nameA}</strong> has insufficient data
                 </>
               )}
               {' '}while{' '}
               {changeB ? (
                 <>
-                  <strong style={{ color: '#e8eaed' }}>{nameB}</strong>&apos;s CPI changed by{' '}
-                  <span style={{ fontWeight: 700, color: changeB.totalPct >= 0 ? '#4ade80' : '#4ade80' }}>
+                  <strong style={{ color: 'var(--color-text)' }}>{nameB}</strong>&apos;s CPI changed by{' '}
+                  <span style={{ fontWeight: 700, color: changeB.totalPct >= 0 ? 'var(--color-accent)' : 'var(--color-accent)' }}>
                     {changeB.totalPct >= 0 ? '+' : ''}{changeB.totalPct.toFixed(1)}%
                   </span>
                 </>
               ) : (
                 <>
-                  <strong style={{ color: '#e8eaed' }}>{nameB}</strong> has insufficient data
+                  <strong style={{ color: 'var(--color-text)' }}>{nameB}</strong> has insufficient data
                 </>
               )}
               .
@@ -503,14 +503,14 @@ export default function Compare() {
             <div
               className="rounded-2xl p-6"
               style={{
-                backgroundColor: '#141820',
-                border: '1px solid rgba(255,255,255,0.06)',
-                borderTop: '2px solid #60a5fa',
+                backgroundColor: 'var(--color-bg-card)',
+                border: '1px solid var(--color-border)',
+                borderTop: '2px solid var(--color-cpi)',
               }}
             >
               <h3
                 className="mb-4 text-lg font-semibold"
-                style={{ color: '#e8eaed', fontFamily: "'Crimson Pro', serif" }}
+                style={{ color: 'var(--color-text)', fontFamily: "'Crimson Pro', serif" }}
               >
                 {nameA}
               </h3>
@@ -519,14 +519,14 @@ export default function Compare() {
             <div
               className="rounded-2xl p-6"
               style={{
-                backgroundColor: '#141820',
-                border: '1px solid rgba(255,255,255,0.06)',
-                borderTop: '2px solid #4ade80',
+                backgroundColor: 'var(--color-bg-card)',
+                border: '1px solid var(--color-border)',
+                borderTop: '2px solid var(--color-accent)',
               }}
             >
               <h3
                 className="mb-4 text-lg font-semibold"
-                style={{ color: '#e8eaed', fontFamily: "'Crimson Pro', serif" }}
+                style={{ color: 'var(--color-text)', fontFamily: "'Crimson Pro', serif" }}
               >
                 {nameB}
               </h3>

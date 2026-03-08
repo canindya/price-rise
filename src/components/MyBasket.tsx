@@ -8,11 +8,11 @@ import {
 import { filterByTimeRange, calculateChange } from '../utils/dataTransforms';
 
 const CATEGORY_COLORS: Record<Category, string> = {
-  overall_cpi: '#60a5fa',
-  food_cpi: '#4ade80',
-  energy_benchmark: '#fbbf24',
-  energy_retail: '#fb923c',
-  education_spend: '#c084fc',
+  overall_cpi: 'var(--color-cpi)',
+  food_cpi: 'var(--color-food)',
+  energy_benchmark: 'var(--color-energy)',
+  energy_retail: 'var(--color-retail)',
+  education_spend: 'var(--color-education)',
 };
 
 interface MyBasketProps {
@@ -79,25 +79,25 @@ export default function MyBasket({
           visible ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
         }`}
         style={{
-          backgroundColor: '#141820',
-          border: '1px solid rgba(255,255,255,0.06)',
+          backgroundColor: 'var(--color-bg-card)',
+          border: '1px solid var(--color-border)',
         }}
       >
         {/* Header */}
         <div
           className="flex items-center justify-between px-6 pt-6 pb-4"
-          style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}
+          style={{ borderBottom: '1px solid var(--color-border)' }}
         >
           <h2
             className="text-lg font-semibold"
-            style={{ color: '#e8eaed', fontFamily: "'Crimson Pro', serif" }}
+            style={{ color: 'var(--color-text)', fontFamily: "'Crimson Pro', serif" }}
           >
             My Basket
           </h2>
           <button
             onClick={onClose}
             className="cursor-pointer rounded-lg p-1.5 transition-colors duration-150"
-            style={{ color: '#555e6e' }}
+            style={{ color: 'var(--color-text-muted)' }}
             aria-label="Close"
           >
             <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -110,7 +110,7 @@ export default function MyBasket({
         <div className="px-6 py-4">
           <p
             className="mb-5 text-sm"
-            style={{ color: '#8b95a5', fontFamily: "'DM Sans', sans-serif" }}
+            style={{ color: 'var(--color-text-secondary)', fontFamily: "'DM Sans', sans-serif" }}
           >
             Adjust category weights to match your spending patterns. Weights auto-adjust to total 100%.
           </p>
@@ -129,7 +129,7 @@ export default function MyBasket({
                       />
                       <span
                         className="font-medium"
-                        style={{ color: '#e8eaed', fontFamily: "'DM Sans', sans-serif" }}
+                        style={{ color: 'var(--color-text)', fontFamily: "'DM Sans', sans-serif" }}
                       >
                         {label}
                       </span>
@@ -139,7 +139,7 @@ export default function MyBasket({
                         <span
                           className="text-xs"
                           style={{
-                            color: change >= 0 ? '#ef4444' : '#3b82f6',
+                            color: change >= 0 ? 'var(--color-danger)' : '#3b82f6',
                             fontFamily: "'JetBrains Mono', monospace",
                           }}
                         >
@@ -149,7 +149,7 @@ export default function MyBasket({
                       )}
                       <span
                         className="w-10 text-right text-xs font-medium"
-                        style={{ color: '#8b95a5', fontFamily: "'JetBrains Mono', monospace" }}
+                        style={{ color: 'var(--color-text-secondary)', fontFamily: "'JetBrains Mono', monospace" }}
                       >
                         {weights[key]}%
                       </span>
@@ -162,7 +162,7 @@ export default function MyBasket({
                     value={weights[key]}
                     onChange={(e) => setWeight(key, Number(e.target.value))}
                     className="h-1.5 w-full cursor-pointer appearance-none rounded-full"
-                    style={{ backgroundColor: '#1a1f2e', accentColor: '#4ade80' }}
+                    style={{ backgroundColor: 'var(--color-bg-elevated)', accentColor: 'var(--color-accent)' }}
                   />
                 </div>
               );
@@ -175,19 +175,19 @@ export default function MyBasket({
               className="mt-6 rounded-xl p-5 text-center"
               style={{
                 background: 'linear-gradient(135deg, rgba(74,222,128,0.08), rgba(99,102,241,0.08))',
-                border: '1px solid rgba(255,255,255,0.06)',
+                border: '1px solid var(--color-border)',
               }}
             >
               <p
                 className="text-xs font-medium uppercase tracking-wider"
-                style={{ color: '#8b95a5', fontFamily: "'DM Sans', sans-serif" }}
+                style={{ color: 'var(--color-text-secondary)', fontFamily: "'DM Sans', sans-serif" }}
               >
                 Your Personal Inflation
               </p>
               <p
                 className="mt-1.5 text-3xl font-bold tracking-tight"
                 style={{
-                  color: personalInflation >= 0 ? '#ef4444' : '#3b82f6',
+                  color: personalInflation >= 0 ? 'var(--color-danger)' : '#3b82f6',
                   fontFamily: "'JetBrains Mono', monospace",
                 }}
               >
@@ -201,14 +201,14 @@ export default function MyBasket({
         {/* Footer */}
         <div
           className="flex items-center justify-between px-6 pt-4 pb-6"
-          style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}
+          style={{ borderTop: '1px solid var(--color-border)' }}
         >
           <button
             onClick={resetToDefault}
             className="cursor-pointer rounded-lg px-4 py-2 text-sm font-medium transition-colors duration-150"
             style={{
-              border: '1px solid rgba(255,255,255,0.1)',
-              color: '#8b95a5',
+              border: '1px solid var(--color-border-hover)',
+              color: 'var(--color-text-secondary)',
               fontFamily: "'DM Sans', sans-serif",
             }}
           >
@@ -218,8 +218,8 @@ export default function MyBasket({
             onClick={onClose}
             className="cursor-pointer rounded-lg px-5 py-2 text-sm font-medium transition-colors duration-150"
             style={{
-              backgroundColor: '#4ade80',
-              color: '#0c0f14',
+              backgroundColor: 'var(--color-accent)',
+              color: 'var(--color-bg)',
               fontFamily: "'DM Sans', sans-serif",
             }}
           >

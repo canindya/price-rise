@@ -112,7 +112,7 @@ export default function CountrySearch() {
         {/* Search icon */}
         <svg
           className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2"
-          style={{ color: '#555e6e' }}
+          style={{ color: 'var(--color-text-muted)' }}
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -136,9 +136,9 @@ export default function CountrySearch() {
           placeholder="Search countries..."
           className="w-full rounded-lg py-2 pl-9 pr-8 text-sm transition-colors duration-150 focus:outline-none"
           style={{
-            backgroundColor: '#141820',
-            border: '1px solid rgba(255,255,255,0.1)',
-            color: '#e8eaed',
+            backgroundColor: 'var(--color-bg-card)',
+            border: '1px solid var(--color-border-hover)',
+            color: 'var(--color-text)',
             fontFamily: "'DM Sans', sans-serif",
           }}
         />
@@ -148,7 +148,7 @@ export default function CountrySearch() {
           <button
             onClick={clearSelection}
             className="absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer rounded p-0.5 transition-colors duration-150"
-            style={{ color: '#555e6e' }}
+            style={{ color: 'var(--color-text-muted)' }}
             aria-label="Clear selection"
           >
             <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
@@ -163,8 +163,8 @@ export default function CountrySearch() {
           ref={listRef}
           className="absolute z-50 mt-1 max-h-60 w-full overflow-auto rounded-lg py-1 shadow-lg"
           style={{
-            backgroundColor: '#1a1f2e',
-            border: '1px solid rgba(255,255,255,0.1)',
+            backgroundColor: 'var(--color-bg-elevated)',
+            border: '1px solid var(--color-border-hover)',
           }}
         >
           {results.map((country, idx) => (
@@ -174,13 +174,13 @@ export default function CountrySearch() {
               onMouseEnter={() => setHighlightIdx(idx)}
               className="flex cursor-pointer items-center justify-between px-3 py-2 text-sm transition-colors duration-150"
               style={{
-                backgroundColor: idx === highlightIdx ? 'rgba(255,255,255,0.08)' : 'transparent',
-                color: idx === highlightIdx ? '#e8eaed' : '#8b95a5',
+                backgroundColor: idx === highlightIdx ? 'var(--color-border)' : 'transparent',
+                color: idx === highlightIdx ? 'var(--color-text)' : 'var(--color-text-secondary)',
                 fontFamily: "'DM Sans', sans-serif",
               }}
             >
-              <span className="font-medium" style={{ color: '#e8eaed' }}>{country.name}</span>
-              <span className="text-xs" style={{ color: '#555e6e' }}>{country.region}</span>
+              <span className="font-medium" style={{ color: 'var(--color-text)' }}>{country.name}</span>
+              <span className="text-xs" style={{ color: 'var(--color-text-muted)' }}>{country.region}</span>
             </li>
           ))}
         </ul>

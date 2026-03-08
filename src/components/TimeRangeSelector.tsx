@@ -46,7 +46,7 @@ export default function TimeRangeSelector() {
     <div className="flex flex-col gap-2">
       <div
         className="inline-flex items-center gap-0.5 rounded-full p-0.5"
-        style={{ backgroundColor: '#141820' }}
+        style={{ backgroundColor: 'var(--color-bg-card)' }}
       >
         {PRESET_OPTIONS.map((range) => (
           <button
@@ -54,8 +54,8 @@ export default function TimeRangeSelector() {
             onClick={() => dispatch({ type: 'SET_TIME_RANGE', payload: range })}
             className="cursor-pointer rounded-full px-4 py-1.5 text-sm font-medium transition-all duration-200"
             style={{
-              backgroundColor: timeRange === range ? '#4ade80' : 'transparent',
-              color: timeRange === range ? '#0c0f14' : '#8b95a5',
+              backgroundColor: timeRange === range ? 'var(--color-accent)' : 'transparent',
+              color: timeRange === range ? 'var(--color-bg)' : 'var(--color-text-secondary)',
               fontFamily: "'DM Sans', sans-serif",
             }}
           >
@@ -66,8 +66,8 @@ export default function TimeRangeSelector() {
           onClick={handleCustomClick}
           className="cursor-pointer rounded-full px-4 py-1.5 text-sm font-medium transition-all duration-200"
           style={{
-            backgroundColor: timeRange === 'custom' ? '#4ade80' : 'transparent',
-            color: timeRange === 'custom' ? '#0c0f14' : '#8b95a5',
+            backgroundColor: timeRange === 'custom' ? 'var(--color-accent)' : 'transparent',
+            color: timeRange === 'custom' ? 'var(--color-bg)' : 'var(--color-text-secondary)',
             fontFamily: "'DM Sans', sans-serif",
           }}
         >
@@ -78,7 +78,7 @@ export default function TimeRangeSelector() {
       {timeRange === 'custom' && (
         <div className="flex items-center gap-3 pl-1">
           <label className="flex items-center gap-1.5">
-            <span className="text-xs font-medium" style={{ color: '#8b95a5', fontFamily: "'DM Sans', sans-serif" }}>From</span>
+            <span className="text-xs font-medium" style={{ color: 'var(--color-text-secondary)', fontFamily: "'DM Sans', sans-serif" }}>From</span>
             <input
               type="number"
               min={MIN_YEAR}
@@ -87,16 +87,16 @@ export default function TimeRangeSelector() {
               onChange={(e) => handleStartChange(Number(e.target.value))}
               className="w-[4.5rem] rounded-lg px-2 py-1 text-sm tabular-nums transition-colors duration-150 focus:outline-none"
               style={{
-                backgroundColor: '#141820',
-                border: '1px solid rgba(255,255,255,0.1)',
-                color: '#e8eaed',
+                backgroundColor: 'var(--color-bg-card)',
+                border: '1px solid var(--color-border-hover)',
+                color: 'var(--color-text)',
                 fontFamily: "'JetBrains Mono', monospace",
               }}
             />
           </label>
-          <span className="text-xs" style={{ color: '#555e6e' }}>&ndash;</span>
+          <span className="text-xs" style={{ color: 'var(--color-text-muted)' }}>&ndash;</span>
           <label className="flex items-center gap-1.5">
-            <span className="text-xs font-medium" style={{ color: '#8b95a5', fontFamily: "'DM Sans', sans-serif" }}>To</span>
+            <span className="text-xs font-medium" style={{ color: 'var(--color-text-secondary)', fontFamily: "'DM Sans', sans-serif" }}>To</span>
             <input
               type="number"
               min={startYear}
@@ -105,9 +105,9 @@ export default function TimeRangeSelector() {
               onChange={(e) => handleEndChange(Number(e.target.value))}
               className="w-[4.5rem] rounded-lg px-2 py-1 text-sm tabular-nums transition-colors duration-150 focus:outline-none"
               style={{
-                backgroundColor: '#141820',
-                border: '1px solid rgba(255,255,255,0.1)',
-                color: '#e8eaed',
+                backgroundColor: 'var(--color-bg-card)',
+                border: '1px solid var(--color-border-hover)',
+                color: 'var(--color-text)',
                 fontFamily: "'JetBrains Mono', monospace",
               }}
             />

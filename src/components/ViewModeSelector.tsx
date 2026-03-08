@@ -23,8 +23,8 @@ export default function ViewModeSelector() {
             backgroundColor: viewMode === mode ? 'rgba(74,222,128,0.15)' : 'transparent',
             border: viewMode === mode
               ? '1px solid rgba(74,222,128,0.4)'
-              : '1px solid rgba(255,255,255,0.1)',
-            color: viewMode === mode ? '#4ade80' : '#8b95a5',
+              : '1px solid var(--color-border-hover)',
+            color: viewMode === mode ? 'var(--color-accent)' : 'var(--color-text-secondary)',
             fontFamily: "'DM Sans', sans-serif",
           }}
         >

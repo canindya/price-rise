@@ -122,7 +122,7 @@ export default function About() {
                 first to the last available data point within the selected time range.
                 Annualized rates use compound growth:
               </p>
-              <div className="rounded-lg border border-white/10 bg-[#1a1f2e] px-4 py-3">
+              <div className="rounded-lg border border-white/10 bg-[var(--color-bg-elevated)] px-4 py-3">
                 <code className="font-[JetBrains_Mono] text-sm text-emerald-400">
                   ((end / start) ^ (1 / years) - 1) * 100
                 </code>
