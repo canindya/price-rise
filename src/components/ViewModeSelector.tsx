@@ -20,9 +20,9 @@ export default function ViewModeSelector() {
           onClick={() => dispatch({ type: 'SET_VIEW_MODE', payload: mode })}
           className="cursor-pointer rounded-lg px-3 py-1 text-xs font-medium transition-colors duration-150 focus:outline-none"
           style={{
-            backgroundColor: viewMode === mode ? 'rgba(74,222,128,0.15)' : 'transparent',
+            backgroundColor: viewMode === mode ? 'var(--color-accent-bg)' : 'transparent',
             border: viewMode === mode
-              ? '1px solid rgba(74,222,128,0.4)'
+              ? '1px solid var(--color-accent-border)'
               : '1px solid var(--color-border-hover)',
             color: viewMode === mode ? 'var(--color-accent)' : 'var(--color-text-secondary)',
             fontFamily: "'DM Sans', sans-serif",

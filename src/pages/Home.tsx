@@ -150,21 +150,21 @@ export default function Home() {
                   onBlur={handleBlur}
                   onFocus={handleFocus}
                   placeholder="Search for a country..."
-                  className="w-full rounded-xl border border-white/[0.06] py-3.5 pl-12 pr-4 text-base text-[var(--color-text)] placeholder-[var(--color-text-muted)] shadow-sm transition-all focus:border-[var(--color-accent)] focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)]/20"
-                  style={{ backgroundColor: 'var(--color-bg-elevated)' }}
+                  className="w-full rounded-xl py-3.5 pl-12 pr-4 text-base text-[var(--color-text)] placeholder-[var(--color-text-muted)] shadow-sm transition-all focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)]/20"
+                  style={{ backgroundColor: 'var(--color-bg-elevated)', border: '1px solid var(--color-border)', outline: 'none' }}
                 />
               </div>
               {isOpen && results.length > 0 && (
-                <ul className="absolute z-50 mt-2 max-h-72 w-full overflow-auto rounded-xl border border-white/[0.06] shadow-lg" style={{ backgroundColor: 'var(--color-bg-elevated)' }}>
+                <ul className="absolute z-50 mt-2 max-h-72 w-full overflow-auto rounded-xl shadow-lg" style={{ backgroundColor: 'var(--color-bg-elevated)', border: '1px solid var(--color-border)' }}>
                   {results.map((country, idx) => (
                     <li
                       key={country.iso3}
                       onMouseDown={() => selectCountry(country)}
-                      className={`cursor-pointer px-4 py-3 text-sm ${
-                        idx === highlightIdx
-                          ? 'bg-white/[0.08] text-white'
-                          : 'text-[var(--color-text-secondary)] hover:bg-white/[0.04]'
-                      }`}
+                      className="cursor-pointer px-4 py-3 text-sm"
+                      style={{
+                        backgroundColor: idx === highlightIdx ? 'var(--color-bg-subtle-hover)' : 'transparent',
+                        color: idx === highlightIdx ? 'var(--color-text)' : 'var(--color-text-secondary)',
+                      }}
                     >
                       <span className="font-medium text-[var(--color-text)]">{country.name}</span>
                       <span className="ml-2 font-mono text-[var(--color-text-muted)] text-xs">{country.iso3}</span>
@@ -178,7 +178,7 @@ export default function Home() {
             <div className="animate-fade-up delay-3 mt-8">
               <Link
                 to="/explore"
-                className="inline-flex items-center gap-2 rounded-lg px-6 py-3 text-base font-semibold text-[var(--color-bg)] shadow-sm transition-all hover:shadow-[0_0_20px_rgba(74,222,128,0.25)]"
+                className="inline-flex items-center gap-2 rounded-lg px-6 py-3 text-base font-semibold text-[var(--color-bg)] shadow-sm transition-all hover:opacity-90"
                 style={{ backgroundColor: 'var(--color-accent)' }}
               >
                 Explore All Countries
@@ -192,7 +192,7 @@ export default function Home() {
       </section>
 
       {/* Stats Banner */}
-      <section className="animate-fade-up delay-4 border-y border-white/[0.06] py-10">
+      <section className="animate-fade-up delay-4 py-10" style={{ borderTop: '1px solid var(--color-border)', borderBottom: '1px solid var(--color-border)' }}>
         <div className="mx-auto grid max-w-7xl grid-cols-3 gap-8 px-4 sm:px-6 lg:px-8">
           {STATS.map((stat) => (
             <div key={stat.label} className="text-center">
@@ -227,7 +227,7 @@ export default function Home() {
       </section>
 
       {/* Footer attribution */}
-      <section className="border-t border-white/[0.06] py-10">
+      <section className="py-10" style={{ borderTop: '1px solid var(--color-border)' }}>
         <div className="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
           <p className="text-sm text-[var(--color-text-muted)]">
             Built with data from{' '}

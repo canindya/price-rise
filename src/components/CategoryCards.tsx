@@ -6,6 +6,7 @@ interface CategoryCardsProps {
   data: Record<Category, DataPoint[]>;
   timeRange: TimeRange;
   customRange?: { startYear: number; endYear: number };
+  compact?: boolean;
 }
 
 const CATEGORIES: { key: Category; label: string; note?: string; color: string }[] = [
@@ -62,9 +63,12 @@ function EmptyStateIcon() {
   );
 }
 
-export default function CategoryCards({ data, timeRange, customRange }: CategoryCardsProps) {
+export default function CategoryCards({ data, timeRange, customRange, compact }: CategoryCardsProps) {
+  const gridClass = compact
+    ? "grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3"
+    : "grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5";
   return (
-    <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
+    <div className={gridClass}>
       {CATEGORIES.map(({ key, label, note, color }) => {
         const series = data[key] ?? [];
         const filtered = filterByTimeRange(series, timeRange, undefined, customRange);
@@ -128,7 +132,7 @@ export default function CategoryCards({ data, timeRange, customRange }: Category
             onMouseEnter={(e) => {
               e.currentTarget.style.borderColor = 'var(--color-border-hover)';
               e.currentTarget.style.borderLeftColor = color;
-              e.currentTarget.style.boxShadow = '0 4px 24px rgba(0,0,0,0.3)';
+              e.currentTarget.style.boxShadow = '0 4px 24px var(--color-shadow-lg)';
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.borderColor = 'var(--color-border)';

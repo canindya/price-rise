@@ -144,12 +144,12 @@ export default function CountryDetail() {
       <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
         <div className="space-y-8">
           {/* Breadcrumb */}
-          <nav className="animate-fade-up flex items-center gap-2 text-sm text-gray-500">
-            <Link to="/" className="transition-colors hover:text-gray-300">Home</Link>
-            <span className="text-gray-600">/</span>
-            <Link to="/explore" className="transition-colors hover:text-gray-300">Explore</Link>
-            <span className="text-gray-600">/</span>
-            <span className="font-medium text-gray-400">{countryName}</span>
+          <nav className="animate-fade-up flex items-center gap-2 text-sm" style={{ color: 'var(--color-text-muted)' }}>
+            <Link to="/" className="transition-colors" style={{ color: 'var(--color-text-muted)' }}>Home</Link>
+            <span style={{ color: 'var(--color-text-muted)' }}>/</span>
+            <Link to="/explore" className="transition-colors" style={{ color: 'var(--color-text-muted)' }}>Explore</Link>
+            <span style={{ color: 'var(--color-text-muted)' }}>/</span>
+            <span className="font-medium" style={{ color: 'var(--color-text-secondary)' }}>{countryName}</span>
           </nav>
 
           {/* Country Header Card */}
@@ -157,11 +157,11 @@ export default function CountryDetail() {
             <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
               <div>
                 <div className="flex items-center gap-3">
-                  <h1 className="font-[Crimson_Pro] text-4xl font-black text-white">
+                  <h1 className="font-[Crimson_Pro] text-4xl font-black" style={{ color: 'var(--color-text)' }}>
                     {countryName}
                   </h1>
                   {countryRegion && (
-                    <span className="inline-flex items-center rounded-full bg-white/5 px-3 py-1 text-xs font-medium text-gray-400">
+                    <span className="inline-flex items-center rounded-full px-3 py-1 text-xs font-medium" style={{ backgroundColor: 'var(--color-bg-subtle)', color: 'var(--color-text-secondary)' }}>
                       {countryRegion}
                     </span>
                   )}
@@ -198,12 +198,13 @@ export default function CountryDetail() {
 
               {/* Controls */}
               <div className="flex flex-wrap items-center gap-3">
-                <label className="flex items-center gap-1.5 text-sm text-gray-400">
+                <label className="flex items-center gap-1.5 text-sm" style={{ color: 'var(--color-text-secondary)' }}>
                   <input
                     type="checkbox"
                     checked={showBenchmark}
                     onChange={(e) => setShowBenchmark(e.target.checked)}
-                    className="h-4 w-4 rounded border-white/10 bg-white/5 text-emerald-500 focus:ring-emerald-500/30"
+                    className="h-4 w-4 rounded"
+                    style={{ accentColor: 'var(--color-accent)' }}
                   />
                   World Average
                 </label>
@@ -226,9 +227,9 @@ export default function CountryDetail() {
             {overallChange && (
               <div className="glass-card animate-fade-up delay-2 rounded-xl p-6">
                 <h3 className="font-[Crimson_Pro] text-sm font-semibold uppercase tracking-wider text-gray-500">Overall Change</h3>
-                <p className="mt-3 font-[Crimson_Pro] text-lg leading-relaxed text-gray-300">
+                <p className="mt-3 font-[Crimson_Pro] text-lg leading-relaxed" style={{ color: 'var(--color-text-secondary)' }}>
                   Over the full available history, the overall cost of living in{' '}
-                  <strong className="text-white">{countryName}</strong> changed by{' '}
+                  <strong style={{ color: 'var(--color-text)' }}>{countryName}</strong> changed by{' '}
                   <span
                     className={`font-[JetBrains_Mono] text-2xl font-bold ${
                       overallChange.totalPct >= 0
@@ -271,7 +272,7 @@ export default function CountryDetail() {
           {/* Full History Chart */}
           <section className="glass-card animate-fade-up delay-3 rounded-xl p-6">
             <div className="mb-4 flex items-center justify-between">
-              <h2 className="font-[Crimson_Pro] text-xl font-semibold text-white">
+              <h2 className="font-[Crimson_Pro] text-xl font-semibold" style={{ color: 'var(--color-text)' }}>
                 Historical Trends
               </h2>
             </div>
@@ -288,7 +289,7 @@ export default function CountryDetail() {
 
           {/* Category Breakdown */}
           <section className="animate-fade-up delay-4">
-            <h2 className="mb-4 font-[Crimson_Pro] text-xl font-semibold text-white">Category Breakdown</h2>
+            <h2 className="mb-4 font-[Crimson_Pro] text-xl font-semibold" style={{ color: 'var(--color-text)' }}>Category Breakdown</h2>
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
               {ALL_CATEGORIES.map((cat) => {
                 const series = allData[cat] ?? [];
@@ -344,7 +345,7 @@ export default function CountryDetail() {
           <section className="glass-card animate-fade-up delay-5 rounded-xl p-6">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <div>
-                <h2 className="font-[Crimson_Pro] text-lg font-semibold text-white">Data Sources</h2>
+                <h2 className="font-[Crimson_Pro] text-lg font-semibold" style={{ color: 'var(--color-text)' }}>Data Sources</h2>
                 <ul className="mt-2 space-y-1 text-sm text-gray-500">
                   <li>
                     Overall CPI:{' '}
@@ -368,7 +369,8 @@ export default function CountryDetail() {
               </div>
               <button
                 onClick={handleDownloadCSV}
-                className="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-transparent px-5 py-2.5 text-sm font-medium text-gray-300 transition-colors hover:bg-white/5 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:ring-offset-2 focus:ring-offset-[var(--color-bg)]"
+                className="inline-flex items-center gap-2 rounded-lg bg-transparent px-5 py-2.5 text-sm font-medium transition-colors focus:outline-none"
+                style={{ border: '1px solid var(--color-border-hover)', color: 'var(--color-text-secondary)' }}
               >
                 <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />

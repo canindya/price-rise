@@ -70,7 +70,7 @@ function MapLegend() {
         style={{
           backgroundColor: 'var(--color-bg-card)',
           border: '1px solid var(--color-border)',
-          boxShadow: '0 4px 24px rgba(0,0,0,0.4)',
+          boxShadow: '0 4px 24px var(--color-shadow-lg)',
         }}
       >
         <div className="flex items-center gap-0">
@@ -236,7 +236,7 @@ export default function WorldMap({
           target.setStyle({
             fillColor: lightenColor(currentFill, 30),
             weight: iso3 === selectedCountry ? 2.5 : 1.5,
-            color: iso3 === selectedCountry ? '#ffffff' : 'rgba(255,255,255,0.25)',
+            color: iso3 === selectedCountry ? '#ffffff' : 'var(--color-map-hover-border)',
           });
           target.bringToFront();
         },
@@ -295,7 +295,7 @@ export default function WorldMap({
           background: var(--color-bg-elevated) !important;
           border: 1px solid var(--color-border-hover) !important;
           border-radius: 8px !important;
-          box-shadow: 0 8px 32px rgba(0,0,0,0.5) !important;
+          box-shadow: 0 8px 32px var(--color-shadow-xl) !important;
           padding: 8px 12px !important;
           color: var(--color-text) !important;
           font-size: 13px !important;
@@ -305,7 +305,7 @@ export default function WorldMap({
           border-top-color: var(--color-bg-elevated) !important;
         }
         .country-selected {
-          filter: drop-shadow(0 0 6px rgba(255,255,255,0.3));
+          filter: drop-shadow(0 0 6px var(--color-selected-glow));
         }
         .leaflet-container {
           cursor: grab;
@@ -332,7 +332,7 @@ export default function WorldMap({
           border-color: var(--color-border-hover) !important;
         }
         .leaflet-control-zoom a:hover {
-          background: #242b3d !important;
+          background: var(--color-zoom-hover) !important;
         }
       `}</style>
 

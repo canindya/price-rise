@@ -10,7 +10,7 @@ import About from './pages/About';
 export default function App() {
   return (
     <AppProvider>
-      <BrowserRouter>
+      <BrowserRouter basename="/price-rise">
         <Routes>
           <Route element={<Layout />}>
             <Route path="/" element={<Home />} />

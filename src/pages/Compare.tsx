@@ -155,7 +155,7 @@ function CountryPicker({ label, value, onChange, accentColor = 'blue' }: Country
             style={{
               backgroundColor: 'var(--color-bg-elevated)',
               border: '1px solid var(--color-border-hover)',
-              boxShadow: '0 10px 40px rgba(0,0,0,0.5)',
+              boxShadow: '0 10px 40px var(--color-shadow-xl)',
             }}
           >
             {results.map((country, idx) => (
@@ -341,7 +341,7 @@ export default function Compare() {
                     style={{
                       backgroundColor: timeRange === range ? 'var(--color-bg-card)' : 'transparent',
                       color: timeRange === range ? 'var(--color-text)' : 'var(--color-text-secondary)',
-                      boxShadow: timeRange === range ? '0 1px 3px rgba(0,0,0,0.3)' : 'none',
+                      boxShadow: timeRange === range ? '0 1px 3px var(--color-shadow-lg)' : 'none',
                       border: timeRange === range ? '1px solid var(--color-border)' : '1px solid transparent',
                       fontFamily: "'DM Sans', sans-serif",
                     }}
@@ -514,7 +514,7 @@ export default function Compare() {
               >
                 {nameA}
               </h3>
-              <CategoryCards data={dataA} timeRange={timeRange} />
+              <CategoryCards data={dataA} timeRange={timeRange} compact />
             </div>
             <div
               className="rounded-2xl p-6"
@@ -530,7 +530,7 @@ export default function Compare() {
               >
                 {nameB}
               </h3>
-              <CategoryCards data={dataB} timeRange={timeRange} />
+              <CategoryCards data={dataB} timeRange={timeRange} compact />
             </div>
           </div>
         )}

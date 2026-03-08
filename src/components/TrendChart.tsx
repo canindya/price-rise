@@ -89,11 +89,11 @@ function CustomTooltip({ active, payload, label }: any) {
       style={{
         backgroundColor: 'var(--color-bg-elevated)',
         border: '1px solid var(--color-border-hover)',
-        boxShadow: '0 8px 32px rgba(0,0,0,0.5)',
+        boxShadow: '0 8px 32px var(--color-shadow-xl)',
         minWidth: 160,
       }}
     >
-      <p className="mb-2 text-sm font-bold text-white">{label}</p>
+      <p className="mb-2 text-sm font-bold" style={{ color: 'var(--color-text)' }}>{label}</p>
       <div className="space-y-1.5">
         {entries.map((entry: any) => {
           const nameStr = String(entry.dataKey);
@@ -116,7 +116,7 @@ function CustomTooltip({ active, payload, label }: any) {
                 />
                 <span style={{ color: isAvg ? 'var(--color-text-secondary)' : 'var(--color-text)' }}>{displayLabel}</span>
               </div>
-              <span className="font-bold text-white tabular-nums" style={{ fontFamily: "'JetBrains Mono', monospace" }}>{num}</span>
+              <span className="font-bold tabular-nums" style={{ fontFamily: "'JetBrains Mono', monospace", color: 'var(--color-text)' }}>{num}</span>
             </div>
           );
         })}

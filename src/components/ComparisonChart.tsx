@@ -3,11 +3,9 @@ import {
   XAxis,
   YAxis,
   Tooltip,
-  Legend,
   ReferenceLine,
   ResponsiveContainer,
   CartesianGrid,
-  Area,
   ComposedChart,
 } from 'recharts';
 import type { Category, DataPoint, EventAnnotation, TimeRange } from '../types/index';
@@ -75,18 +73,30 @@ interface ChartRow {
 function CustomTooltip({ active, payload, label, labelA, labelB }: any) {
   if (!active || !payload || payload.length === 0) return null;
 
+  // Deduplicate: only show each dataKey once
+  const seen = new Set<string>();
+  const entries = payload.filter((entry: any) => {
+    const key = String(entry.dataKey);
+    if (seen.has(key)) return false;
+    seen.add(key);
+    if (entry.value == null) return false;
+    return true;
+  });
+
+  if (entries.length === 0) return null;
+
   return (
     <div
       className="rounded-lg px-3 py-2.5"
       style={{
         backgroundColor: 'var(--color-bg-elevated)',
         border: '1px solid var(--color-border-hover)',
-        boxShadow: '0 8px 32px rgba(0,0,0,0.5)',
+        boxShadow: '0 8px 32px var(--color-shadow-xl)',
       }}
     >
       <p className="mb-1.5 text-xs font-semibold" style={{ color: 'var(--color-text-secondary)' }}>{label}</p>
       <div className="space-y-1">
-        {payload.map((entry: any) => {
+        {entries.map((entry: any) => {
           const nameStr = String(entry.name ?? entry.dataKey);
           const isA = nameStr.startsWith('a_');
           const catKey = nameStr.replace(/^[ab]_/, '') as Category;
@@ -102,38 +112,11 @@ function CustomTooltip({ active, payload, label, labelA, labelB }: any) {
                 style={{ backgroundColor: entry.color }}
               />
               <span style={{ color: 'var(--color-text)' }}>{displayLabel}</span>
-              <span className="ml-auto font-semibold text-white" style={{ fontFamily: "'JetBrains Mono', monospace" }}>{num}</span>
+              <span className="ml-auto font-semibold" style={{ fontFamily: "'JetBrains Mono', monospace", color: 'var(--color-text)' }}>{num}</span>
             </div>
           );
         })}
       </div>
-    </div>
-  );
-}
-
-function CustomLegend({ payload, labelA, labelB }: any) {
-  if (!payload) return null;
-
-  return (
-    <div className="mt-2 flex flex-wrap justify-center gap-x-4 gap-y-1 px-2">
-      {payload.map((entry: any) => {
-        const nameStr = String(entry.value);
-        const isA = nameStr.startsWith('a_');
-        const catKey = nameStr.replace(/^[ab]_/, '') as Category;
-        const catLabel = CATEGORY_LABELS[catKey] ?? catKey;
-        const countryLabel = isA ? labelA : labelB;
-        const displayLabel = `${countryLabel} - ${catLabel}`;
-
-        return (
-          <span key={nameStr} className="inline-flex items-center gap-1.5 text-xs" style={{ color: 'var(--color-text-secondary)' }}>
-            <span
-              className="inline-block h-2 w-2 rounded-full flex-shrink-0"
-              style={{ backgroundColor: entry.color }}
-            />
-            {displayLabel}
-          </span>
-        );
-      })}
     </div>
   );
 }
@@ -211,6 +194,25 @@ export default function ComparisonChart({
     );
   }
 
+  // Build manual legend items
+  const legendItems: { key: string; label: string; color: string; dashed: boolean }[] = [];
+  for (const cat of activeCategories) {
+    legendItems.push({
+      key: `a_${cat}`,
+      label: `${labelA} - ${CATEGORY_LABELS[cat]}`,
+      color: COLORS_A[cat],
+      dashed: false,
+    });
+  }
+  for (const cat of activeCategories) {
+    legendItems.push({
+      key: `b_${cat}`,
+      label: `${labelB} - ${CATEGORY_LABELS[cat]}`,
+      color: COLORS_B[cat],
+      dashed: true,
+    });
+  }
+
   return (
     <div className="w-full">
       <div className="h-[350px] md:h-[420px]">
@@ -267,22 +269,6 @@ export default function ComparisonChart({
               cursor={{ stroke: 'var(--color-cursor)', strokeWidth: 1 }}
             />
 
-            <Legend content={<CustomLegend labelA={labelA} labelB={labelB} />} />
-
-            {/* Country A area fills */}
-            {activeCategories.map((cat) => (
-              <Area
-                key={`area_a_${cat}`}
-                type="monotone"
-                dataKey={`a_${cat}`}
-                stroke="none"
-                fill={COLORS_A[cat]}
-                fillOpacity={0.06}
-                connectNulls
-                isAnimationActive={false}
-              />
-            ))}
-
             {/* Country A lines - solid */}
             {activeCategories.map((cat) => (
               <Line
@@ -315,6 +301,28 @@ export default function ComparisonChart({
             ))}
           </ComposedChart>
         </ResponsiveContainer>
+      </div>
+
+      {/* Manual legend — clean, no duplicates */}
+      <div className="mt-3 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 px-4">
+        {legendItems.map((item) => (
+          <div key={item.key} className="flex items-center gap-2 text-sm">
+            {item.dashed ? (
+              <span
+                className="inline-block h-0 w-5 border-t-2 border-dashed flex-shrink-0"
+                style={{ borderColor: item.color }}
+              />
+            ) : (
+              <span
+                className="inline-block h-3 w-3 rounded-sm flex-shrink-0"
+                style={{ backgroundColor: item.color }}
+              />
+            )}
+            <span style={{ color: 'var(--color-text-secondary)' }}>
+              {item.label}
+            </span>
+          </div>
+        ))}
       </div>
     </div>
   );

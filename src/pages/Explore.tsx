@@ -138,7 +138,7 @@ export default function Explore() {
     return (
       <div className="mesh-bg flex min-h-[60vh] items-center justify-center">
         <div className="flex flex-col items-center gap-4">
-          <div className="h-10 w-10 animate-spin rounded-full border-2 border-white/10 border-t-[var(--color-accent)]" />
+          <div className="h-10 w-10 animate-spin rounded-full" style={{ border: '2px solid var(--color-border)', borderTopColor: 'var(--color-accent)' }} />
           <p className="font-mono text-sm text-[var(--color-text-muted)]">Loading data&hellip;</p>
         </div>
       </div>
@@ -165,7 +165,7 @@ export default function Explore() {
       <div className="animate-fade-up">
         {selectedCountry ? (
           <div className="flex items-baseline gap-3">
-            <h1 className="font-['Crimson_Pro'] text-3xl font-bold text-white">
+            <h1 className="font-['Crimson_Pro'] text-3xl font-bold" style={{ color: 'var(--color-text)' }}>
               {resolveCountryName(selectedCountry)}
             </h1>
             {wasAutoDetected && selectedCountry === detectedCountry && (
@@ -185,7 +185,7 @@ export default function Explore() {
           </div>
         ) : (
           <div>
-            <h1 className="font-['Crimson_Pro'] text-3xl font-bold text-white">
+            <h1 className="font-['Crimson_Pro'] text-3xl font-bold" style={{ color: 'var(--color-text)' }}>
               Explore
             </h1>
             <p className="mt-1 text-sm text-[var(--color-text-secondary)]">
@@ -207,10 +207,11 @@ export default function Explore() {
           {/* Right group: view mode + actions */}
           <div className="flex items-center gap-3">
             <ViewModeSelector />
-            <span className="hidden h-5 w-px bg-white/10 sm:block" />
+            <span className="hidden h-5 w-px sm:block" style={{ backgroundColor: 'var(--color-border)' }} />
             <button
               onClick={() => setBasketOpen(true)}
-              className="inline-flex items-center gap-1.5 rounded-lg border border-white/10 bg-transparent px-3 py-1.5 text-sm font-medium text-[var(--color-text-secondary)] transition-colors hover:border-white/20 hover:text-white"
+              className="inline-flex items-center gap-1.5 rounded-lg bg-transparent px-3 py-1.5 text-sm font-medium transition-colors"
+              style={{ border: '1px solid var(--color-border-hover)', color: 'var(--color-text-secondary)' }}
               aria-label="My Basket"
             >
               <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
@@ -220,7 +221,8 @@ export default function Explore() {
             </button>
             <button
               onClick={() => setAlertOpen(true)}
-              className="inline-flex items-center gap-1.5 rounded-lg border border-white/10 bg-transparent px-3 py-1.5 text-sm font-medium text-[var(--color-text-secondary)] transition-colors hover:border-white/20 hover:text-white"
+              className="inline-flex items-center gap-1.5 rounded-lg bg-transparent px-3 py-1.5 text-sm font-medium transition-colors"
+              style={{ border: '1px solid var(--color-border-hover)', color: 'var(--color-text-secondary)' }}
               aria-label="Alert Setup"
             >
               <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
@@ -233,14 +235,14 @@ export default function Explore() {
         </div>
 
         {/* Category pills */}
-        <div className="mt-4 flex flex-wrap items-center justify-center gap-2 border-t border-white/5 pt-4">
+        <div className="mt-4 flex flex-wrap items-center justify-center gap-2 pt-4" style={{ borderTop: '1px solid var(--color-border-subtle)' }}>
           <button
             onClick={setAllCategories}
-            className={`rounded-full px-4 py-1.5 text-sm font-medium transition-all ${
-              allActive
-                ? 'bg-white/90 text-black font-bold shadow-sm'
-                : 'bg-white/5 text-gray-400 hover:bg-white/10 hover:text-gray-200'
-            }`}
+            className="rounded-full px-4 py-1.5 text-sm font-medium transition-all shadow-sm"
+            style={allActive
+              ? { backgroundColor: 'var(--color-pill-all-bg)', color: 'var(--color-pill-all-text)', fontWeight: 700 }
+              : { backgroundColor: 'var(--color-bg-subtle)', color: 'var(--color-pill-inactive)' }
+            }
           >
             All
           </button>
@@ -253,8 +255,12 @@ export default function Explore() {
                 className={`rounded-full px-4 py-1.5 text-sm font-medium transition-all ${
                   activeCategories.includes(cat)
                     ? `${colors.active} font-bold shadow-sm`
-                    : `bg-white/5 text-gray-400 border ${colors.border} hover:text-gray-200`
+                    : `border ${colors.border}`
                 }`}
+                style={!activeCategories.includes(cat)
+                  ? { backgroundColor: 'var(--color-bg-subtle)', color: 'var(--color-pill-inactive)' }
+                  : undefined
+                }
               >
                 {CATEGORY_LABELS[cat]}
               </button>
@@ -268,7 +274,7 @@ export default function Explore() {
         {/* Map card */}
         <div className="lg:col-span-7 animate-fade-up delay-2">
           <div className="glass-card overflow-hidden">
-            <div className="border-b border-white/5 px-5 py-3">
+            <div className="px-5 py-3" style={{ borderBottom: '1px solid var(--color-border-subtle)' }}>
               <h3 className="font-['Crimson_Pro'] text-sm font-semibold tracking-wide text-[var(--color-text-secondary)] uppercase">
                 Global Price Changes
               </h3>
@@ -286,7 +292,7 @@ export default function Explore() {
         {/* Chart card */}
         <div className="lg:col-span-5 animate-fade-up delay-3">
           <div className="glass-card overflow-hidden">
-            <div className="flex items-center justify-between border-b border-white/5 px-5 py-3">
+            <div className="flex items-center justify-between px-5 py-3" style={{ borderBottom: '1px solid var(--color-border-subtle)' }}>
               <h3 className="font-['Crimson_Pro'] text-sm font-semibold tracking-wide text-[var(--color-text-secondary)] uppercase">
                 {selectedCountry ? `Price Trend` : 'Trend Chart'}
               </h3>
