@@ -2,6 +2,20 @@
 
 ## [2026-03-08]
 
+### Changed
+
+- **Full UI Redesign**: Professional dashboard aesthetic inspired by Our World in Data / Bloomberg
+- **Layout**: Clean white header with gradient accent bar, sticky nav with active link indicators, mobile hamburger menu, alerts as bell icon with badge
+- **Explore Page**: Reorganized controls into logical groups, pill-shaped category toggles, toggle switch for world average, overflow-hidden chart container fixing event annotation bleed
+- **TrendChart**: Switched to ComposedChart with area fills, custom tooltip/legend, shortened event labels (max 4), subtle grid lines, responsive heights
+- **WorldMap**: Professional diverging color palette (blue-yellow-orange-red), color legend bar, cleaner tooltips, disabled scroll zoom, selected country glow effect
+- **CategoryCards**: 5-column responsive grid, colored dot indicators, progress bars, clean empty states
+- **CountryDetail**: Breadcrumb navigation, header card with region badge and quick stat pills, personal inflation card, category breakdown grid
+- **Compare Page**: Color-coded country pickers (blue/emerald) with "vs" divider, summary comparison card, side-by-side stat cards
+- **Home Page**: Hero with functional country search, stats banner, feature cards with icons, footer attribution
+- **About Page**: Accented section headers, data sources table, styled methodology section, warning-icon limitations
+- **Small Components**: Search with icon and clear button, rounded-full time pills, outlined view mode selector, professional modals with animations
+
 ### Added
 
 - **Project Setup**: Initialized Vite + React + TypeScript project with Tailwind CSS, Recharts, Leaflet, and React Router

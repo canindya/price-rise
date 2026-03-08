@@ -43,16 +43,16 @@ export default function TimeRangeSelector() {
   }
 
   return (
-    <div className="flex flex-wrap items-center gap-2">
-      <div className="inline-flex gap-1">
+    <div className="flex flex-col gap-2">
+      <div className="inline-flex items-center gap-0.5 rounded-full bg-gray-100 p-0.5">
         {PRESET_OPTIONS.map((range) => (
           <button
             key={range}
             onClick={() => dispatch({ type: 'SET_TIME_RANGE', payload: range })}
-            className={`rounded px-3 py-1 text-sm font-medium transition-colors ${
+            className={`cursor-pointer rounded-full px-4 py-1.5 text-sm font-medium transition-all duration-200 ${
               timeRange === range
-                ? 'bg-blue-600 text-white'
-                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                ? 'bg-gray-900 text-white shadow-sm'
+                : 'text-gray-600 hover:bg-gray-200'
             }`}
           >
             {range}
@@ -60,10 +60,10 @@ export default function TimeRangeSelector() {
         ))}
         <button
           onClick={handleCustomClick}
-          className={`rounded px-3 py-1 text-sm font-medium transition-colors ${
+          className={`cursor-pointer rounded-full px-4 py-1.5 text-sm font-medium transition-all duration-200 ${
             timeRange === 'custom'
-              ? 'bg-blue-600 text-white'
-              : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+              ? 'bg-gray-900 text-white shadow-sm'
+              : 'text-gray-600 hover:bg-gray-200'
           }`}
         >
           Custom
@@ -71,27 +71,28 @@ export default function TimeRangeSelector() {
       </div>
 
       {timeRange === 'custom' && (
-        <div className="flex items-center gap-2">
-          <label className="flex items-center gap-1 text-sm text-gray-600">
-            <span>From</span>
+        <div className="flex items-center gap-3 pl-1">
+          <label className="flex items-center gap-1.5">
+            <span className="text-xs font-medium text-gray-500">From</span>
             <input
               type="number"
               min={MIN_YEAR}
               max={endYear}
               value={startYear}
               onChange={(e) => handleStartChange(Number(e.target.value))}
-              className="w-20 rounded border border-gray-300 px-2 py-1 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+              className="w-[4.5rem] rounded-lg border border-gray-300 px-2 py-1 text-sm tabular-nums transition-colors duration-150 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:ring-offset-1"
             />
           </label>
-          <label className="flex items-center gap-1 text-sm text-gray-600">
-            <span>To</span>
+          <span className="text-xs text-gray-300">&ndash;</span>
+          <label className="flex items-center gap-1.5">
+            <span className="text-xs font-medium text-gray-500">To</span>
             <input
               type="number"
               min={startYear}
               max={MAX_YEAR}
               value={endYear}
               onChange={(e) => handleEndChange(Number(e.target.value))}
-              className="w-20 rounded border border-gray-300 px-2 py-1 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+              className="w-[4.5rem] rounded-lg border border-gray-300 px-2 py-1 text-sm tabular-nums transition-colors duration-150 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:ring-offset-1"
             />
           </label>
         </div>

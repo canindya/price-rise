@@ -13,13 +13,15 @@ export default function CountrySearch() {
   const [highlightIdx, setHighlightIdx] = useState(-1);
   const blurTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const listRef = useRef<HTMLUListElement>(null);
 
   // Resolve selected country name for display
   const allCountries = getAllCountries();
-  const selectedName =
+  const selectedMeta =
     selectedCountry != null
-      ? allCountries.find((c) => c.code === selectedCountry || c.iso3 === selectedCountry)?.name ?? ''
-      : '';
+      ? allCountries.find((c) => c.code === selectedCountry || c.iso3 === selectedCountry) ?? null
+      : null;
+  const selectedName = selectedMeta?.name ?? '';
 
   // Initialize input with selected country name
   useEffect(() => {
@@ -27,6 +29,14 @@ export default function CountrySearch() {
       setQuery(selectedName);
     }
   }, [selectedName, isOpen]);
+
+  // Scroll highlighted item into view
+  useEffect(() => {
+    if (highlightIdx >= 0 && listRef.current) {
+      const items = listRef.current.querySelectorAll('li');
+      items[highlightIdx]?.scrollIntoView({ block: 'nearest' });
+    }
+  }, [highlightIdx]);
 
   const handleChange = useCallback((value: string) => {
     setQuery(value);
@@ -50,6 +60,15 @@ export default function CountrySearch() {
     },
     [dispatch],
   );
+
+  const clearSelection = useCallback(() => {
+    dispatch({ type: 'SELECT_COUNTRY', payload: null });
+    setQuery('');
+    setResults([]);
+    setIsOpen(false);
+    setHighlightIdx(-1);
+    inputRef.current?.focus();
+  }, [dispatch]);
 
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent) => {
@@ -85,34 +104,70 @@ export default function CountrySearch() {
     }
   }, [query, results]);
 
+  const hasSelection = selectedCountry != null && selectedName !== '';
+
   return (
     <div className="relative w-full max-w-sm">
-      <input
-        ref={inputRef}
-        type="text"
-        value={query}
-        onChange={(e) => handleChange(e.target.value)}
-        onKeyDown={handleKeyDown}
-        onBlur={handleBlur}
-        onFocus={handleFocus}
-        placeholder="Search country..."
-        className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-      />
+      <div className="relative">
+        {/* Search icon */}
+        <svg
+          className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          strokeWidth={2}
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+          />
+        </svg>
+
+        <input
+          ref={inputRef}
+          type="text"
+          value={query}
+          onChange={(e) => handleChange(e.target.value)}
+          onKeyDown={handleKeyDown}
+          onBlur={handleBlur}
+          onFocus={handleFocus}
+          placeholder="Search countries..."
+          className="w-full rounded-lg border border-gray-300 py-2 pl-9 pr-8 text-sm transition-colors duration-150 placeholder:text-gray-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:ring-offset-1"
+        />
+
+        {/* Clear button */}
+        {hasSelection && (
+          <button
+            onClick={clearSelection}
+            className="absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer rounded p-0.5 text-gray-400 transition-colors duration-150 hover:bg-gray-100 hover:text-gray-600"
+            aria-label="Clear selection"
+          >
+            <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        )}
+      </div>
 
       {isOpen && results.length > 0 && (
-        <ul className="absolute z-50 mt-1 max-h-60 w-full overflow-auto rounded-lg border border-gray-200 bg-white shadow-lg">
+        <ul
+          ref={listRef}
+          className="absolute z-50 mt-1 max-h-60 w-full overflow-auto rounded-lg border border-gray-200 bg-white py-1 shadow-lg"
+        >
           {results.map((country, idx) => (
             <li
               key={country.iso3}
               onMouseDown={() => selectCountry(country)}
-              className={`cursor-pointer px-3 py-2 text-sm ${
+              onMouseEnter={() => setHighlightIdx(idx)}
+              className={`flex cursor-pointer items-center justify-between px-3 py-2 text-sm transition-colors duration-150 ${
                 idx === highlightIdx
-                  ? 'bg-blue-100 text-blue-900'
-                  : 'text-gray-700 hover:bg-gray-100'
+                  ? 'bg-blue-50 text-gray-900'
+                  : 'text-gray-700 hover:bg-gray-50'
               }`}
             >
               <span className="font-medium">{country.name}</span>
-              <span className="ml-2 text-gray-400">{country.iso3}</span>
+              <span className="text-xs text-gray-400">{country.region}</span>
             </li>
           ))}
         </ul>

@@ -71,6 +71,16 @@ export default function AlertSetup({ open, onClose }: AlertSetupProps) {
   const [selectedCountry, setSelectedCountry] = useState(COUNTRIES[0].iso3);
   const [selectedCategory, setSelectedCategory] = useState<Category>('overall_cpi');
   const [threshold, setThreshold] = useState<string>('10');
+  const [visible, setVisible] = useState(false);
+
+  // Animate entrance
+  useEffect(() => {
+    if (open) {
+      requestAnimationFrame(() => setVisible(true));
+    } else {
+      setVisible(false);
+    }
+  }, [open]);
 
   // Sync from storage if modal re-opens
   useEffect(() => {
@@ -111,127 +121,157 @@ export default function AlertSetup({ open, onClose }: AlertSetupProps) {
   const categoryLabel = (cat: Category) =>
     CATEGORY_OPTIONS.find((c) => c.key === cat)?.label ?? cat;
 
+  function handleOverlayClick(e: React.MouseEvent<HTMLDivElement>) {
+    if (e.target === e.currentTarget) onClose();
+  }
+
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
-      <div className="w-full max-w-lg rounded-2xl bg-white p-6 shadow-xl">
-        <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-lg font-bold text-gray-800">Price Alerts</h2>
+    <div
+      onClick={handleOverlayClick}
+      className={`fixed inset-0 z-50 flex items-center justify-center p-4 transition-colors duration-200 ${
+        visible ? 'bg-black/50' : 'bg-black/0'
+      }`}
+    >
+      <div
+        className={`w-full max-w-lg rounded-2xl bg-white shadow-2xl transition-all duration-300 ${
+          visible ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
+        }`}
+      >
+        {/* Header */}
+        <div className="flex items-center justify-between border-b border-gray-100 px-6 pt-6 pb-4">
+          <h2 className="text-lg font-semibold text-gray-900">Price Alerts</h2>
           <button
             onClick={onClose}
-            className="rounded p-1 text-gray-400 hover:bg-gray-100 hover:text-gray-600"
+            className="cursor-pointer rounded-lg p-1.5 text-gray-400 transition-colors duration-150 hover:bg-gray-100 hover:text-gray-600"
             aria-label="Close"
           >
-            <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
         </div>
 
-        <p className="mb-4 text-sm text-gray-500">
-          Get notified when inflation in a category exceeds your threshold.
-        </p>
+        {/* Body */}
+        <div className="px-6 py-4">
+          <p className="mb-4 text-sm text-gray-500">
+            Get notified when inflation in a category exceeds your threshold.
+          </p>
 
-        {/* Add alert form */}
-        <div className="mb-4 rounded-lg bg-gray-50 p-4">
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-            <div>
-              <label className="mb-1 block text-xs font-medium text-gray-600">
-                Country
-              </label>
-              <select
-                value={selectedCountry}
-                onChange={(e) => setSelectedCountry(e.target.value)}
-                className="w-full rounded-lg border border-gray-300 px-2 py-1.5 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-              >
-                {COUNTRIES.map((c) => (
-                  <option key={c.iso3} value={c.iso3}>
-                    {c.name}
-                  </option>
-                ))}
-              </select>
-            </div>
+          {/* Add alert form */}
+          <div className="mb-5 rounded-xl border border-gray-200 bg-gray-50/50 p-4">
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+              <div className="flex flex-col gap-1">
+                <label className="text-xs font-medium text-gray-500">Country</label>
+                <select
+                  value={selectedCountry}
+                  onChange={(e) => setSelectedCountry(e.target.value)}
+                  className="cursor-pointer rounded-lg border border-gray-300 bg-white px-2.5 py-1.5 text-sm transition-colors duration-150 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:ring-offset-1"
+                >
+                  {COUNTRIES.map((c) => (
+                    <option key={c.iso3} value={c.iso3}>
+                      {c.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
 
-            <div>
-              <label className="mb-1 block text-xs font-medium text-gray-600">
-                Category
-              </label>
-              <select
-                value={selectedCategory}
-                onChange={(e) => setSelectedCategory(e.target.value as Category)}
-                className="w-full rounded-lg border border-gray-300 px-2 py-1.5 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-              >
-                {CATEGORY_OPTIONS.map((c) => (
-                  <option key={c.key} value={c.key}>
-                    {c.label}
-                  </option>
-                ))}
-              </select>
-            </div>
+              <div className="flex flex-col gap-1">
+                <label className="text-xs font-medium text-gray-500">Category</label>
+                <select
+                  value={selectedCategory}
+                  onChange={(e) => setSelectedCategory(e.target.value as Category)}
+                  className="cursor-pointer rounded-lg border border-gray-300 bg-white px-2.5 py-1.5 text-sm transition-colors duration-150 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:ring-offset-1"
+                >
+                  {CATEGORY_OPTIONS.map((c) => (
+                    <option key={c.key} value={c.key}>
+                      {c.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
 
-            <div>
-              <label className="mb-1 block text-xs font-medium text-gray-600">
-                Threshold (%)
-              </label>
-              <div className="flex gap-2">
-                <input
-                  type="number"
-                  value={threshold}
-                  onChange={(e) => setThreshold(e.target.value)}
-                  className="w-full rounded-lg border border-gray-300 px-2 py-1.5 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-                  placeholder="e.g. 10"
-                />
+              <div className="flex flex-col gap-1">
+                <label className="text-xs font-medium text-gray-500">Threshold</label>
+                <div className="relative">
+                  <input
+                    type="number"
+                    value={threshold}
+                    onChange={(e) => setThreshold(e.target.value)}
+                    className="w-full rounded-lg border border-gray-300 bg-white px-2.5 py-1.5 pr-7 text-sm transition-colors duration-150 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:ring-offset-1"
+                    placeholder="10"
+                  />
+                  <span className="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 text-xs text-gray-400">
+                    %
+                  </span>
+                </div>
               </div>
             </div>
+
+            <button
+              onClick={handleAdd}
+              className="mt-3 cursor-pointer rounded-lg bg-blue-600 px-4 py-1.5 text-sm font-medium text-white transition-colors duration-150 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:ring-offset-1"
+            >
+              Add Alert
+            </button>
           </div>
 
-          <button
-            onClick={handleAdd}
-            className="mt-3 w-full rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
-          >
-            Add Alert
-          </button>
-        </div>
-
-        {/* Saved alerts list */}
-        <div className="max-h-60 space-y-2 overflow-y-auto">
-          {alerts.length === 0 && (
-            <p className="py-4 text-center text-sm text-gray-400">
-              No alerts configured yet.
-            </p>
-          )}
-          {alerts.map((alert) => (
-            <div
-              key={alert.id}
-              className="flex items-center justify-between rounded-lg border border-gray-200 px-3 py-2"
-            >
-              <div className="text-sm">
-                <span className="font-medium text-gray-800">
-                  {alert.countryName}
-                </span>
-                <span className="mx-1 text-gray-400">/</span>
-                <span className="text-gray-600">{categoryLabel(alert.category)}</span>
-                <span className="mx-1 text-gray-400">exceeds</span>
-                <span className="font-medium text-red-600">{alert.threshold}%</span>
-              </div>
-              <button
-                onClick={() => handleDelete(alert.id)}
-                className="ml-2 rounded p-1 text-gray-400 hover:bg-red-50 hover:text-red-500"
-                aria-label="Delete alert"
-              >
-                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+          {/* Saved alerts list */}
+          <div className="max-h-60 overflow-y-auto">
+            {alerts.length === 0 && (
+              <div className="flex flex-col items-center gap-2 py-8 text-center">
+                <svg
+                  className="h-8 w-8 text-gray-300"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={1.5}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0"
+                  />
                 </svg>
-              </button>
+                <p className="text-sm text-gray-400">No alerts set up yet</p>
+              </div>
+            )}
+            <div className="flex flex-col gap-2">
+              {alerts.map((alert) => (
+                <div
+                  key={alert.id}
+                  className="flex items-center justify-between rounded-lg border border-gray-200 bg-white px-3 py-2.5 transition-colors duration-150 hover:bg-gray-50"
+                >
+                  <div className="flex items-center gap-2 text-sm">
+                    <span className="font-medium text-gray-800">
+                      {alert.countryName}
+                    </span>
+                    <span className="text-gray-300">/</span>
+                    <span className="text-gray-600">{categoryLabel(alert.category)}</span>
+                    <span className="text-gray-300">&gt;</span>
+                    <span className="font-medium text-red-600">{alert.threshold}%</span>
+                  </div>
+                  <button
+                    onClick={() => handleDelete(alert.id)}
+                    className="cursor-pointer rounded-lg p-1.5 text-gray-400 transition-colors duration-150 hover:bg-red-50 hover:text-red-500"
+                    aria-label="Delete alert"
+                  >
+                    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                  </button>
+                </div>
+              ))}
             </div>
-          ))}
+          </div>
         </div>
 
-        <div className="mt-4 flex justify-end">
+        {/* Footer */}
+        <div className="flex justify-end border-t border-gray-100 px-6 pt-4 pb-6">
           <button
             onClick={onClose}
-            className="rounded-lg bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-200"
+            className="cursor-pointer rounded-lg bg-gray-900 px-5 py-2 text-sm font-medium text-white transition-colors duration-150 hover:bg-gray-800"
           >
-            Close
+            Done
           </button>
         </div>
       </div>

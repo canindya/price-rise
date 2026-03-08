@@ -8,41 +8,70 @@ interface CategoryCardsProps {
   customRange?: { startYear: number; endYear: number };
 }
 
-const CATEGORIES: { key: Category; label: string; note?: string; color?: string }[] = [
-  { key: 'overall_cpi', label: 'Overall CPI' },
-  { key: 'food_cpi', label: 'Food & Essentials' },
-  { key: 'energy_benchmark', label: 'Energy (Oil Benchmark)' },
-  { key: 'energy_retail', label: 'Retail Energy', note: 'Gasoline prices (USD/liter), coverage varies by country', color: '#f97316' },
-  { key: 'education_spend', label: 'Education Investment (% GDP)', note: 'Government spending, not household cost', color: '#8b5cf6' },
+const CATEGORIES: { key: Category; label: string; note?: string; color: string }[] = [
+  { key: 'overall_cpi', label: 'Overall CPI', color: '#3b82f6' },
+  { key: 'food_cpi', label: 'Food & Essentials', color: '#22c55e' },
+  { key: 'energy_benchmark', label: 'Energy (Oil)', color: '#f59e0b' },
+  {
+    key: 'energy_retail',
+    label: 'Retail Energy',
+    note: 'Gasoline prices (USD/liter)',
+    color: '#f97316',
+  },
+  {
+    key: 'education_spend',
+    label: 'Education (% GDP)',
+    note: 'Government spending',
+    color: '#8b5cf6',
+  },
 ];
 
 function changeColor(pct: number): string {
-  if (pct < 0) return 'text-blue-600';
-  if (pct <= 5) return 'text-green-600';
-  if (pct <= 20) return 'text-yellow-600';
+  if (pct < 0) return 'text-emerald-600';
+  if (pct <= 5) return 'text-emerald-600';
+  if (pct <= 20) return 'text-amber-600';
   return 'text-red-600';
+}
+
+function changeBg(pct: number): string {
+  if (pct < 0) return 'bg-emerald-50';
+  if (pct <= 5) return 'bg-emerald-50';
+  if (pct <= 20) return 'bg-amber-50';
+  return 'bg-red-50';
 }
 
 function ArrowUp() {
   return (
-    <svg className="inline h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+    <svg className="inline h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M5 15l7-7 7 7" />
     </svg>
   );
 }
 
 function ArrowDown() {
   return (
-    <svg className="inline h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+    <svg className="inline h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+    </svg>
+  );
+}
+
+function EmptyStateIcon() {
+  return (
+    <svg className="h-6 w-6 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M20 12H4m0 0l4-4m-4 4l4 4"
+      />
     </svg>
   );
 }
 
 export default function CategoryCards({ data, timeRange, customRange }: CategoryCardsProps) {
   return (
-    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
-      {CATEGORIES.map(({ key, label, note }) => {
+    <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
+      {CATEGORIES.map(({ key, label, note, color }) => {
         const series = data[key] ?? [];
         const filtered = filterByTimeRange(series, timeRange, undefined, customRange);
         const quality = getDataQuality(filtered);
@@ -52,39 +81,82 @@ export default function CategoryCards({ data, timeRange, customRange }: Category
           return (
             <div
               key={key}
-              className="rounded-xl bg-white p-4 shadow"
+              className="rounded-xl border border-gray-200 bg-white p-5"
             >
-              <div className="flex items-center justify-between">
-                <h3 className="text-sm font-medium text-gray-500">{label}</h3>
-                <DataQualityBadge quality={quality} />
+              {/* Header */}
+              <div className="flex items-center gap-2">
+                <span
+                  className="inline-block h-2 w-2 rounded-full flex-shrink-0"
+                  style={{ backgroundColor: color }}
+                />
+                <h3 className="text-sm font-medium text-gray-600 truncate">{label}</h3>
+                <span className="ml-auto">
+                  <DataQualityBadge quality={quality} />
+                </span>
               </div>
-              {note && <p className="mt-0.5 text-xs italic text-gray-400">{note}</p>}
-              <p className="mt-2 text-gray-400">Insufficient data</p>
+
+              {/* Empty state */}
+              <div className="mt-4 flex flex-col items-center py-2">
+                <EmptyStateIcon />
+                <p className="mt-1.5 text-xs text-gray-400">Insufficient data</p>
+              </div>
             </div>
           );
         }
 
-        const { totalPct } = change;
+        const { totalPct, annualizedPct } = change;
         const colorClass = changeColor(totalPct);
+        const bgClass = changeBg(totalPct);
 
         return (
           <div
             key={key}
-            className="rounded-xl bg-white p-4 shadow"
+            className="rounded-xl border border-gray-200 bg-white p-5 transition-shadow hover:shadow-md"
           >
-            <div className="flex items-center justify-between">
-              <h3 className="text-sm font-medium text-gray-500">{label}</h3>
-              <DataQualityBadge quality={quality} />
+            {/* Header */}
+            <div className="flex items-center gap-2">
+              <span
+                className="inline-block h-2 w-2 rounded-full flex-shrink-0"
+                style={{ backgroundColor: color }}
+              />
+              <h3 className="text-sm font-medium text-gray-600 truncate">{label}</h3>
+              <span className="ml-auto">
+                <DataQualityBadge quality={quality} />
+              </span>
             </div>
-            {note && <p className="mt-0.5 text-xs italic text-gray-400">{note}</p>}
-            <div className={`mt-2 flex items-baseline gap-1 text-2xl font-bold ${colorClass}`}>
-              {totalPct >= 0 ? <ArrowUp /> : <ArrowDown />}
-              <span>{totalPct >= 0 ? '+' : ''}{totalPct.toFixed(1)}%</span>
+
+            {note && (
+              <p className="mt-0.5 pl-4 text-[10px] text-gray-400">{note}</p>
+            )}
+
+            {/* Big number */}
+            <div className={`mt-3 ${colorClass}`}>
+              <div className="flex items-baseline gap-1">
+                <span className="text-3xl font-bold tabular-nums">
+                  {totalPct >= 0 ? '+' : ''}{totalPct.toFixed(1)}%
+                </span>
+              </div>
+              <div className="mt-1 flex items-center gap-1 text-sm text-gray-500">
+                {totalPct >= 0 ? <ArrowUp /> : <ArrowDown />}
+                <span className="tabular-nums">
+                  {annualizedPct >= 0 ? '+' : ''}{annualizedPct.toFixed(1)}% annualized
+                </span>
+              </div>
             </div>
-            <p className="mt-1 text-xs text-gray-400">
-              {change.annualizedPct >= 0 ? '+' : ''}
-              {change.annualizedPct.toFixed(1)}% annualized
-            </p>
+
+            {/* Subtle indicator bar */}
+            <div className="mt-3">
+              <div className="h-1 w-full overflow-hidden rounded-full bg-gray-100">
+                <div
+                  className={`h-full rounded-full ${bgClass}`}
+                  style={{
+                    width: `${Math.min(Math.abs(totalPct) / 100 * 100, 100)}%`,
+                    backgroundColor: color,
+                    opacity: 0.3,
+                  }}
+                />
+              </div>
+            </div>
           </div>
         );
       })}

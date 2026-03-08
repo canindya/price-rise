@@ -1,41 +1,43 @@
+import { useState } from 'react';
+
 interface DataQualityBadgeProps {
   quality: 'complete' | 'partial' | 'sparse';
 }
 
 const CONFIG: Record<
   DataQualityBadgeProps['quality'],
-  { color: string; bg: string; label: string; tooltip: string }
+  { dot: string; tooltip: string }
 > = {
   complete: {
-    color: 'bg-green-500',
-    bg: 'bg-green-50 text-green-700',
-    label: 'Complete',
-    tooltip: 'All data points are available for this range',
+    dot: 'bg-emerald-500',
+    tooltip: 'Complete data',
   },
   partial: {
-    color: 'bg-yellow-500',
-    bg: 'bg-yellow-50 text-yellow-700',
-    label: 'Partial',
-    tooltip: 'Some data points are missing (up to 30%)',
+    dot: 'bg-amber-400',
+    tooltip: 'Partial data (some gaps)',
   },
   sparse: {
-    color: 'bg-red-500',
-    bg: 'bg-red-50 text-red-700',
-    label: 'Sparse',
-    tooltip: 'More than 30% of data points are missing',
+    dot: 'bg-red-400',
+    tooltip: 'Sparse data',
   },
 };
 
 export default function DataQualityBadge({ quality }: DataQualityBadgeProps) {
-  const { color, bg, label, tooltip } = CONFIG[quality];
+  const [showTooltip, setShowTooltip] = useState(false);
+  const { dot, tooltip } = CONFIG[quality];
 
   return (
     <span
-      title={tooltip}
-      className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-medium ${bg} cursor-help`}
+      className="relative inline-flex cursor-help"
+      onMouseEnter={() => setShowTooltip(true)}
+      onMouseLeave={() => setShowTooltip(false)}
     >
-      <span className={`inline-block h-2 w-2 rounded-full ${color}`} />
-      {label}
+      <span className={`inline-block h-1.5 w-1.5 rounded-full ${dot}`} />
+      {showTooltip && (
+        <span className="absolute bottom-full left-1/2 z-10 mb-1.5 -translate-x-1/2 whitespace-nowrap rounded bg-gray-800 px-2 py-1 text-[10px] font-medium text-white shadow-lg">
+          {tooltip}
+        </span>
+      )}
     </span>
   );
 }

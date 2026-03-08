@@ -1,5 +1,4 @@
 import {
-  LineChart,
   Line,
   XAxis,
   YAxis,
@@ -7,6 +6,9 @@ import {
   Legend,
   ReferenceLine,
   ResponsiveContainer,
+  CartesianGrid,
+  Area,
+  ComposedChart,
 } from 'recharts';
 import type { Category, DataPoint, EventAnnotation, TimeRange } from '../types/index';
 import { filterByTimeRange } from '../utils/dataTransforms';
@@ -26,7 +28,7 @@ const CATEGORY_LABELS: Record<Category, string> = {
   food_cpi: 'Food & Essentials',
   energy_benchmark: 'Energy (Oil)',
   energy_retail: 'Retail Energy',
-  education_spend: 'Education Investment',
+  education_spend: 'Education',
 };
 
 /** Country A uses blue-toned solid lines */
@@ -47,10 +49,88 @@ const COLORS_B: Record<Category, string> = {
   education_spend: '#c084fc',
 };
 
+/** Short labels for event annotations */
+const EVENT_SHORT_LABELS: Record<string, string> = {
+  'Global Financial Crisis': 'GFC',
+  'COVID-19 Pandemic': 'COVID',
+  'Russia-Ukraine War': 'Ukraine',
+  'Arab Spring': 'Arab Spr.',
+  'Oil Price Crash': 'Oil Crash',
+  'Brexit Referendum': 'Brexit',
+  'US-China Trade War': 'Trade War',
+  'Eurozone Crisis': 'Euro Crisis',
+};
+
+function shortenEventLabel(label: string): string {
+  if (EVENT_SHORT_LABELS[label]) return EVENT_SHORT_LABELS[label];
+  return label.length > 10 ? label.slice(0, 9) + '\u2026' : label;
+}
+
 interface ChartRow {
   year: number;
   [key: string]: number | null | undefined;
 }
+
+/* eslint-disable @typescript-eslint/no-explicit-any */
+function CustomTooltip({ active, payload, label, labelA, labelB }: any) {
+  if (!active || !payload || payload.length === 0) return null;
+
+  return (
+    <div className="rounded-lg border border-gray-100 bg-white px-3 py-2.5 shadow-lg">
+      <p className="mb-1.5 text-xs font-semibold text-gray-500">{label}</p>
+      <div className="space-y-1">
+        {payload.map((entry: any) => {
+          const nameStr = String(entry.name ?? entry.dataKey);
+          const isA = nameStr.startsWith('a_');
+          const catKey = nameStr.replace(/^[ab]_/, '') as Category;
+          const catLabel = CATEGORY_LABELS[catKey] ?? catKey;
+          const countryLabel = isA ? labelA : labelB;
+          const displayLabel = `${countryLabel} - ${catLabel}`;
+          const num = typeof entry.value === 'number' ? entry.value.toFixed(1) : 'N/A';
+
+          return (
+            <div key={nameStr} className="flex items-center gap-2 text-xs">
+              <span
+                className="inline-block h-2 w-2 rounded-full flex-shrink-0"
+                style={{ backgroundColor: entry.color }}
+              />
+              <span className="text-gray-600">{displayLabel}</span>
+              <span className="ml-auto font-semibold text-gray-900">{num}</span>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+function CustomLegend({ payload, labelA, labelB }: any) {
+  if (!payload) return null;
+
+  return (
+    <div className="mt-2 flex flex-wrap justify-center gap-x-4 gap-y-1 px-2">
+      {payload.map((entry: any) => {
+        const nameStr = String(entry.value);
+        const isA = nameStr.startsWith('a_');
+        const catKey = nameStr.replace(/^[ab]_/, '') as Category;
+        const catLabel = CATEGORY_LABELS[catKey] ?? catKey;
+        const countryLabel = isA ? labelA : labelB;
+        const displayLabel = `${countryLabel} - ${catLabel}`;
+
+        return (
+          <span key={nameStr} className="inline-flex items-center gap-1.5 text-xs text-gray-500">
+            <span
+              className="inline-block h-2 w-2 rounded-full flex-shrink-0"
+              style={{ backgroundColor: entry.color }}
+            />
+            {displayLabel}
+          </span>
+        );
+      })}
+    </div>
+  );
+}
+/* eslint-enable @typescript-eslint/no-explicit-any */
 
 export default function ComparisonChart({
   dataA,
@@ -91,102 +171,144 @@ export default function ComparisonChart({
     return row;
   });
 
-  // Filter events to visible range
+  // Filter events to visible range - max 4
   const minYear = years.length > 0 ? years[0] : 0;
   const maxYear = years.length > 0 ? years[years.length - 1] : 9999;
-  const visibleEvents = (events ?? []).filter(
-    (e) =>
-      e.year >= minYear &&
-      e.year <= maxYear &&
-      (e.category === 'all' || activeCategories.includes(e.category)),
-  );
+  const visibleEvents = (events ?? [])
+    .filter(
+      (e) =>
+        e.year >= minYear &&
+        e.year <= maxYear &&
+        (e.category === 'all' || activeCategories.includes(e.category)),
+    )
+    .slice(0, 4);
+
+  // Calculate tick interval
+  const tickInterval = (() => {
+    const count = years.length;
+    if (count <= 10) return 0;
+    if (count <= 20) return 1;
+    return Math.floor(count / 10);
+  })();
 
   if (chartData.length === 0) {
     return (
-      <div className="flex h-[400px] items-center justify-center text-gray-400">
-        No data to display
+      <div className="flex h-[350px] items-center justify-center text-gray-400 md:h-[420px]">
+        <div className="text-center">
+          <svg className="mx-auto mb-2 h-8 w-8 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+          </svg>
+          <p className="text-sm">No data to display</p>
+        </div>
       </div>
     );
   }
 
-  /** Build a display name from a data key like "a_overall_cpi" */
-  function toDisplayName(dataKey: string): string {
-    const isA = dataKey.startsWith('a_');
-    const catKey = dataKey.replace(/^[ab]_/, '') as Category;
-    const catLabel = CATEGORY_LABELS[catKey] ?? catKey;
-    const countryLabel = isA ? labelA : labelB;
-    return `${countryLabel} - ${catLabel}`;
-  }
-
   return (
-    <ResponsiveContainer width="100%" height={400}>
-      <LineChart data={chartData} margin={{ top: 10, right: 30, left: 10, bottom: 10 }}>
-        <XAxis dataKey="year" tickLine={false} />
-        <YAxis domain={['auto', 'auto']} tickLine={false} />
+    <div className="w-full">
+      <div className="h-[350px] md:h-[420px]">
+        <ResponsiveContainer width="100%" height="100%">
+          <ComposedChart data={chartData} margin={{ top: 16, right: 16, left: 4, bottom: 8 }}>
+            <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" vertical={false} />
 
-        <ReferenceLine y={100} stroke="#9ca3af" strokeDasharray="6 3" label="Base" />
+            <XAxis
+              dataKey="year"
+              tickLine={false}
+              axisLine={{ stroke: '#e2e8f0' }}
+              tick={{ fontSize: 11, fill: '#94a3b8' }}
+              interval={tickInterval}
+              padding={{ left: 8, right: 8 }}
+            />
 
-        {visibleEvents.map((evt) => (
-          <ReferenceLine
-            key={`${evt.year}-${evt.label}`}
-            x={evt.year}
-            stroke="#ef4444"
-            strokeDasharray="4 2"
-            label={{ value: evt.label, position: 'top', fontSize: 10, fill: '#ef4444' }}
-          />
-        ))}
+            <YAxis
+              domain={['auto', 'auto']}
+              tickLine={false}
+              axisLine={false}
+              tick={{ fontSize: 11, fill: '#94a3b8' }}
+              width={50}
+            />
 
-        <Tooltip
-          contentStyle={{
-            backgroundColor: '#1e293b',
-            border: 'none',
-            borderRadius: '0.5rem',
-            color: '#f8fafc',
-            fontSize: '0.875rem',
-          }}
-          formatter={(value: unknown, name: unknown) => {
-            const nameStr = String(name);
-            const label = toDisplayName(nameStr);
-            const num = typeof value === 'number' ? value.toFixed(1) : 'N/A';
-            return [num, label];
-          }}
-          labelFormatter={(label: unknown) => `Year: ${label}`}
-        />
+            {/* Base reference line */}
+            <ReferenceLine
+              y={100}
+              stroke="#cbd5e1"
+              strokeDasharray="6 3"
+              strokeWidth={1}
+            />
 
-        <Legend
-          verticalAlign="bottom"
-          formatter={(value: string) => toDisplayName(value)}
-        />
+            {/* Event annotations */}
+            {visibleEvents.map((evt) => (
+              <ReferenceLine
+                key={`${evt.year}-${evt.label}`}
+                x={evt.year}
+                stroke="#cbd5e1"
+                strokeDasharray="3 3"
+                strokeWidth={1}
+                ifOverflow="hidden"
+                label={{
+                  value: shortenEventLabel(evt.label),
+                  position: 'insideTopRight',
+                  fontSize: 9,
+                  fill: '#94a3b8',
+                  fontWeight: 500,
+                }}
+              />
+            ))}
 
-        {/* Country A lines — solid, blue-toned */}
-        {activeCategories.map((cat) => (
-          <Line
-            key={`a_${cat}`}
-            type="monotone"
-            dataKey={`a_${cat}`}
-            stroke={COLORS_A[cat]}
-            strokeWidth={2}
-            dot={false}
-            connectNulls
-            name={`a_${cat}`}
-          />
-        ))}
+            <Tooltip
+              content={<CustomTooltip labelA={labelA} labelB={labelB} />}
+              cursor={{ stroke: '#e2e8f0', strokeWidth: 1 }}
+            />
 
-        {/* Country B lines — dashed, red-toned */}
-        {activeCategories.map((cat) => (
-          <Line
-            key={`b_${cat}`}
-            type="monotone"
-            dataKey={`b_${cat}`}
-            stroke={COLORS_B[cat]}
-            strokeWidth={2}
-            strokeDasharray="5 5"
-            dot={false}
-            connectNulls
-            name={`b_${cat}`}
-          />
-        ))}
-      </LineChart>
-    </ResponsiveContainer>
+            <Legend content={<CustomLegend labelA={labelA} labelB={labelB} />} />
+
+            {/* Country A area fills */}
+            {activeCategories.map((cat) => (
+              <Area
+                key={`area_a_${cat}`}
+                type="monotone"
+                dataKey={`a_${cat}`}
+                stroke="none"
+                fill={COLORS_A[cat]}
+                fillOpacity={0.04}
+                connectNulls
+                isAnimationActive={false}
+              />
+            ))}
+
+            {/* Country A lines - solid */}
+            {activeCategories.map((cat) => (
+              <Line
+                key={`a_${cat}`}
+                type="monotone"
+                dataKey={`a_${cat}`}
+                stroke={COLORS_A[cat]}
+                strokeWidth={2.5}
+                dot={false}
+                connectNulls
+                name={`a_${cat}`}
+                activeDot={{ r: 4, strokeWidth: 2, fill: '#fff', stroke: COLORS_A[cat] }}
+              />
+            ))}
+
+            {/* Country B lines - dashed */}
+            {activeCategories.map((cat) => (
+              <Line
+                key={`b_${cat}`}
+                type="monotone"
+                dataKey={`b_${cat}`}
+                stroke={COLORS_B[cat]}
+                strokeWidth={2}
+                strokeDasharray="5 5"
+                dot={false}
+                connectNulls
+                name={`b_${cat}`}
+                activeDot={{ r: 4, strokeWidth: 2, fill: '#fff', stroke: COLORS_B[cat] }}
+              />
+            ))}
+          </ComposedChart>
+        </ResponsiveContainer>
+      </div>
+    </div>
   );
 }

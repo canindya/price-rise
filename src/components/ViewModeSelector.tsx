@@ -2,10 +2,10 @@ import type { ViewMode } from '../types/index';
 import { useAppState, useAppDispatch } from '../context/AppContext';
 
 const OPTIONS: { mode: ViewMode; label: string }[] = [
-  { mode: 'indexed', label: 'Indexed (Base=100)' },
-  { mode: 'pct_change', label: '% Change YoY' },
-  { mode: 'local_currency', label: 'Local Currency' },
-  { mode: 'ppp_adjusted', label: 'PPP Adjusted' },
+  { mode: 'indexed', label: 'Index' },
+  { mode: 'pct_change', label: '% YoY' },
+  { mode: 'local_currency', label: 'Local' },
+  { mode: 'ppp_adjusted', label: 'PPP' },
 ];
 
 export default function ViewModeSelector() {
@@ -18,10 +18,10 @@ export default function ViewModeSelector() {
         <button
           key={mode}
           onClick={() => dispatch({ type: 'SET_VIEW_MODE', payload: mode })}
-          className={`rounded px-3 py-1 text-sm font-medium transition-colors ${
+          className={`cursor-pointer rounded-lg border px-3 py-1 text-xs font-medium transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:ring-offset-1 ${
             viewMode === mode
-              ? 'bg-blue-600 text-white'
-              : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+              ? 'border-blue-300 bg-blue-50 text-blue-700'
+              : 'border-gray-300 bg-transparent text-gray-600 hover:bg-gray-50'
           }`}
         >
           {label}
