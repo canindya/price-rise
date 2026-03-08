@@ -2,6 +2,12 @@
 
 ## [2026-03-08]
 
+### Fixed
+
+- **Energy Data**: Fixed energy_retail using ISO-2 codes (US, GB) while app expects ISO-3 (USA, GBR) — added re-keying on load
+- **Energy Benchmark**: Fixed energy_benchmark only having a WORLD key — now copies global oil series to all country codes
+- **Duplicate Cards**: Removed redundant inline stat cards on Explore page that duplicated the CategoryCards component
+
 ### Changed
 
 - **Dark Editorial Theme**: Complete UI overhaul to dark editorial aesthetic inspired by Anthropic's frontend aesthetics cookbook (Bloomberg Terminal meets The Economist)

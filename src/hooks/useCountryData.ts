@@ -2,6 +2,26 @@ import { useState, useRef, useEffect, useMemo, useCallback } from 'react';
 import type { Category, CategoryDataFile, DataPoint, PPPFactorsFile, TimeRange } from '../types/index';
 import { filterByTimeRange, calculateChange } from '../utils/dataTransforms';
 
+/** ISO-2 -> ISO-3 mapping for energy_retail data which uses ISO-2 codes */
+const ISO2_TO_ISO3: Record<string, string> = {
+  US: 'USA', CA: 'CAN', MX: 'MEX', BR: 'BRA', AR: 'ARG', CO: 'COL', CL: 'CHL',
+  GB: 'GBR', DE: 'DEU', FR: 'FRA', IT: 'ITA', ES: 'ESP', NL: 'NLD', SE: 'SWE',
+  NO: 'NOR', CH: 'CHE', PL: 'POL', CZ: 'CZE', TR: 'TUR', RU: 'RUS',
+  CN: 'CHN', JP: 'JPN', KR: 'KOR', IN: 'IND', ID: 'IDN', TH: 'THA', MY: 'MYS',
+  SG: 'SGP', AU: 'AUS', NZ: 'NZL', SA: 'SAU', AE: 'ARE', IL: 'ISR', EG: 'EGY',
+  ZA: 'ZAF', NG: 'NGA', KE: 'KEN', GH: 'GHA', PK: 'PAK', BD: 'BGD', PH: 'PHL',
+};
+
+/** Re-key a countries record from ISO-2 to ISO-3 codes */
+function rekeyToISO3(countries: Record<string, DataPoint[]>): Record<string, DataPoint[]> {
+  const result: Record<string, DataPoint[]> = {};
+  for (const [code, series] of Object.entries(countries)) {
+    const iso3 = ISO2_TO_ISO3[code] ?? code;
+    result[iso3] = series;
+  }
+  return result;
+}
+
 interface CountryDataState {
   overall_cpi: CategoryDataFile | null;
   food_cpi: CategoryDataFile | null;
@@ -71,6 +91,21 @@ export function useCountryData(): UseCountryDataReturn {
         const [overallCpi, foodCpi, energyBenchmark, energyRetail, educationSpend] = (await Promise.all(
           responses.map((r) => r.json()),
         )) as [CategoryDataFile, CategoryDataFile, CategoryDataFile, CategoryDataFile, CategoryDataFile];
+
+        // Re-key energy_retail from ISO-2 to ISO-3 codes
+        energyRetail.countries = rekeyToISO3(energyRetail.countries);
+
+        // energy_benchmark has only a "WORLD" key (global oil prices).
+        // Copy that series to every country so per-country lookups work.
+        const worldOil = energyBenchmark.countries['WORLD'];
+        if (worldOil) {
+          // Get all ISO-3 country codes from the main CPI dataset
+          for (const code of Object.keys(overallCpi.countries)) {
+            if (code !== 'WORLD') {
+              energyBenchmark.countries[code] = worldOil;
+            }
+          }
+        }
 
         setData({
           overall_cpi: overallCpi,

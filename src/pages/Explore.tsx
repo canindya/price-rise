@@ -34,13 +34,6 @@ const CATEGORY_COLORS: Record<Category, { active: string; border: string; text: 
   education_spend: { active: 'bg-[#c084fc] text-black', border: 'border-[#c084fc]/40 hover:border-[#c084fc]/70', text: 'text-[#c084fc]' },
 };
 
-const CATEGORY_ACCENT_BORDERS: Record<Category, string> = {
-  overall_cpi: 'border-l-[#60a5fa]',
-  food_cpi: 'border-l-[#4ade80]',
-  energy_benchmark: 'border-l-[#fbbf24]',
-  energy_retail: 'border-l-[#fb923c]',
-  education_spend: 'border-l-[#c084fc]',
-};
 
 function resolveCountryName(code: string): string {
   const byIso3 = getCountryByIso3(code);
@@ -338,12 +331,12 @@ export default function Explore() {
         </div>
       </div>
 
-      {/* ── Stats cards row ── */}
+      {/* ── Personal inflation + Category cards ── */}
       {selectedCountry && (
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 animate-fade-up delay-4">
+        <div className="animate-fade-up delay-4 space-y-4">
           {/* Personal inflation card */}
           {personalInflation != null && (
-            <div className="glass-card relative overflow-hidden p-5 glow-green border-[var(--color-accent)]/20">
+            <div className="glass-card relative overflow-hidden p-5 glow-green border-[var(--color-accent)]/20 max-w-xs">
               <div className="flex items-center gap-2">
                 <span className="text-xs font-medium uppercase tracking-wider text-[var(--color-text-muted)]">
                   Your Inflation
@@ -361,45 +354,10 @@ export default function Explore() {
               >
                 Customize weights
               </button>
-              {/* Decorative accent line on left */}
               <div className={`absolute left-0 top-0 h-full w-1 ${personalInflation >= 0 ? 'bg-red-400' : 'bg-[var(--color-accent)]'}`} />
             </div>
           )}
 
-          {/* Category stat cards */}
-          {activeCategories.map((cat) => {
-            const series = chartData[cat];
-            const change = calculateChange(series);
-            if (!change) return null;
-            return (
-              <div key={cat} className={`glass-card relative overflow-hidden border-l-2 ${CATEGORY_ACCENT_BORDERS[cat]} p-5`}>
-                <span className="text-xs font-medium uppercase tracking-wider text-[var(--color-text-muted)]">
-                  {CATEGORY_LABELS[cat]}
-                </span>
-                <div className={`mt-2 font-mono text-2xl font-bold tabular-nums ${change.totalPct >= 0 ? 'text-red-400' : 'text-[var(--color-accent)]'}`}>
-                  {change.totalPct >= 0 ? '+' : ''}{change.totalPct.toFixed(1)}%
-                </div>
-                <div className="mt-1 flex items-center gap-1 text-xs text-[var(--color-text-muted)]">
-                  {change.totalPct >= 0 ? (
-                    <svg className="h-3 w-3 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" />
-                    </svg>
-                  ) : (
-                    <svg className="h-3 w-3 text-[var(--color-accent)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 4.5l15 15m0 0V8.25m0 11.25H8.25" />
-                    </svg>
-                  )}
-                  <span className="font-mono tabular-nums">{timeRange} change</span>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      )}
-
-      {/* Category cards (detailed) */}
-      {selectedCountry && (
-        <div className="animate-fade-up delay-5">
           <CategoryCards data={chartData} timeRange={timeRange} customRange={customRange} />
         </div>
       )}
