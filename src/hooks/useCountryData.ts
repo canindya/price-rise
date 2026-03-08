@@ -30,12 +30,14 @@ interface CountryDataState {
   education_spend: CategoryDataFile | null;
 }
 
+const BASE = import.meta.env.BASE_URL;
+
 const CATEGORY_FILES: Record<Category, string> = {
-  overall_cpi: '/data/world_cpi.json',
-  food_cpi: '/data/food_cpi.json',
-  energy_benchmark: '/data/energy_benchmark.json',
-  energy_retail: '/data/energy_retail.json',
-  education_spend: '/data/education_spend.json',
+  overall_cpi: `${BASE}data/world_cpi.json`,
+  food_cpi: `${BASE}data/food_cpi.json`,
+  energy_benchmark: `${BASE}data/energy_benchmark.json`,
+  energy_retail: `${BASE}data/energy_retail.json`,
+  education_spend: `${BASE}data/education_spend.json`,
 };
 
 interface UseCountryDataReturn {
@@ -117,7 +119,7 @@ export function useCountryData(): UseCountryDataReturn {
 
         // Fetch PPP factors separately (non-blocking for main data)
         try {
-          const pppResp = await fetch('/data/ppp_factors.json');
+          const pppResp = await fetch(`${BASE}data/ppp_factors.json`);
           if (pppResp.ok) {
             const pppData = (await pppResp.json()) as PPPFactorsFile;
             setPPPFactors(pppData);

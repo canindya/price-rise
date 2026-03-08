@@ -151,7 +151,7 @@ export default function WorldMap({
   /* -- Load GeoJSON ------------------------------------------------------- */
 
   useEffect(() => {
-    fetch('/data/world.geojson')
+    fetch(`${import.meta.env.BASE_URL}data/world.geojson`)
       .then((res) => res.json())
       .then((data: GeoJsonObject) => setGeoData(data))
       .catch((err) => console.error('Failed to load GeoJSON:', err));
