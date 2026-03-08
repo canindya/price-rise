@@ -103,15 +103,22 @@ function CountryPicker({ label, value, onChange, accentColor = 'blue' }: Country
     }
   }, [query, results]);
 
-  const accentBorder = accentColor === 'emerald' ? 'border-l-2 border-l-emerald-500' : 'border-l-2 border-l-blue-500';
+  const focusRingClass = accentColor === 'emerald'
+    ? 'focus:border-emerald-500 focus:ring-emerald-500/20'
+    : 'focus:border-blue-500 focus:ring-blue-500/20';
+
   const highlightClass = accentColor === 'emerald'
     ? 'bg-emerald-50 text-emerald-900'
-    : 'bg-indigo-50 text-indigo-900';
+    : 'bg-blue-50 text-blue-900';
+
+  const borderTopClass = accentColor === 'emerald'
+    ? 'border-t-2 border-t-emerald-500'
+    : 'border-t-2 border-t-blue-500';
 
   return (
     <div className="flex-1">
-      <label className="mb-1.5 block text-sm font-bold text-gray-500">{label}</label>
-      <div className={`relative w-full rounded bg-white p-4 ${accentBorder}`}>
+      <label className="mb-1.5 block text-sm font-semibold text-gray-700">{label}</label>
+      <div className={`relative w-full rounded-xl border border-gray-200 bg-white p-4 ${borderTopClass}`}>
         <div className="relative">
           <svg
             className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400"
@@ -129,11 +136,11 @@ function CountryPicker({ label, value, onChange, accentColor = 'blue' }: Country
             onBlur={handleBlur}
             onFocus={handleFocus}
             placeholder="Search country..."
-            className="w-full rounded-full bg-gray-200 py-2.5 pl-10 pr-3 text-sm transition-all duration-300 focus:bg-white focus:shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+            className={`w-full rounded-lg border border-gray-300 py-2.5 pl-10 pr-3 text-sm shadow-sm transition-shadow focus:outline-none focus:ring-2 ${focusRingClass}`}
           />
         </div>
         {isOpen && results.length > 0 && (
-          <ul className="absolute left-0 right-0 z-50 mt-2 max-h-60 overflow-auto rounded border border-gray-200 bg-white shadow-lg">
+          <ul className="absolute left-0 right-0 z-50 mt-2 max-h-60 overflow-auto rounded-xl border border-gray-200 bg-white shadow-lg">
             {results.map((country, idx) => (
               <li
                 key={country.iso3}
@@ -151,7 +158,7 @@ function CountryPicker({ label, value, onChange, accentColor = 'blue' }: Country
           </ul>
         )}
         {value && !isOpen && (
-          <div className="mt-3 text-lg font-bold text-black">
+          <div className="mt-3 text-lg font-bold text-gray-900">
             {getCountryByIso3(value)?.name ?? value}
           </div>
         )}
@@ -220,9 +227,9 @@ export default function Compare() {
 
   if (isLoading) {
     return (
-      <div className="flex min-h-[60vh] items-center justify-center bg-gray-100">
+      <div className="flex min-h-[60vh] items-center justify-center">
         <div className="flex flex-col items-center gap-3">
-          <div className="h-10 w-10 animate-spin rounded-full border-4 border-gray-300 border-t-indigo-500" />
+          <div className="h-10 w-10 animate-spin rounded-full border-4 border-blue-200 border-t-blue-600" />
           <p className="text-sm text-gray-500">Loading data...</p>
         </div>
       </div>
@@ -231,9 +238,9 @@ export default function Compare() {
 
   if (error) {
     return (
-      <div className="flex min-h-[60vh] items-center justify-center bg-gray-100">
-        <div className="rounded bg-white p-6 text-center shadow">
-          <h2 className="text-lg font-bold text-red-800">Failed to load data</h2>
+      <div className="flex min-h-[60vh] items-center justify-center">
+        <div className="rounded-lg bg-red-50 p-6 text-center">
+          <h2 className="text-lg font-semibold text-red-800">Failed to load data</h2>
           <p className="mt-2 text-sm text-red-600">{error}</p>
         </div>
       </div>
@@ -243,181 +250,167 @@ export default function Compare() {
   const bothSelected = countryA && countryB;
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-        <div className="space-y-6">
-          <div>
-            <h1 className="text-3xl font-bold text-black">Compare Countries</h1>
-            <p className="mt-2 text-gray-500">Select two countries to compare their cost of living trends side by side.</p>
+    <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+      <div className="space-y-8">
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl">Compare Countries</h1>
+          <p className="mt-2 text-gray-600">Select two countries to compare their cost of living trends side by side.</p>
+        </div>
+
+        {/* Country Pickers with vs divider */}
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-stretch">
+          <CountryPicker label="Country A" value={countryA} onChange={setCountryA} accentColor="blue" />
+          <div className="flex items-center justify-center sm:px-4 sm:pt-6">
+            <span className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-100 text-sm font-bold text-gray-500">
+              vs
+            </span>
           </div>
+          <CountryPicker label="Country B" value={countryB} onChange={setCountryB} accentColor="emerald" />
+        </div>
 
-          {/* Country Pickers with vs divider */}
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-stretch">
-            <CountryPicker label="Country A" value={countryA} onChange={setCountryA} accentColor="blue" />
-            <div className="flex items-center justify-center sm:px-4 sm:pt-6">
-              <span className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-300 text-sm font-bold text-gray-600">
-                vs
-              </span>
-            </div>
-            <CountryPicker label="Country B" value={countryB} onChange={setCountryB} accentColor="emerald" />
-          </div>
-
-          {/* Shared Controls */}
-          <div className="rounded bg-white p-4">
-            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-              {/* Time range */}
-              <div className="flex items-center gap-2">
-                <span className="text-sm font-bold text-gray-500">Time Range:</span>
-                <div className="inline-flex rounded-full bg-gray-200 p-0.5">
-                  {TIME_RANGES.map((range) => (
-                    <button
-                      key={range}
-                      onClick={() => setTimeRange(range)}
-                      className={`rounded-full px-4 py-1.5 text-sm font-bold transition-colors ${
-                        timeRange === range
-                          ? 'bg-indigo-500 text-white shadow-sm'
-                          : 'text-gray-500 hover:text-gray-700'
-                      }`}
-                    >
-                      {range}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Category toggles */}
-              <div className="flex flex-wrap items-center gap-1.5">
-                <span className="mr-1 text-sm font-bold text-gray-500">Categories:</span>
-                <button
-                  onClick={() => setActiveCategories([...ALL_CATEGORIES])}
-                  className={`rounded-full px-3 py-1.5 text-sm font-bold transition-colors ${
-                    allActive
-                      ? 'bg-gray-800 text-white'
-                      : 'bg-gray-200 text-gray-500 hover:bg-gray-300'
-                  }`}
-                >
-                  All
-                </button>
-                {ALL_CATEGORIES.map((cat) => (
+        {/* Shared Controls */}
+        <div className="rounded-xl border border-gray-200 bg-white p-4">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            {/* Time range */}
+            <div className="flex items-center gap-2">
+              <span className="text-sm font-medium text-gray-500">Time Range:</span>
+              <div className="inline-flex rounded-lg bg-gray-100 p-0.5">
+                {TIME_RANGES.map((range) => (
                   <button
-                    key={cat}
-                    onClick={() => toggleCategory(cat)}
-                    className={`rounded-full px-3 py-1.5 text-sm font-bold transition-colors ${
-                      activeCategories.includes(cat)
-                        ? 'bg-indigo-500 text-white'
-                        : 'bg-gray-200 text-gray-500 hover:bg-gray-300'
+                    key={range}
+                    onClick={() => setTimeRange(range)}
+                    className={`rounded-md px-4 py-1.5 text-sm font-medium transition-colors ${
+                      timeRange === range
+                        ? 'bg-white text-gray-900 shadow-sm'
+                        : 'text-gray-600 hover:text-gray-900'
                     }`}
                   >
-                    {CATEGORY_LABELS[cat]}
+                    {range}
                   </button>
                 ))}
               </div>
             </div>
+
+            {/* Category toggles */}
+            <div className="flex flex-wrap items-center gap-1.5">
+              <span className="mr-1 text-sm font-medium text-gray-500">Categories:</span>
+              <button
+                onClick={() => setActiveCategories([...ALL_CATEGORIES])}
+                className={`rounded-lg px-3 py-1.5 text-sm font-medium transition-colors ${
+                  allActive
+                    ? 'bg-gray-900 text-white'
+                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                }`}
+              >
+                All
+              </button>
+              {ALL_CATEGORIES.map((cat) => (
+                <button
+                  key={cat}
+                  onClick={() => toggleCategory(cat)}
+                  className={`rounded-lg px-3 py-1.5 text-sm font-medium transition-colors ${
+                    activeCategories.includes(cat)
+                      ? 'bg-blue-600 text-white'
+                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                  }`}
+                >
+                  {CATEGORY_LABELS[cat]}
+                </button>
+              ))}
+            </div>
           </div>
+        </div>
 
-          {/* Chart - Graph container pattern */}
-          {bothSelected ? (
-            <div className="rounded bg-white overflow-hidden">
-              <div className="border-b p-3 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                <h2 className="font-bold text-black">
-                  {nameA} vs {nameB}
-                </h2>
-                <div className="flex items-center gap-4 text-xs text-gray-500">
-                  <span className="flex items-center gap-1.5">
-                    <span className="inline-block h-0.5 w-5 bg-blue-500" />
-                    {nameA} (solid)
-                  </span>
-                  <span className="flex items-center gap-1.5">
-                    <span className="inline-block h-0.5 w-5 border-b-2 border-dashed border-emerald-500" />
-                    {nameB} (dashed)
-                  </span>
-                </div>
-              </div>
-              <div className="p-5">
-                <ComparisonChart
-                  dataA={dataA}
-                  dataB={dataB}
-                  labelA={nameA ?? ''}
-                  labelB={nameB ?? ''}
-                  activeCategories={activeCategories}
-                  events={GLOBAL_EVENTS}
-                  timeRange={timeRange}
-                />
+        {/* Chart */}
+        {bothSelected ? (
+          <div className="rounded-xl border border-gray-200 bg-white p-6">
+            <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+              <h2 className="text-lg font-semibold text-gray-700">
+                {nameA} vs {nameB}
+              </h2>
+              <div className="flex items-center gap-4 text-xs text-gray-500">
+                <span className="flex items-center gap-1.5">
+                  <span className="inline-block h-0.5 w-5 bg-blue-500" />
+                  {nameA} (solid)
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <span className="inline-block h-0.5 w-5 border-b-2 border-dashed border-emerald-500" />
+                  {nameB} (dashed)
+                </span>
               </div>
             </div>
-          ) : (
-            <div className="flex h-[400px] items-center justify-center rounded border-2 border-dashed border-gray-400 bg-white">
-              <div className="text-center">
-                <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-gray-300">
-                  <svg className="h-6 w-6 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                </div>
-                <p className="mt-3 text-sm text-gray-500">
-                  Select two countries above to compare their trends
-                </p>
-              </div>
-            </div>
-          )}
-
-          {/* Summary comparison */}
-          {bothSelected && (changeA || changeB) && (
-            <div className="rounded bg-gray-200 p-6">
-              <h3 className="mb-3 text-sm font-bold uppercase tracking-wider text-gray-600">Summary</h3>
-              <p className="text-gray-700">
-                Over the last {rangeLabel},{' '}
-                {changeA ? (
-                  <>
-                    <strong className="text-black">{nameA}</strong>&apos;s CPI changed by{' '}
-                    <span className="text-3xl font-bold text-black">
-                      {changeA.totalPct >= 0 ? '+' : ''}{changeA.totalPct.toFixed(1)}%
-                    </span>
-                  </>
-                ) : (
-                  <>
-                    <strong className="text-black">{nameA}</strong> has insufficient data
-                  </>
-                )}
-                {' '}while{' '}
-                {changeB ? (
-                  <>
-                    <strong className="text-black">{nameB}</strong>&apos;s CPI changed by{' '}
-                    <span className="text-3xl font-bold text-black">
-                      {changeB.totalPct >= 0 ? '+' : ''}{changeB.totalPct.toFixed(1)}%
-                    </span>
-                  </>
-                ) : (
-                  <>
-                    <strong className="text-black">{nameB}</strong> has insufficient data
-                  </>
-                )}
-                .
+            <ComparisonChart
+              dataA={dataA}
+              dataB={dataB}
+              labelA={nameA ?? ''}
+              labelB={nameB ?? ''}
+              activeCategories={activeCategories}
+              events={GLOBAL_EVENTS}
+              timeRange={timeRange}
+            />
+          </div>
+        ) : (
+          <div className="flex h-[400px] items-center justify-center rounded-xl border border-dashed border-gray-300 bg-white">
+            <div className="text-center">
+              <svg className="mx-auto h-12 w-12 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <p className="mt-3 text-sm text-gray-400">
+                Select two countries above to compare their trends
               </p>
             </div>
-          )}
+          </div>
+        )}
 
-          {/* Side-by-side Category Cards */}
-          {bothSelected && (
-            <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-              <div className="rounded bg-white overflow-hidden">
-                <div className="border-b border-l-2 border-l-blue-500 p-3">
-                  <h3 className="font-bold text-black">{nameA}</h3>
-                </div>
-                <div className="p-5">
-                  <CategoryCards data={dataA} timeRange={timeRange} />
-                </div>
-              </div>
-              <div className="rounded bg-white overflow-hidden">
-                <div className="border-b border-l-2 border-l-emerald-500 p-3">
-                  <h3 className="font-bold text-black">{nameB}</h3>
-                </div>
-                <div className="p-5">
-                  <CategoryCards data={dataB} timeRange={timeRange} />
-                </div>
-              </div>
+        {/* Summary comparison */}
+        {bothSelected && (changeA || changeB) && (
+          <div className="rounded-xl border border-blue-100 bg-blue-50 p-6">
+            <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-blue-600">Summary</h3>
+            <p className="text-gray-700">
+              Over the last {rangeLabel},{' '}
+              {changeA ? (
+                <>
+                  <strong>{nameA}</strong>&apos;s CPI changed by{' '}
+                  <span className={changeA.totalPct >= 0 ? 'font-bold text-blue-700' : 'font-bold text-green-600'}>
+                    {changeA.totalPct >= 0 ? '+' : ''}{changeA.totalPct.toFixed(1)}%
+                  </span>
+                </>
+              ) : (
+                <>
+                  <strong>{nameA}</strong> has insufficient data
+                </>
+              )}
+              {' '}while{' '}
+              {changeB ? (
+                <>
+                  <strong>{nameB}</strong>&apos;s CPI changed by{' '}
+                  <span className={changeB.totalPct >= 0 ? 'font-bold text-emerald-700' : 'font-bold text-green-600'}>
+                    {changeB.totalPct >= 0 ? '+' : ''}{changeB.totalPct.toFixed(1)}%
+                  </span>
+                </>
+              ) : (
+                <>
+                  <strong>{nameB}</strong> has insufficient data
+                </>
+              )}
+              .
+            </p>
+          </div>
+        )}
+
+        {/* Side-by-side Category Cards */}
+        {bothSelected && (
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+            <div className="rounded-xl border-t-2 border-t-blue-500 border border-gray-200 bg-white p-6">
+              <h3 className="mb-4 text-lg font-semibold text-gray-900">{nameA}</h3>
+              <CategoryCards data={dataA} timeRange={timeRange} />
             </div>
-          )}
-        </div>
+            <div className="rounded-xl border-t-2 border-t-emerald-500 border border-gray-200 bg-white p-6">
+              <h3 className="mb-4 text-lg font-semibold text-gray-900">{nameB}</h3>
+              <CategoryCards data={dataB} timeRange={timeRange} />
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

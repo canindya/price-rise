@@ -4,7 +4,6 @@
 
 ### Changed
 
-- **UI Overhaul (Minimal Admin Template)**: Redesigned entire app using tailwindtoolbox/Minimal-Admin-Template patterns — collapsible icon sidebar, dashed-border stat cards with hover effects, split layout with stats panel, graph container patterns, Nunito font, indigo accents
 - **Full UI Redesign**: Professional dashboard aesthetic inspired by Our World in Data / Bloomberg
 - **Layout**: Clean white header with gradient accent bar, sticky nav with active link indicators, mobile hamburger menu, alerts as bell icon with badge
 - **Explore Page**: Reorganized controls into logical groups, pill-shaped category toggles, toggle switch for world average, overflow-hidden chart container fixing event annotation bleed
