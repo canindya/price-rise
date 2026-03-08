@@ -8,8 +8,10 @@ const FEATURES = [
     title: 'Time-Series Tracking',
     description:
       'Go beyond static snapshots. See how prices have evolved over 1, 5, and 10 years with interactive charts and indexed comparisons.',
+    iconColor: 'text-blue-600',
+    iconBg: 'bg-blue-100',
     icon: (
-      <svg className="h-8 w-8 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 17l6-6 4 4 8-8" />
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 7h4v4" />
       </svg>
@@ -19,8 +21,10 @@ const FEATURES = [
     title: 'Category Breakdown',
     description:
       'Drill into the categories that matter most: overall consumer prices, food and essentials, and energy benchmarks.',
+    iconColor: 'text-green-600',
+    iconBg: 'bg-green-100',
     icon: (
-      <svg className="h-8 w-8 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 6h16M4 12h10M4 18h6" />
       </svg>
     ),
@@ -29,8 +33,10 @@ const FEATURES = [
     title: 'Country Comparison',
     description:
       'Compare cost of living trends across the globe with data sourced from the World Bank, FAO, and other international bodies.',
+    iconColor: 'text-amber-600',
+    iconBg: 'bg-amber-100',
     icon: (
-      <svg className="h-8 w-8 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
       </svg>
     ),
@@ -38,9 +44,39 @@ const FEATURES = [
 ];
 
 const STATS = [
-  { value: '180+', label: 'Countries' },
-  { value: '25+', label: 'Years of Data' },
-  { value: '5', label: 'Categories' },
+  {
+    value: '180+',
+    label: 'Countries',
+    iconColor: 'text-indigo-600',
+    iconBg: 'bg-gray-300',
+    icon: (
+      <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+    ),
+  },
+  {
+    value: '25+',
+    label: 'Years of Data',
+    iconColor: 'text-indigo-600',
+    iconBg: 'bg-gray-300',
+    icon: (
+      <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+      </svg>
+    ),
+  },
+  {
+    value: '5',
+    label: 'Categories',
+    iconColor: 'text-indigo-600',
+    iconBg: 'bg-gray-300',
+    icon: (
+      <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h10M4 18h6" />
+      </svg>
+    ),
+  },
 ];
 
 export default function Home() {
@@ -108,15 +144,15 @@ export default function Home() {
   }, [query, results]);
 
   return (
-    <div className="flex flex-col">
+    <div className="min-h-screen bg-gray-100">
       {/* Hero Section */}
-      <section className="bg-gradient-to-b from-white to-slate-50 pb-16 pt-12 sm:pb-24 sm:pt-20">
+      <section className="bg-white py-16 sm:py-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-3xl text-center">
-            <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
+            <h1 className="text-4xl font-bold text-black sm:text-5xl">
               Global Cost of Living Tracker
             </h1>
-            <p className="mt-6 text-lg leading-relaxed text-gray-600">
+            <p className="mt-6 text-lg leading-relaxed text-gray-500">
               Track how consumer prices have changed across countries over time.
               Explore inflation trends broken down by what people actually spend on.
             </p>
@@ -140,7 +176,7 @@ export default function Home() {
                   onBlur={handleBlur}
                   onFocus={handleFocus}
                   placeholder="Search for a country..."
-                  className="w-full rounded-xl border border-gray-300 py-3.5 pl-12 pr-4 text-base shadow-sm transition-shadow focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+                  className="w-full rounded-full bg-gray-200 py-3.5 pl-12 pr-4 text-base transition-all duration-300 focus:bg-white focus:shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
                 />
               </div>
               {isOpen && results.length > 0 && (
@@ -151,7 +187,7 @@ export default function Home() {
                       onMouseDown={() => selectCountry(country)}
                       className={`cursor-pointer px-4 py-3 text-sm ${
                         idx === highlightIdx
-                          ? 'bg-blue-50 text-blue-900'
+                          ? 'bg-indigo-50 text-indigo-900'
                           : 'text-gray-700 hover:bg-gray-50'
                       }`}
                     >
@@ -167,7 +203,7 @@ export default function Home() {
             <div className="mt-8">
               <Link
                 to="/explore"
-                className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-6 py-3 text-base font-semibold text-white shadow-sm transition-colors hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                className="inline-flex items-center gap-2 rounded-full bg-indigo-500 px-6 py-3 text-base font-bold text-white transition-colors hover:bg-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
               >
                 Explore All Countries
                 <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -180,30 +216,36 @@ export default function Home() {
       </section>
 
       {/* Stats Banner */}
-      <section className="border-y border-gray-200 bg-white py-10">
-        <div className="mx-auto grid max-w-7xl grid-cols-3 gap-8 px-4 sm:px-6 lg:px-8">
+      <section className="bg-gray-100 py-10">
+        <div className="mx-auto grid max-w-7xl grid-cols-3 gap-4 px-4 sm:px-6 lg:px-8">
           {STATS.map((stat) => (
-            <div key={stat.label} className="text-center">
-              <div className="text-3xl font-bold text-gray-900 sm:text-4xl">{stat.value}</div>
-              <div className="mt-1 text-sm font-medium text-gray-500">{stat.label}</div>
+            <div
+              key={stat.label}
+              className="border-2 border-gray-400 border-dashed rounded p-6 m-2 text-center transition-all duration-300 hover:border-transparent hover:bg-white hover:shadow-xl"
+            >
+              <div className={`mx-auto flex h-12 w-12 items-center justify-center rounded-full ${stat.iconBg}`}>
+                <span className={stat.iconColor}>{stat.icon}</span>
+              </div>
+              <div className="mt-3 text-3xl font-bold text-black">{stat.value}</div>
+              <div className="mt-1 text-sm font-bold text-gray-500">{stat.label}</div>
             </div>
           ))}
         </div>
       </section>
 
       {/* Feature Cards */}
-      <section className="bg-white py-16 sm:py-20">
+      <section className="bg-gray-100 py-16 sm:py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 gap-8 sm:grid-cols-3">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
             {FEATURES.map((feature) => (
               <div
                 key={feature.title}
-                className="rounded-xl border border-gray-200 bg-white p-6 transition-shadow hover:shadow-md"
+                className="border-2 border-gray-400 border-dashed rounded p-6 m-2 transition-all duration-300 hover:border-transparent hover:bg-white hover:shadow-xl"
               >
-                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-gray-50">
-                  {feature.icon}
+                <div className={`flex h-12 w-12 items-center justify-center rounded-full ${feature.iconBg}`}>
+                  <span className={feature.iconColor}>{feature.icon}</span>
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900">{feature.title}</h3>
+                <h3 className="mt-4 text-lg font-bold text-black">{feature.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-gray-500">
                   {feature.description}
                 </p>
@@ -214,13 +256,13 @@ export default function Home() {
       </section>
 
       {/* Footer attribution */}
-      <section className="border-t border-gray-200 bg-slate-50 py-10">
+      <section className="border-t border-gray-200 bg-gray-200 py-10">
         <div className="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
           <p className="text-sm text-gray-500">
             Built with data from{' '}
-            <a href="https://data.worldbank.org" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">World Bank</a>,{' '}
-            <a href="https://www.fao.org/faostat" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">FAO</a>, and{' '}
-            <a href="https://www.worldbank.org/en/research/commodity-markets" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">UNESCO</a>
+            <a href="https://data.worldbank.org" target="_blank" rel="noopener noreferrer" className="text-indigo-500 hover:underline">World Bank</a>,{' '}
+            <a href="https://www.fao.org/faostat" target="_blank" rel="noopener noreferrer" className="text-indigo-500 hover:underline">FAO</a>, and{' '}
+            <a href="https://www.worldbank.org/en/research/commodity-markets" target="_blank" rel="noopener noreferrer" className="text-indigo-500 hover:underline">UNESCO</a>
           </p>
         </div>
       </section>

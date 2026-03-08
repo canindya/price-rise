@@ -19,12 +19,58 @@ import AlertSetup from '../components/AlertSetup';
 const ALL_CATEGORIES: Category[] = ['overall_cpi', 'food_cpi', 'energy_benchmark', 'energy_retail', 'education_spend'];
 
 const CATEGORY_LABELS: Record<Category, string> = {
+  overall_cpi: 'Overall CPI',
+  food_cpi: 'Food CPI',
+  energy_benchmark: 'Energy (Oil)',
+  energy_retail: 'Retail Energy',
+  education_spend: 'Education',
+};
+
+const CATEGORY_SHORT_LABELS: Record<Category, string> = {
   overall_cpi: 'Overall',
   food_cpi: 'Food',
   energy_benchmark: 'Energy (Oil)',
   energy_retail: 'Retail Energy',
   education_spend: 'Education',
 };
+
+function CategoryIcon({ category, className }: { category: Category; className?: string }) {
+  const cls = className || 'h-5 w-5 text-indigo-500';
+  switch (category) {
+    case 'overall_cpi':
+      return (
+        <svg className={cls} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25H12" />
+          <path strokeLinecap="round" strokeLinejoin="round" d="M3 17l4-4 4 4 5-7 5 5" />
+        </svg>
+      );
+    case 'food_cpi':
+      return (
+        <svg className={cls} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+        </svg>
+      );
+    case 'energy_benchmark':
+      return (
+        <svg className={cls} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M15.362 5.214A8.252 8.252 0 0112 21 8.25 8.25 0 016.038 7.048 8.287 8.287 0 009 9.6a8.983 8.983 0 013.361-6.867 8.21 8.21 0 003 2.48z" />
+          <path strokeLinecap="round" strokeLinejoin="round" d="M12 18a3.75 3.75 0 00.495-7.467 5.99 5.99 0 00-1.925 3.546 5.974 5.974 0 01-2.133-1.001A3.75 3.75 0 0012 18z" />
+        </svg>
+      );
+    case 'energy_retail':
+      return (
+        <svg className={cls} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
+        </svg>
+      );
+    case 'education_spend':
+      return (
+        <svg className={cls} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5" />
+        </svg>
+      );
+  }
+}
 
 function resolveCountryName(code: string): string {
   const byIso3 = getCountryByIso3(code);
@@ -105,14 +151,16 @@ export default function Explore() {
     return calculatePersonalInflation(weights, changes);
   }, [selectedCountry, weights, timeRange, customRange, getCountrySeries]);
 
-  // Compute overall change for the selected country
-  const overallChange = useMemo(() => {
-    if (!selectedCountry) return null;
-    const series = getCountrySeries(selectedCountry, 'overall_cpi');
-    const filtered = filterByTimeRange(series, timeRange, undefined, customRange);
-    const change = calculateChange(filtered);
-    return change ? change.totalPct : null;
-  }, [selectedCountry, timeRange, customRange, getCountrySeries]);
+  // Compute category changes for stat cards
+  const categoryChanges = useMemo(() => {
+    const result: Partial<Record<Category, number>> = {};
+    for (const cat of ALL_CATEGORIES) {
+      const series = chartData[cat];
+      const change = calculateChange(series);
+      if (change) result[cat] = change.totalPct;
+    }
+    return result;
+  }, [chartData]);
 
   const allActive = activeCategories.length === ALL_CATEGORIES.length;
 
@@ -149,132 +197,165 @@ export default function Explore() {
   }
 
   return (
-    <div className="space-y-6">
-      {/* Hero section */}
-      <div>
-        {selectedCountry ? (
-          <div className="flex items-baseline gap-3">
-            <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">
-              {resolveCountryName(selectedCountry)}
-            </h1>
+    <>
+      <div className="flex flex-wrap content-start min-h-[calc(100vh-4rem)]">
+        {/* ─── Stats Sidebar Panel ─── */}
+        <div className="bg-gray-200 py-6 lg:py-0 w-full lg:w-72 xl:w-80 flex flex-wrap content-start">
+          {/* Header with action buttons */}
+          <div className="w-full px-4 lg:px-6 py-4 flex items-center justify-between">
+            <h2 className="font-bold text-black text-lg">Explore</h2>
+            <div className="flex items-center gap-1">
+              <button
+                onClick={() => setBasketOpen(true)}
+                className="p-2 rounded-lg text-gray-500 hover:text-gray-900 hover:bg-gray-300 transition-colors"
+                aria-label="My Basket"
+                title="My Basket"
+              >
+                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+                </svg>
+              </button>
+              <button
+                onClick={() => setAlertOpen(true)}
+                className="p-2 rounded-lg text-gray-500 hover:text-gray-900 hover:bg-gray-300 transition-colors"
+                aria-label="Alert Setup"
+                title="Alerts"
+              >
+                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          {/* Country Search */}
+          <div className="w-full px-4 lg:px-6 py-3">
+            <CountrySearch />
             {wasAutoDetected && selectedCountry === detectedCountry && (
-              <span className="inline-flex items-center gap-1 rounded-full bg-blue-50 px-2.5 py-0.5 text-xs font-medium text-blue-700 ring-1 ring-blue-200/60">
+              <p className="mt-1.5 text-xs text-gray-500 flex items-center gap-1">
                 <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
                   <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
                 </svg>
-                Auto-detected
-              </span>
-            )}
-            {overallChange !== null && (
-              <span className={`text-sm font-medium ${overallChange >= 0 ? 'text-red-600' : 'text-emerald-600'}`}>
-                {overallChange >= 0 ? '+' : ''}{overallChange.toFixed(1)}% overall
-              </span>
+                Auto-detected location
+              </p>
             )}
           </div>
-        ) : (
-          <div>
-            <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">
-              Explore
-            </h1>
-            <p className="mt-1 text-sm text-gray-500">
-              Select a country from the map or search to view price trends
-            </p>
+
+          {/* Time Range */}
+          <div className="w-full px-4 lg:px-6 py-2">
+            <TimeRangeSelector />
           </div>
-        )}
-      </div>
 
-      {/* Controls row */}
-      <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-        {/* Left group: search + time range */}
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-          <CountrySearch />
-          <TimeRangeSelector />
-        </div>
+          {/* Stat Cards */}
+          {selectedCountry && ALL_CATEGORIES.map((cat) => {
+            const val = categoryChanges[cat];
+            if (val == null) return null;
+            const isUp = val >= 0;
+            return (
+              <div key={cat} className="w-1/2 lg:w-full">
+                <div className="border-2 border-gray-400 border-dashed hover:border-transparent hover:bg-white hover:shadow-xl rounded p-6 m-2 md:mx-6 md:my-4 transition-all duration-300">
+                  <div className="flex flex-col items-center">
+                    <div className="flex-shrink-0 mb-2">
+                      <div className="rounded-full p-3 bg-gray-300">
+                        <CategoryIcon category={cat} className="h-5 w-5 text-indigo-500" />
+                      </div>
+                    </div>
+                    <div className="text-center">
+                      <h3 className="font-bold text-3xl">
+                        {isUp ? '+' : ''}{val.toFixed(1)}%
+                        <span className={`ml-1 ${isUp ? 'text-red-500' : 'text-emerald-500'}`}>
+                          {isUp ? '\u2191' : '\u2193'}
+                        </span>
+                      </h3>
+                      <h5 className="font-bold text-gray-500 text-sm">{CATEGORY_LABELS[cat]}</h5>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
 
-        {/* Right group: view mode + actions */}
-        <div className="flex items-center gap-3">
-          <ViewModeSelector />
-          <span className="hidden h-5 w-px bg-gray-200 sm:block" />
-          <button
-            onClick={() => setBasketOpen(true)}
-            className="inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-medium text-gray-600 ring-1 ring-gray-200 transition-colors hover:bg-gray-50 hover:text-gray-900"
-            aria-label="My Basket"
-          >
-            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
-            </svg>
-            <span className="hidden sm:inline">My Basket</span>
-          </button>
-          <button
-            onClick={() => setAlertOpen(true)}
-            className="inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-medium text-gray-600 ring-1 ring-gray-200 transition-colors hover:bg-gray-50 hover:text-gray-900"
-            aria-label="Alert Setup"
-          >
-            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.24-.438.613-.431.992a6.759 6.759 0 010 .255c-.007.378.138.75.43.99l1.005.828c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 010-.255c.007-.378-.138-.75-.43-.99l-1.004-.828a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.281z" />
-              <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-            </svg>
-            <span className="hidden sm:inline">Alerts</span>
-          </button>
-        </div>
-      </div>
-
-      {/* Category pills */}
-      <div className="flex flex-wrap items-center justify-center gap-2">
-        <button
-          onClick={setAllCategories}
-          className={`rounded-full px-4 py-1.5 text-sm font-medium transition-all ${
-            allActive
-              ? 'bg-gray-900 text-white shadow-sm'
-              : 'bg-white text-gray-600 ring-1 ring-gray-200 hover:bg-gray-50 hover:text-gray-900'
-          }`}
-        >
-          All
-        </button>
-        {ALL_CATEGORIES.map((cat) => (
-          <button
-            key={cat}
-            onClick={() => toggleCategory(cat)}
-            className={`rounded-full px-4 py-1.5 text-sm font-medium transition-all ${
-              activeCategories.includes(cat)
-                ? 'bg-blue-600 text-white shadow-sm'
-                : 'bg-white text-gray-600 ring-1 ring-gray-200 hover:bg-gray-50 hover:text-gray-900'
-            }`}
-          >
-            {CATEGORY_LABELS[cat]}
-          </button>
-        ))}
-      </div>
-
-      {/* Main content: map + chart */}
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
-        {/* Map card */}
-        <div className="lg:col-span-7">
-          <div className="overflow-hidden rounded-xl bg-white ring-1 ring-gray-200">
-            <div className="border-b border-gray-100 px-5 py-3">
-              <h3 className="text-sm font-medium text-gray-500">Global Price Changes</h3>
+          {/* Personal Inflation Card */}
+          {selectedCountry && personalInflation != null && (
+            <div className="w-full">
+              <div className="border-2 border-gray-400 border-dashed hover:border-transparent hover:bg-white hover:shadow-xl rounded p-6 m-2 md:mx-6 md:my-4 transition-all duration-300">
+                <div className="flex flex-col items-center">
+                  <div className="flex-shrink-0 mb-2">
+                    <div className="rounded-full p-3 bg-gray-300">
+                      <svg className="h-5 w-5 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                      </svg>
+                    </div>
+                  </div>
+                  <div className="text-center">
+                    <h3 className="font-bold text-3xl">
+                      {personalInflation >= 0 ? '+' : ''}{personalInflation.toFixed(1)}%
+                      <span className={`ml-1 ${personalInflation >= 0 ? 'text-red-500' : 'text-emerald-500'}`}>
+                        {personalInflation >= 0 ? '\u2191' : '\u2193'}
+                      </span>
+                    </h3>
+                    <h5 className="font-bold text-gray-500 text-sm">Your Inflation</h5>
+                    <button
+                      onClick={() => setBasketOpen(true)}
+                      className="mt-1 text-xs text-indigo-500 hover:text-indigo-700 hover:underline"
+                    >
+                      Customize weights
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div className="p-4">
-              <WorldMap
-                countryChanges={countryChanges}
-                onCountrySelect={handleCountrySelect}
-                selectedCountry={selectedCountry}
-              />
+          )}
+
+          {/* Empty state when no country */}
+          {!selectedCountry && (
+            <div className="w-full px-4 lg:px-6 py-8">
+              <p className="text-sm text-gray-500 text-center">
+                Select a country to view statistics
+              </p>
             </div>
-          </div>
+          )}
         </div>
 
-        {/* Chart card */}
-        <div className="lg:col-span-5">
-          <div className="overflow-hidden rounded-xl bg-white ring-1 ring-gray-200">
-            <div className="flex items-center justify-between border-b border-gray-100 px-5 py-3">
-              <h3 className="text-sm font-medium text-gray-500">
-                {selectedCountry ? 'Price Trend' : 'Trend Chart'}
-              </h3>
+        {/* ─── Main Content Area ─── */}
+        <div className="w-full flex-1 lg:border-l border-gray-300">
+          {/* Controls Bar */}
+          <div className="border-b border-gray-300 p-4 flex flex-wrap items-center justify-between gap-3">
+            {/* Category pills */}
+            <div className="flex flex-wrap items-center gap-2">
+              <button
+                onClick={setAllCategories}
+                className={`rounded-full px-4 py-1.5 text-sm font-medium transition-all ${
+                  allActive
+                    ? 'bg-gray-800 text-white'
+                    : 'bg-white text-gray-600 ring-1 ring-gray-300 hover:bg-gray-50 hover:text-gray-900'
+                }`}
+              >
+                All
+              </button>
+              {ALL_CATEGORIES.map((cat) => (
+                <button
+                  key={cat}
+                  onClick={() => toggleCategory(cat)}
+                  className={`rounded-full px-4 py-1.5 text-sm font-medium transition-all ${
+                    activeCategories.includes(cat)
+                      ? 'bg-indigo-600 text-white'
+                      : 'bg-white text-gray-600 ring-1 ring-gray-300 hover:bg-gray-50 hover:text-gray-900'
+                  }`}
+                >
+                  {CATEGORY_SHORT_LABELS[cat]}
+                </button>
+              ))}
+            </div>
+
+            {/* Right side controls */}
+            <div className="flex items-center gap-3">
+              <ViewModeSelector />
+              <span className="h-5 w-px bg-gray-300" />
               {/* World average toggle */}
               <div className="flex items-center gap-2">
-                <span className="text-xs text-gray-400">World avg</span>
+                <span className="text-xs text-gray-500">World avg</span>
                 <button
                   type="button"
                   role="switch"
@@ -284,7 +365,32 @@ export default function Explore() {
                 />
               </div>
             </div>
-            <div className="overflow-hidden p-4">
+          </div>
+
+          {/* Map Section */}
+          <div className="p-3">
+            <div className="border-b p-3">
+              <h5 className="font-bold text-black">Global Price Changes</h5>
+            </div>
+            <div className="p-5">
+              <WorldMap
+                countryChanges={countryChanges}
+                onCountrySelect={handleCountrySelect}
+                selectedCountry={selectedCountry}
+              />
+            </div>
+          </div>
+
+          {/* Chart Section */}
+          <div className="p-3">
+            <div className="border-b p-3">
+              <h5 className="font-bold text-black">
+                {selectedCountry
+                  ? `${resolveCountryName(selectedCountry)} \u2014 Trend Analysis`
+                  : 'Trend Analysis'}
+              </h5>
+            </div>
+            <div className="p-5">
               {selectedCountry ? (
                 <TrendChart
                   data={chartData}
@@ -297,7 +403,7 @@ export default function Explore() {
                   benchmarkData={benchmarkData}
                 />
               ) : (
-                <div className="flex min-h-[350px] items-center justify-center">
+                <div className="flex min-h-[300px] items-center justify-center">
                   <div className="text-center">
                     <svg className="mx-auto h-12 w-12 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" />
@@ -310,72 +416,20 @@ export default function Explore() {
               )}
             </div>
           </div>
-        </div>
-      </div>
 
-      {/* Stats cards row */}
-      {selectedCountry && (
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
-          {/* Personal inflation card */}
-          {personalInflation != null && (
-            <div className="relative overflow-hidden rounded-xl bg-white p-5 ring-1 ring-gray-200">
-              <div className="flex items-center gap-2">
-                <span className="text-xs font-medium text-gray-400 uppercase tracking-wide">
-                  Your Inflation
-                </span>
-                <span className="inline-flex items-center rounded-full bg-indigo-50 px-1.5 py-0.5 text-[10px] font-semibold text-indigo-600 ring-1 ring-indigo-200/60">
-                  Personalized
-                </span>
+          {/* Detailed Category Cards */}
+          {selectedCountry && (
+            <div className="p-3">
+              <div className="border-b p-3">
+                <h5 className="font-bold text-black">Category Breakdown</h5>
               </div>
-              <div className={`mt-2 text-2xl font-semibold ${personalInflation >= 0 ? 'text-red-600' : 'text-emerald-600'}`}>
-                {personalInflation >= 0 ? '+' : ''}{personalInflation.toFixed(1)}%
+              <div className="p-5">
+                <CategoryCards data={chartData} timeRange={timeRange} customRange={customRange} />
               </div>
-              <button
-                onClick={() => setBasketOpen(true)}
-                className="mt-2 text-xs text-indigo-600 hover:text-indigo-800 hover:underline"
-              >
-                Customize weights
-              </button>
-              {/* Decorative accent */}
-              <div className={`absolute right-0 top-0 h-full w-1 ${personalInflation >= 0 ? 'bg-red-400' : 'bg-emerald-400'}`} />
             </div>
           )}
-
-          {/* Category stat cards - show change for each active category */}
-          {activeCategories.map((cat) => {
-            const series = chartData[cat];
-            const change = calculateChange(series);
-            if (!change) return null;
-            return (
-              <div key={cat} className="rounded-xl bg-white p-5 ring-1 ring-gray-200">
-                <span className="text-xs font-medium text-gray-400 uppercase tracking-wide">
-                  {CATEGORY_LABELS[cat]}
-                </span>
-                <div className={`mt-2 text-2xl font-semibold ${change.totalPct >= 0 ? 'text-red-600' : 'text-emerald-600'}`}>
-                  {change.totalPct >= 0 ? '+' : ''}{change.totalPct.toFixed(1)}%
-                </div>
-                <div className="mt-1 flex items-center gap-1 text-xs text-gray-400">
-                  {change.totalPct >= 0 ? (
-                    <svg className="h-3 w-3 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" />
-                    </svg>
-                  ) : (
-                    <svg className="h-3 w-3 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 4.5l15 15m0 0V8.25m0 11.25H8.25" />
-                    </svg>
-                  )}
-                  <span>{timeRange} change</span>
-                </div>
-              </div>
-            );
-          })}
         </div>
-      )}
-
-      {/* Category cards (detailed) */}
-      {selectedCountry && (
-        <CategoryCards data={chartData} timeRange={timeRange} customRange={customRange} />
-      )}
+      </div>
 
       {/* My Basket modal */}
       <MyBasket
@@ -388,6 +442,6 @@ export default function Explore() {
 
       {/* Alert Setup modal */}
       <AlertSetup open={alertOpen} onClose={() => setAlertOpen(false)} />
-    </div>
+    </>
   );
 }
