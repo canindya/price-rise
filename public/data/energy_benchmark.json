@@ -1,0 +1,139 @@
+{
+  "baseYear": 2015,
+  "lastUpdated": "2026-03-08",
+  "source": "Brent Crude Oil Annual Average (USD/barrel) - EIA / World Bank",
+  "countries": {
+    "WORLD": [
+      {
+        "year": 2000,
+        "value": 28.5,
+        "indexed": 54.47
+      },
+      {
+        "year": 2001,
+        "value": 24.44,
+        "indexed": 46.71
+      },
+      {
+        "year": 2002,
+        "value": 25.02,
+        "indexed": 47.82
+      },
+      {
+        "year": 2003,
+        "value": 28.83,
+        "indexed": 55.1
+      },
+      {
+        "year": 2004,
+        "value": 38.27,
+        "indexed": 73.15
+      },
+      {
+        "year": 2005,
+        "value": 54.52,
+        "indexed": 104.2
+      },
+      {
+        "year": 2006,
+        "value": 65.14,
+        "indexed": 124.5
+      },
+      {
+        "year": 2007,
+        "value": 72.39,
+        "indexed": 138.36
+      },
+      {
+        "year": 2008,
+        "value": 97.26,
+        "indexed": 185.89
+      },
+      {
+        "year": 2009,
+        "value": 61.67,
+        "indexed": 117.87
+      },
+      {
+        "year": 2010,
+        "value": 79.61,
+        "indexed": 152.16
+      },
+      {
+        "year": 2011,
+        "value": 111.26,
+        "indexed": 212.65
+      },
+      {
+        "year": 2012,
+        "value": 111.67,
+        "indexed": 213.44
+      },
+      {
+        "year": 2013,
+        "value": 108.66,
+        "indexed": 207.68
+      },
+      {
+        "year": 2014,
+        "value": 98.97,
+        "indexed": 189.16
+      },
+      {
+        "year": 2015,
+        "value": 52.32,
+        "indexed": 100
+      },
+      {
+        "year": 2016,
+        "value": 43.73,
+        "indexed": 83.58
+      },
+      {
+        "year": 2017,
+        "value": 54.19,
+        "indexed": 103.57
+      },
+      {
+        "year": 2018,
+        "value": 71.34,
+        "indexed": 136.35
+      },
+      {
+        "year": 2019,
+        "value": 64.21,
+        "indexed": 122.73
+      },
+      {
+        "year": 2020,
+        "value": 41.84,
+        "indexed": 79.97
+      },
+      {
+        "year": 2021,
+        "value": 70.68,
+        "indexed": 135.09
+      },
+      {
+        "year": 2022,
+        "value": 99.04,
+        "indexed": 189.3
+      },
+      {
+        "year": 2023,
+        "value": 82.49,
+        "indexed": 157.66
+      },
+      {
+        "year": 2024,
+        "value": 80.75,
+        "indexed": 154.34
+      },
+      {
+        "year": 2025,
+        "value": 74.5,
+        "indexed": 142.39
+      }
+    ]
+  }
+}

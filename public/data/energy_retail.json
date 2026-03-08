@@ -1,0 +1,2344 @@
+{
+  "baseYear": 2015,
+  "lastUpdated": "2026-03-08",
+  "source": "Curated retail gasoline prices (USD/liter) - GlobalPetrolPrices.com, IEA, World Bank",
+  "countries": {
+    "US": [
+      {
+        "year": 2015,
+        "value": 0.66,
+        "indexed": 100
+      },
+      {
+        "year": 2016,
+        "value": 0.61,
+        "indexed": 92.42
+      },
+      {
+        "year": 2017,
+        "value": 0.67,
+        "indexed": 101.52
+      },
+      {
+        "year": 2018,
+        "value": 0.74,
+        "indexed": 112.12
+      },
+      {
+        "year": 2019,
+        "value": 0.71,
+        "indexed": 107.58
+      },
+      {
+        "year": 2020,
+        "value": 0.58,
+        "indexed": 87.88
+      },
+      {
+        "year": 2021,
+        "value": 0.8,
+        "indexed": 121.21
+      },
+      {
+        "year": 2022,
+        "value": 1.08,
+        "indexed": 163.64
+      },
+      {
+        "year": 2023,
+        "value": 0.93,
+        "indexed": 140.91
+      },
+      {
+        "year": 2024,
+        "value": 0.9,
+        "indexed": 136.36
+      },
+      {
+        "year": 2025,
+        "value": 0.88,
+        "indexed": 133.33
+      }
+    ],
+    "CA": [
+      {
+        "year": 2015,
+        "value": 0.82,
+        "indexed": 100
+      },
+      {
+        "year": 2016,
+        "value": 0.79,
+        "indexed": 96.34
+      },
+      {
+        "year": 2017,
+        "value": 0.89,
+        "indexed": 108.54
+      },
+      {
+        "year": 2018,
+        "value": 0.98,
+        "indexed": 119.51
+      },
+      {
+        "year": 2019,
+        "value": 0.95,
+        "indexed": 115.85
+      },
+      {
+        "year": 2020,
+        "value": 0.74,
+        "indexed": 90.24
+      },
+      {
+        "year": 2021,
+        "value": 1.08,
+        "indexed": 131.71
+      },
+      {
+        "year": 2022,
+        "value": 1.48,
+        "indexed": 180.49
+      },
+      {
+        "year": 2023,
+        "value": 1.3,
+        "indexed": 158.54
+      },
+      {
+        "year": 2024,
+        "value": 1.25,
+        "indexed": 152.44
+      },
+      {
+        "year": 2025,
+        "value": 1.22,
+        "indexed": 148.78
+      }
+    ],
+    "MX": [
+      {
+        "year": 2015,
+        "value": 0.77,
+        "indexed": 100
+      },
+      {
+        "year": 2016,
+        "value": 0.73,
+        "indexed": 94.81
+      },
+      {
+        "year": 2017,
+        "value": 0.82,
+        "indexed": 106.49
+      },
+      {
+        "year": 2018,
+        "value": 0.93,
+        "indexed": 120.78
+      },
+      {
+        "year": 2019,
+        "value": 0.91,
+        "indexed": 118.18
+      },
+      {
+        "year": 2020,
+        "value": 0.78,
+        "indexed": 101.3
+      },
+      {
+        "year": 2021,
+        "value": 0.97,
+        "indexed": 125.97
+      },
+      {
+        "year": 2022,
+        "value": 1.16,
+        "indexed": 150.65
+      },
+      {
+        "year": 2023,
+        "value": 1.1,
+        "indexed": 142.86
+      },
+      {
+        "year": 2024,
+        "value": 1.06,
+        "indexed": 137.66
+      },
+      {
+        "year": 2025,
+        "value": 1.04,
+        "indexed": 135.06
+      }
+    ],
+    "BR": [
+      {
+        "year": 2015,
+        "value": 0.91,
+        "indexed": 100
+      },
+      {
+        "year": 2016,
+        "value": 0.82,
+        "indexed": 90.11
+      },
+      {
+        "year": 2017,
+        "value": 0.96,
+        "indexed": 105.49
+      },
+      {
+        "year": 2018,
+        "value": 1.05,
+        "indexed": 115.38
+      },
+      {
+        "year": 2019,
+        "value": 1.03,
+        "indexed": 113.19
+      },
+      {
+        "year": 2020,
+        "value": 0.8,
+        "indexed": 87.91
+      },
+      {
+        "year": 2021,
+        "value": 1.07,
+        "indexed": 117.58
+      },
+      {
+        "year": 2022,
+        "value": 1.35,
+        "indexed": 148.35
+      },
+      {
+        "year": 2023,
+        "value": 1.15,
+        "indexed": 126.37
+      },
+      {
+        "year": 2024,
+        "value": 1.12,
+        "indexed": 123.08
+      },
+      {
+        "year": 2025,
+        "value": 1.1,
+        "indexed": 120.88
+      }
+    ],
+    "AR": [
+      {
+        "year": 2015,
+        "value": 0.94,
+        "indexed": 100
+      },
+      {
+        "year": 2016,
+        "value": 0.72,
+        "indexed": 76.6
+      },
+      {
+        "year": 2017,
+        "value": 0.84,
+        "indexed": 89.36
+      },
+      {
+        "year": 2018,
+        "value": 0.78,
+        "indexed": 82.98
+      },
+      {
+        "year": 2019,
+        "value": 0.63,
+        "indexed": 67.02
+      },
+      {
+        "year": 2020,
+        "value": 0.55,
+        "indexed": 58.51
+      },
+      {
+        "year": 2021,
+        "value": 0.6,
+        "indexed": 63.83
+      },
+      {
+        "year": 2022,
+        "value": 0.62,
+        "indexed": 65.96
+      },
+      {
+        "year": 2023,
+        "value": 0.47,
+        "indexed": 50
+      },
+      {
+        "year": 2024,
+        "value": 0.65,
+        "indexed": 69.15
+      },
+      {
+        "year": 2025,
+        "value": 0.7,
+        "indexed": 74.47
+      }
+    ],
+    "CO": [
+      {
+        "year": 2015,
+        "value": 0.62,
+        "indexed": 100
+      },
+      {
+        "year": 2016,
+        "value": 0.52,
+        "indexed": 83.87
+      },
+      {
+        "year": 2017,
+        "value": 0.6,
+        "indexed": 96.77
+      },
+      {
+        "year": 2018,
+        "value": 0.71,
+        "indexed": 114.52
+      },
+      {
+        "year": 2019,
+        "value": 0.67,
+        "indexed": 108.06
+      },
+      {
+        "year": 2020,
+        "value": 0.5,
+        "indexed": 80.65
+      },
+      {
+        "year": 2021,
+        "value": 0.64,
+        "indexed": 103.23
+      },
+      {
+        "year": 2022,
+        "value": 0.65,
+        "indexed": 104.84
+      },
+      {
+        "year": 2023,
+        "value": 0.61,
+        "indexed": 98.39
+      },
+      {
+        "year": 2024,
+        "value": 0.6,
+        "indexed": 96.77
+      },
+      {
+        "year": 2025,
+        "value": 0.62,
+        "indexed": 100
+      }
+    ],
+    "CL": [
+      {
+        "year": 2015,
+        "value": 0.95,
+        "indexed": 100
+      },
+      {
+        "year": 2016,
+        "value": 0.87,
+        "indexed": 91.58
+      },
+      {
+        "year": 2017,
+        "value": 0.97,
+        "indexed": 102.11
+      },
+      {
+        "year": 2018,
+        "value": 1.07,
+        "indexed": 112.63
+      },
+      {
+        "year": 2019,
+        "value": 1.02,
+        "indexed": 107.37
+      },
+      {
+        "year": 2020,
+        "value": 0.79,
+        "indexed": 83.16
+      },
+      {
+        "year": 2021,
+        "value": 1.07,
+        "indexed": 112.63
+      },
+      {
+        "year": 2022,
+        "value": 1.38,
+        "indexed": 145.26
+      },
+      {
+        "year": 2023,
+        "value": 1.22,
+        "indexed": 128.42
+      },
+      {
+        "year": 2024,
+        "value": 1.18,
+        "indexed": 124.21
+      },
+      {
+        "year": 2025,
+        "value": 1.15,
+        "indexed": 121.05
+      }
+    ],
+    "GB": [
+      {
+        "year": 2015,
+        "value": 1.41,
+        "indexed": 100
+      },
+      {
+        "year": 2016,
+        "value": 1.21,
+        "indexed": 85.82
+      },
+      {
+        "year": 2017,
+        "value": 1.31,
+        "indexed": 92.91
+      },
+      {
+        "year": 2018,
+        "value": 1.42,
+        "indexed": 100.71
+      },
+      {
+        "year": 2019,
+        "value": 1.38,
+        "indexed": 97.87
+      },
+      {
+        "year": 2020,
+        "value": 1.18,
+        "indexed": 83.69
+      },
+      {
+        "year": 2021,
+        "value": 1.47,
+        "indexed": 104.26
+      },
+      {
+        "year": 2022,
+        "value": 1.89,
+        "indexed": 134.04
+      },
+      {
+        "year": 2023,
+        "value": 1.62,
+        "indexed": 114.89
+      },
+      {
+        "year": 2024,
+        "value": 1.55,
+        "indexed": 109.93
+      },
+      {
+        "year": 2025,
+        "value": 1.5,
+        "indexed": 106.38
+      }
+    ],
+    "DE": [
+      {
+        "year": 2015,
+        "value": 1.41,
+        "indexed": 100
+      },
+      {
+        "year": 2016,
+        "value": 1.27,
+        "indexed": 90.07
+      },
+      {
+        "year": 2017,
+        "value": 1.37,
+        "indexed": 97.16
+      },
+      {
+        "year": 2018,
+        "value": 1.48,
+        "indexed": 104.96
+      },
+      {
+        "year": 2019,
+        "value": 1.43,
+        "indexed": 101.42
+      },
+      {
+        "year": 2020,
+        "value": 1.25,
+        "indexed": 88.65
+      },
+      {
+        "year": 2021,
+        "value": 1.57,
+        "indexed": 111.35
+      },
+      {
+        "year": 2022,
+        "value": 1.98,
+        "indexed": 140.43
+      },
+      {
+        "year": 2023,
+        "value": 1.75,
+        "indexed": 124.11
+      },
+      {
+        "year": 2024,
+        "value": 1.7,
+        "indexed": 120.57
+      },
+      {
+        "year": 2025,
+        "value": 1.66,
+        "indexed": 117.73
+      }
+    ],
+    "FR": [
+      {
+        "year": 2015,
+        "value": 1.38,
+        "indexed": 100
+      },
+      {
+        "year": 2016,
+        "value": 1.25,
+        "indexed": 90.58
+      },
+      {
+        "year": 2017,
+        "value": 1.38,
+        "indexed": 100
+      },
+      {
+        "year": 2018,
+        "value": 1.57,
+        "indexed": 113.77
+      },
+      {
+        "year": 2019,
+        "value": 1.53,
+        "indexed": 110.87
+      },
+      {
+        "year": 2020,
+        "value": 1.31,
+        "indexed": 94.93
+      },
+      {
+        "year": 2021,
+        "value": 1.62,
+        "indexed": 117.39
+      },
+      {
+        "year": 2022,
+        "value": 1.95,
+        "indexed": 141.3
+      },
+      {
+        "year": 2023,
+        "value": 1.82,
+        "indexed": 131.88
+      },
+      {
+        "year": 2024,
+        "value": 1.78,
+        "indexed": 128.99
+      },
+      {
+        "year": 2025,
+        "value": 1.74,
+        "indexed": 126.09
+      }
+    ],
+    "IT": [
+      {
+        "year": 2015,
+        "value": 1.56,
+        "indexed": 100
+      },
+      {
+        "year": 2016,
+        "value": 1.43,
+        "indexed": 91.67
+      },
+      {
+        "year": 2017,
+        "value": 1.54,
+        "indexed": 98.72
+      },
+      {
+        "year": 2018,
+        "value": 1.62,
+        "indexed": 103.85
+      },
+      {
+        "year": 2019,
+        "value": 1.58,
+        "indexed": 101.28
+      },
+      {
+        "year": 2020,
+        "value": 1.38,
+        "indexed": 88.46
+      },
+      {
+        "year": 2021,
+        "value": 1.67,
+        "indexed": 107.05
+      },
+      {
+        "year": 2022,
+        "value": 2.02,
+        "indexed": 129.49
+      },
+      {
+        "year": 2023,
+        "value": 1.85,
+        "indexed": 118.59
+      },
+      {
+        "year": 2024,
+        "value": 1.8,
+        "indexed": 115.38
+      },
+      {
+        "year": 2025,
+        "value": 1.76,
+        "indexed": 112.82
+      }
+    ],
+    "ES": [
+      {
+        "year": 2015,
+        "value": 1.22,
+        "indexed": 100
+      },
+      {
+        "year": 2016,
+        "value": 1.11,
+        "indexed": 90.98
+      },
+      {
+        "year": 2017,
+        "value": 1.22,
+        "indexed": 100
+      },
+      {
+        "year": 2018,
+        "value": 1.32,
+        "indexed": 108.2
+      },
+      {
+        "year": 2019,
+        "value": 1.29,
+        "indexed": 105.74
+      },
+      {
+        "year": 2020,
+        "value": 1.1,
+        "indexed": 90.16
+      },
+      {
+        "year": 2021,
+        "value": 1.38,
+        "indexed": 113.11
+      },
+      {
+        "year": 2022,
+        "value": 1.78,
+        "indexed": 145.9
+      },
+      {
+        "year": 2023,
+        "value": 1.55,
+        "indexed": 127.05
+      },
+      {
+        "year": 2024,
+        "value": 1.5,
+        "indexed": 122.95
+      },
+      {
+        "year": 2025,
+        "value": 1.47,
+        "indexed": 120.49
+      }
+    ],
+    "NL": [
+      {
+        "year": 2015,
+        "value": 1.62,
+        "indexed": 100
+      },
+      {
+        "year": 2016,
+        "value": 1.47,
+        "indexed": 90.74
+      },
+      {
+        "year": 2017,
+        "value": 1.58,
+        "indexed": 97.53
+      },
+      {
+        "year": 2018,
+        "value": 1.72,
+        "indexed": 106.17
+      },
+      {
+        "year": 2019,
+        "value": 1.7,
+        "indexed": 104.94
+      },
+      {
+        "year": 2020,
+        "value": 1.48,
+        "indexed": 91.36
+      },
+      {
+        "year": 2021,
+        "value": 1.82,
+        "indexed": 112.35
+      },
+      {
+        "year": 2022,
+        "value": 2.25,
+        "indexed": 138.89
+      },
+      {
+        "year": 2023,
+        "value": 2,
+        "indexed": 123.46
+      },
+      {
+        "year": 2024,
+        "value": 1.95,
+        "indexed": 120.37
+      },
+      {
+        "year": 2025,
+        "value": 1.9,
+        "indexed": 117.28
+      }
+    ],
+    "SE": [
+      {
+        "year": 2015,
+        "value": 1.42,
+        "indexed": 100
+      },
+      {
+        "year": 2016,
+        "value": 1.3,
+        "indexed": 91.55
+      },
+      {
+        "year": 2017,
+        "value": 1.4,
+        "indexed": 98.59
+      },
+      {
+        "year": 2018,
+        "value": 1.55,
+        "indexed": 109.15
+      },
+      {
+        "year": 2019,
+        "value": 1.5,
+        "indexed": 105.63
+      },
+      {
+        "year": 2020,
+        "value": 1.28,
+        "indexed": 90.14
+      },
+      {
+        "year": 2021,
+        "value": 1.58,
+        "indexed": 111.27
+      },
+      {
+        "year": 2022,
+        "value": 2.05,
+        "indexed": 144.37
+      },
+      {
+        "year": 2023,
+        "value": 1.75,
+        "indexed": 123.24
+      },
+      {
+        "year": 2024,
+        "value": 1.7,
+        "indexed": 119.72
+      },
+      {
+        "year": 2025,
+        "value": 1.65,
+        "indexed": 116.2
+      }
+    ],
+    "NO": [
+      {
+        "year": 2015,
+        "value": 1.65,
+        "indexed": 100
+      },
+      {
+        "year": 2016,
+        "value": 1.5,
+        "indexed": 90.91
+      },
+      {
+        "year": 2017,
+        "value": 1.62,
+        "indexed": 98.18
+      },
+      {
+        "year": 2018,
+        "value": 1.78,
+        "indexed": 107.88
+      },
+      {
+        "year": 2019,
+        "value": 1.72,
+        "indexed": 104.24
+      },
+      {
+        "year": 2020,
+        "value": 1.49,
+        "indexed": 90.3
+      },
+      {
+        "year": 2021,
+        "value": 1.8,
+        "indexed": 109.09
+      },
+      {
+        "year": 2022,
+        "value": 2.3,
+        "indexed": 139.39
+      },
+      {
+        "year": 2023,
+        "value": 1.95,
+        "indexed": 118.18
+      },
+      {
+        "year": 2024,
+        "value": 1.88,
+        "indexed": 113.94
+      },
+      {
+        "year": 2025,
+        "value": 1.83,
+        "indexed": 110.91
+      }
+    ],
+    "CH": [
+      {
+        "year": 2015,
+        "value": 1.48,
+        "indexed": 100
+      },
+      {
+        "year": 2016,
+        "value": 1.32,
+        "indexed": 89.19
+      },
+      {
+        "year": 2017,
+        "value": 1.4,
+        "indexed": 94.59
+      },
+      {
+        "year": 2018,
+        "value": 1.52,
+        "indexed": 102.7
+      },
+      {
+        "year": 2019,
+        "value": 1.5,
+        "indexed": 101.35
+      },
+      {
+        "year": 2020,
+        "value": 1.3,
+        "indexed": 87.84
+      },
+      {
+        "year": 2021,
+        "value": 1.58,
+        "indexed": 106.76
+      },
+      {
+        "year": 2022,
+        "value": 2.05,
+        "indexed": 138.51
+      },
+      {
+        "year": 2023,
+        "value": 1.8,
+        "indexed": 121.62
+      },
+      {
+        "year": 2024,
+        "value": 1.75,
+        "indexed": 118.24
+      },
+      {
+        "year": 2025,
+        "value": 1.7,
+        "indexed": 114.86
+      }
+    ],
+    "PL": [
+      {
+        "year": 2015,
+        "value": 1.05,
+        "indexed": 100
+      },
+      {
+        "year": 2016,
+        "value": 0.95,
+        "indexed": 90.48
+      },
+      {
+        "year": 2017,
+        "value": 1.05,
+        "indexed": 100
+      },
+      {
+        "year": 2018,
+        "value": 1.15,
+        "indexed": 109.52
+      },
+      {
+        "year": 2019,
+        "value": 1.12,
+        "indexed": 106.67
+      },
+      {
+        "year": 2020,
+        "value": 0.97,
+        "indexed": 92.38
+      },
+      {
+        "year": 2021,
+        "value": 1.25,
+        "indexed": 119.05
+      },
+      {
+        "year": 2022,
+        "value": 1.55,
+        "indexed": 147.62
+      },
+      {
+        "year": 2023,
+        "value": 1.4,
+        "indexed": 133.33
+      },
+      {
+        "year": 2024,
+        "value": 1.36,
+        "indexed": 129.52
+      },
+      {
+        "year": 2025,
+        "value": 1.33,
+        "indexed": 126.67
+      }
+    ],
+    "CZ": [
+      {
+        "year": 2015,
+        "value": 1.14,
+        "indexed": 100
+      },
+      {
+        "year": 2016,
+        "value": 1.02,
+        "indexed": 89.47
+      },
+      {
+        "year": 2017,
+        "value": 1.12,
+        "indexed": 98.25
+      },
+      {
+        "year": 2018,
+        "value": 1.25,
+        "indexed": 109.65
+      },
+      {
+        "year": 2019,
+        "value": 1.22,
+        "indexed": 107.02
+      },
+      {
+        "year": 2020,
+        "value": 1.05,
+        "indexed": 92.11
+      },
+      {
+        "year": 2021,
+        "value": 1.35,
+        "indexed": 118.42
+      },
+      {
+        "year": 2022,
+        "value": 1.72,
+        "indexed": 150.88
+      },
+      {
+        "year": 2023,
+        "value": 1.48,
+        "indexed": 129.82
+      },
+      {
+        "year": 2024,
+        "value": 1.42,
+        "indexed": 124.56
+      },
+      {
+        "year": 2025,
+        "value": 1.38,
+        "indexed": 121.05
+      }
+    ],
+    "TR": [
+      {
+        "year": 2015,
+        "value": 1.39,
+        "indexed": 100
+      },
+      {
+        "year": 2016,
+        "value": 1.22,
+        "indexed": 87.77
+      },
+      {
+        "year": 2017,
+        "value": 1.18,
+        "indexed": 84.89
+      },
+      {
+        "year": 2018,
+        "value": 0.98,
+        "indexed": 70.5
+      },
+      {
+        "year": 2019,
+        "value": 0.87,
+        "indexed": 62.59
+      },
+      {
+        "year": 2020,
+        "value": 0.69,
+        "indexed": 49.64
+      },
+      {
+        "year": 2021,
+        "value": 0.83,
+        "indexed": 59.71
+      },
+      {
+        "year": 2022,
+        "value": 1.04,
+        "indexed": 74.82
+      },
+      {
+        "year": 2023,
+        "value": 0.92,
+        "indexed": 66.19
+      },
+      {
+        "year": 2024,
+        "value": 0.95,
+        "indexed": 68.35
+      },
+      {
+        "year": 2025,
+        "value": 0.9,
+        "indexed": 64.75
+      }
+    ],
+    "RU": [
+      {
+        "year": 2015,
+        "value": 0.56,
+        "indexed": 100
+      },
+      {
+        "year": 2016,
+        "value": 0.54,
+        "indexed": 96.43
+      },
+      {
+        "year": 2017,
+        "value": 0.6,
+        "indexed": 107.14
+      },
+      {
+        "year": 2018,
+        "value": 0.62,
+        "indexed": 110.71
+      },
+      {
+        "year": 2019,
+        "value": 0.61,
+        "indexed": 108.93
+      },
+      {
+        "year": 2020,
+        "value": 0.5,
+        "indexed": 89.29
+      },
+      {
+        "year": 2021,
+        "value": 0.57,
+        "indexed": 101.79
+      },
+      {
+        "year": 2022,
+        "value": 0.55,
+        "indexed": 98.21
+      },
+      {
+        "year": 2023,
+        "value": 0.52,
+        "indexed": 92.86
+      },
+      {
+        "year": 2024,
+        "value": 0.5,
+        "indexed": 89.29
+      },
+      {
+        "year": 2025,
+        "value": 0.48,
+        "indexed": 85.71
+      }
+    ],
+    "CN": [
+      {
+        "year": 2015,
+        "value": 0.92,
+        "indexed": 100
+      },
+      {
+        "year": 2016,
+        "value": 0.82,
+        "indexed": 89.13
+      },
+      {
+        "year": 2017,
+        "value": 0.9,
+        "indexed": 97.83
+      },
+      {
+        "year": 2018,
+        "value": 1,
+        "indexed": 108.7
+      },
+      {
+        "year": 2019,
+        "value": 0.97,
+        "indexed": 105.43
+      },
+      {
+        "year": 2020,
+        "value": 0.78,
+        "indexed": 84.78
+      },
+      {
+        "year": 2021,
+        "value": 0.98,
+        "indexed": 106.52
+      },
+      {
+        "year": 2022,
+        "value": 1.22,
+        "indexed": 132.61
+      },
+      {
+        "year": 2023,
+        "value": 1.1,
+        "indexed": 119.57
+      },
+      {
+        "year": 2024,
+        "value": 1.06,
+        "indexed": 115.22
+      },
+      {
+        "year": 2025,
+        "value": 1.03,
+        "indexed": 111.96
+      }
+    ],
+    "JP": [
+      {
+        "year": 2015,
+        "value": 1.1,
+        "indexed": 100
+      },
+      {
+        "year": 2016,
+        "value": 0.98,
+        "indexed": 89.09
+      },
+      {
+        "year": 2017,
+        "value": 1.08,
+        "indexed": 98.18
+      },
+      {
+        "year": 2018,
+        "value": 1.17,
+        "indexed": 106.36
+      },
+      {
+        "year": 2019,
+        "value": 1.15,
+        "indexed": 104.55
+      },
+      {
+        "year": 2020,
+        "value": 1.01,
+        "indexed": 91.82
+      },
+      {
+        "year": 2021,
+        "value": 1.18,
+        "indexed": 107.27
+      },
+      {
+        "year": 2022,
+        "value": 1.4,
+        "indexed": 127.27
+      },
+      {
+        "year": 2023,
+        "value": 1.3,
+        "indexed": 118.18
+      },
+      {
+        "year": 2024,
+        "value": 1.25,
+        "indexed": 113.64
+      },
+      {
+        "year": 2025,
+        "value": 1.22,
+        "indexed": 110.91
+      }
+    ],
+    "KR": [
+      {
+        "year": 2015,
+        "value": 1.18,
+        "indexed": 100
+      },
+      {
+        "year": 2016,
+        "value": 1.07,
+        "indexed": 90.68
+      },
+      {
+        "year": 2017,
+        "value": 1.16,
+        "indexed": 98.31
+      },
+      {
+        "year": 2018,
+        "value": 1.28,
+        "indexed": 108.47
+      },
+      {
+        "year": 2019,
+        "value": 1.23,
+        "indexed": 104.24
+      },
+      {
+        "year": 2020,
+        "value": 1.05,
+        "indexed": 88.98
+      },
+      {
+        "year": 2021,
+        "value": 1.28,
+        "indexed": 108.47
+      },
+      {
+        "year": 2022,
+        "value": 1.6,
+        "indexed": 135.59
+      },
+      {
+        "year": 2023,
+        "value": 1.42,
+        "indexed": 120.34
+      },
+      {
+        "year": 2024,
+        "value": 1.36,
+        "indexed": 115.25
+      },
+      {
+        "year": 2025,
+        "value": 1.32,
+        "indexed": 111.86
+      }
+    ],
+    "IN": [
+      {
+        "year": 2015,
+        "value": 0.97,
+        "indexed": 100
+      },
+      {
+        "year": 2016,
+        "value": 0.9,
+        "indexed": 92.78
+      },
+      {
+        "year": 2017,
+        "value": 0.96,
+        "indexed": 98.97
+      },
+      {
+        "year": 2018,
+        "value": 1.05,
+        "indexed": 108.25
+      },
+      {
+        "year": 2019,
+        "value": 1.02,
+        "indexed": 105.15
+      },
+      {
+        "year": 2020,
+        "value": 0.82,
+        "indexed": 84.54
+      },
+      {
+        "year": 2021,
+        "value": 1.07,
+        "indexed": 110.31
+      },
+      {
+        "year": 2022,
+        "value": 1.28,
+        "indexed": 131.96
+      },
+      {
+        "year": 2023,
+        "value": 1.16,
+        "indexed": 119.59
+      },
+      {
+        "year": 2024,
+        "value": 1.12,
+        "indexed": 115.46
+      },
+      {
+        "year": 2025,
+        "value": 1.1,
+        "indexed": 113.4
+      }
+    ],
+    "ID": [
+      {
+        "year": 2015,
+        "value": 0.56,
+        "indexed": 100
+      },
+      {
+        "year": 2016,
+        "value": 0.49,
+        "indexed": 87.5
+      },
+      {
+        "year": 2017,
+        "value": 0.53,
+        "indexed": 94.64
+      },
+      {
+        "year": 2018,
+        "value": 0.56,
+        "indexed": 100
+      },
+      {
+        "year": 2019,
+        "value": 0.54,
+        "indexed": 96.43
+      },
+      {
+        "year": 2020,
+        "value": 0.47,
+        "indexed": 83.93
+      },
+      {
+        "year": 2021,
+        "value": 0.58,
+        "indexed": 103.57
+      },
+      {
+        "year": 2022,
+        "value": 0.89,
+        "indexed": 158.93
+      },
+      {
+        "year": 2023,
+        "value": 0.73,
+        "indexed": 130.36
+      },
+      {
+        "year": 2024,
+        "value": 0.71,
+        "indexed": 126.79
+      },
+      {
+        "year": 2025,
+        "value": 0.69,
+        "indexed": 123.21
+      }
+    ],
+    "TH": [
+      {
+        "year": 2015,
+        "value": 0.82,
+        "indexed": 100
+      },
+      {
+        "year": 2016,
+        "value": 0.73,
+        "indexed": 89.02
+      },
+      {
+        "year": 2017,
+        "value": 0.81,
+        "indexed": 98.78
+      },
+      {
+        "year": 2018,
+        "value": 0.91,
+        "indexed": 110.98
+      },
+      {
+        "year": 2019,
+        "value": 0.87,
+        "indexed": 106.1
+      },
+      {
+        "year": 2020,
+        "value": 0.7,
+        "indexed": 85.37
+      },
+      {
+        "year": 2021,
+        "value": 0.87,
+        "indexed": 106.1
+      },
+      {
+        "year": 2022,
+        "value": 1.22,
+        "indexed": 148.78
+      },
+      {
+        "year": 2023,
+        "value": 1.05,
+        "indexed": 128.05
+      },
+      {
+        "year": 2024,
+        "value": 1,
+        "indexed": 121.95
+      },
+      {
+        "year": 2025,
+        "value": 0.97,
+        "indexed": 118.29
+      }
+    ],
+    "MY": [
+      {
+        "year": 2015,
+        "value": 0.49,
+        "indexed": 100
+      },
+      {
+        "year": 2016,
+        "value": 0.42,
+        "indexed": 85.71
+      },
+      {
+        "year": 2017,
+        "value": 0.48,
+        "indexed": 97.96
+      },
+      {
+        "year": 2018,
+        "value": 0.53,
+        "indexed": 108.16
+      },
+      {
+        "year": 2019,
+        "value": 0.5,
+        "indexed": 102.04
+      },
+      {
+        "year": 2020,
+        "value": 0.38,
+        "indexed": 77.55
+      },
+      {
+        "year": 2021,
+        "value": 0.45,
+        "indexed": 91.84
+      },
+      {
+        "year": 2022,
+        "value": 0.52,
+        "indexed": 106.12
+      },
+      {
+        "year": 2023,
+        "value": 0.49,
+        "indexed": 100
+      },
+      {
+        "year": 2024,
+        "value": 0.48,
+        "indexed": 97.96
+      },
+      {
+        "year": 2025,
+        "value": 0.47,
+        "indexed": 95.92
+      }
+    ],
+    "SG": [
+      {
+        "year": 2015,
+        "value": 1.19,
+        "indexed": 100
+      },
+      {
+        "year": 2016,
+        "value": 1.05,
+        "indexed": 88.24
+      },
+      {
+        "year": 2017,
+        "value": 1.24,
+        "indexed": 104.2
+      },
+      {
+        "year": 2018,
+        "value": 1.39,
+        "indexed": 116.81
+      },
+      {
+        "year": 2019,
+        "value": 1.42,
+        "indexed": 119.33
+      },
+      {
+        "year": 2020,
+        "value": 1.18,
+        "indexed": 99.16
+      },
+      {
+        "year": 2021,
+        "value": 1.52,
+        "indexed": 127.73
+      },
+      {
+        "year": 2022,
+        "value": 1.9,
+        "indexed": 159.66
+      },
+      {
+        "year": 2023,
+        "value": 1.69,
+        "indexed": 142.02
+      },
+      {
+        "year": 2024,
+        "value": 1.62,
+        "indexed": 136.13
+      },
+      {
+        "year": 2025,
+        "value": 1.58,
+        "indexed": 132.77
+      }
+    ],
+    "AU": [
+      {
+        "year": 2015,
+        "value": 0.93,
+        "indexed": 100
+      },
+      {
+        "year": 2016,
+        "value": 0.84,
+        "indexed": 90.32
+      },
+      {
+        "year": 2017,
+        "value": 0.95,
+        "indexed": 102.15
+      },
+      {
+        "year": 2018,
+        "value": 1.04,
+        "indexed": 111.83
+      },
+      {
+        "year": 2019,
+        "value": 1.01,
+        "indexed": 108.6
+      },
+      {
+        "year": 2020,
+        "value": 0.79,
+        "indexed": 84.95
+      },
+      {
+        "year": 2021,
+        "value": 1.06,
+        "indexed": 113.98
+      },
+      {
+        "year": 2022,
+        "value": 1.42,
+        "indexed": 152.69
+      },
+      {
+        "year": 2023,
+        "value": 1.25,
+        "indexed": 134.41
+      },
+      {
+        "year": 2024,
+        "value": 1.2,
+        "indexed": 129.03
+      },
+      {
+        "year": 2025,
+        "value": 1.17,
+        "indexed": 125.81
+      }
+    ],
+    "NZ": [
+      {
+        "year": 2015,
+        "value": 1.12,
+        "indexed": 100
+      },
+      {
+        "year": 2016,
+        "value": 0.99,
+        "indexed": 88.39
+      },
+      {
+        "year": 2017,
+        "value": 1.13,
+        "indexed": 100.89
+      },
+      {
+        "year": 2018,
+        "value": 1.25,
+        "indexed": 111.61
+      },
+      {
+        "year": 2019,
+        "value": 1.21,
+        "indexed": 108.04
+      },
+      {
+        "year": 2020,
+        "value": 0.95,
+        "indexed": 84.82
+      },
+      {
+        "year": 2021,
+        "value": 1.28,
+        "indexed": 114.29
+      },
+      {
+        "year": 2022,
+        "value": 1.7,
+        "indexed": 151.79
+      },
+      {
+        "year": 2023,
+        "value": 1.48,
+        "indexed": 132.14
+      },
+      {
+        "year": 2024,
+        "value": 1.42,
+        "indexed": 126.79
+      },
+      {
+        "year": 2025,
+        "value": 1.38,
+        "indexed": 123.21
+      }
+    ],
+    "SA": [
+      {
+        "year": 2015,
+        "value": 0.16,
+        "indexed": 100
+      },
+      {
+        "year": 2016,
+        "value": 0.24,
+        "indexed": 150
+      },
+      {
+        "year": 2017,
+        "value": 0.35,
+        "indexed": 218.75
+      },
+      {
+        "year": 2018,
+        "value": 0.54,
+        "indexed": 337.5
+      },
+      {
+        "year": 2019,
+        "value": 0.54,
+        "indexed": 337.5
+      },
+      {
+        "year": 2020,
+        "value": 0.53,
+        "indexed": 331.25
+      },
+      {
+        "year": 2021,
+        "value": 0.62,
+        "indexed": 387.5
+      },
+      {
+        "year": 2022,
+        "value": 0.62,
+        "indexed": 387.5
+      },
+      {
+        "year": 2023,
+        "value": 0.62,
+        "indexed": 387.5
+      },
+      {
+        "year": 2024,
+        "value": 0.62,
+        "indexed": 387.5
+      },
+      {
+        "year": 2025,
+        "value": 0.62,
+        "indexed": 387.5
+      }
+    ],
+    "AE": [
+      {
+        "year": 2015,
+        "value": 0.44,
+        "indexed": 100
+      },
+      {
+        "year": 2016,
+        "value": 0.43,
+        "indexed": 97.73
+      },
+      {
+        "year": 2017,
+        "value": 0.48,
+        "indexed": 109.09
+      },
+      {
+        "year": 2018,
+        "value": 0.57,
+        "indexed": 129.55
+      },
+      {
+        "year": 2019,
+        "value": 0.56,
+        "indexed": 127.27
+      },
+      {
+        "year": 2020,
+        "value": 0.47,
+        "indexed": 106.82
+      },
+      {
+        "year": 2021,
+        "value": 0.61,
+        "indexed": 138.64
+      },
+      {
+        "year": 2022,
+        "value": 0.78,
+        "indexed": 177.27
+      },
+      {
+        "year": 2023,
+        "value": 0.7,
+        "indexed": 159.09
+      },
+      {
+        "year": 2024,
+        "value": 0.68,
+        "indexed": 154.55
+      },
+      {
+        "year": 2025,
+        "value": 0.66,
+        "indexed": 150
+      }
+    ],
+    "IL": [
+      {
+        "year": 2015,
+        "value": 1.6,
+        "indexed": 100
+      },
+      {
+        "year": 2016,
+        "value": 1.5,
+        "indexed": 93.75
+      },
+      {
+        "year": 2017,
+        "value": 1.62,
+        "indexed": 101.25
+      },
+      {
+        "year": 2018,
+        "value": 1.72,
+        "indexed": 107.5
+      },
+      {
+        "year": 2019,
+        "value": 1.68,
+        "indexed": 105
+      },
+      {
+        "year": 2020,
+        "value": 1.38,
+        "indexed": 86.25
+      },
+      {
+        "year": 2021,
+        "value": 1.7,
+        "indexed": 106.25
+      },
+      {
+        "year": 2022,
+        "value": 2,
+        "indexed": 125
+      },
+      {
+        "year": 2023,
+        "value": 1.8,
+        "indexed": 112.5
+      },
+      {
+        "year": 2024,
+        "value": 1.74,
+        "indexed": 108.75
+      },
+      {
+        "year": 2025,
+        "value": 1.7,
+        "indexed": 106.25
+      }
+    ],
+    "EG": [
+      {
+        "year": 2015,
+        "value": 0.22,
+        "indexed": 100
+      },
+      {
+        "year": 2016,
+        "value": 0.21,
+        "indexed": 95.45
+      },
+      {
+        "year": 2017,
+        "value": 0.26,
+        "indexed": 118.18
+      },
+      {
+        "year": 2018,
+        "value": 0.38,
+        "indexed": 172.73
+      },
+      {
+        "year": 2019,
+        "value": 0.39,
+        "indexed": 177.27
+      },
+      {
+        "year": 2020,
+        "value": 0.36,
+        "indexed": 163.64
+      },
+      {
+        "year": 2021,
+        "value": 0.37,
+        "indexed": 168.18
+      },
+      {
+        "year": 2022,
+        "value": 0.34,
+        "indexed": 154.55
+      },
+      {
+        "year": 2023,
+        "value": 0.29,
+        "indexed": 131.82
+      },
+      {
+        "year": 2024,
+        "value": 0.34,
+        "indexed": 154.55
+      },
+      {
+        "year": 2025,
+        "value": 0.36,
+        "indexed": 163.64
+      }
+    ],
+    "ZA": [
+      {
+        "year": 2015,
+        "value": 0.89,
+        "indexed": 100
+      },
+      {
+        "year": 2016,
+        "value": 0.78,
+        "indexed": 87.64
+      },
+      {
+        "year": 2017,
+        "value": 0.89,
+        "indexed": 100
+      },
+      {
+        "year": 2018,
+        "value": 0.97,
+        "indexed": 108.99
+      },
+      {
+        "year": 2019,
+        "value": 0.93,
+        "indexed": 104.49
+      },
+      {
+        "year": 2020,
+        "value": 0.73,
+        "indexed": 82.02
+      },
+      {
+        "year": 2021,
+        "value": 0.96,
+        "indexed": 107.87
+      },
+      {
+        "year": 2022,
+        "value": 1.23,
+        "indexed": 138.2
+      },
+      {
+        "year": 2023,
+        "value": 1.1,
+        "indexed": 123.6
+      },
+      {
+        "year": 2024,
+        "value": 1.05,
+        "indexed": 117.98
+      },
+      {
+        "year": 2025,
+        "value": 1.02,
+        "indexed": 114.61
+      }
+    ],
+    "NG": [
+      {
+        "year": 2015,
+        "value": 0.44,
+        "indexed": 100
+      },
+      {
+        "year": 2016,
+        "value": 0.28,
+        "indexed": 63.64
+      },
+      {
+        "year": 2017,
+        "value": 0.35,
+        "indexed": 79.55
+      },
+      {
+        "year": 2018,
+        "value": 0.39,
+        "indexed": 88.64
+      },
+      {
+        "year": 2019,
+        "value": 0.38,
+        "indexed": 86.36
+      },
+      {
+        "year": 2020,
+        "value": 0.3,
+        "indexed": 68.18
+      },
+      {
+        "year": 2021,
+        "value": 0.37,
+        "indexed": 84.09
+      },
+      {
+        "year": 2022,
+        "value": 0.42,
+        "indexed": 95.45
+      },
+      {
+        "year": 2023,
+        "value": 0.5,
+        "indexed": 113.64
+      },
+      {
+        "year": 2024,
+        "value": 0.55,
+        "indexed": 125
+      },
+      {
+        "year": 2025,
+        "value": 0.58,
+        "indexed": 131.82
+      }
+    ],
+    "KE": [
+      {
+        "year": 2015,
+        "value": 0.95,
+        "indexed": 100
+      },
+      {
+        "year": 2016,
+        "value": 0.82,
+        "indexed": 86.32
+      },
+      {
+        "year": 2017,
+        "value": 0.91,
+        "indexed": 95.79
+      },
+      {
+        "year": 2018,
+        "value": 1.01,
+        "indexed": 106.32
+      },
+      {
+        "year": 2019,
+        "value": 0.99,
+        "indexed": 104.21
+      },
+      {
+        "year": 2020,
+        "value": 0.82,
+        "indexed": 86.32
+      },
+      {
+        "year": 2021,
+        "value": 1.04,
+        "indexed": 109.47
+      },
+      {
+        "year": 2022,
+        "value": 1.32,
+        "indexed": 138.95
+      },
+      {
+        "year": 2023,
+        "value": 1.25,
+        "indexed": 131.58
+      },
+      {
+        "year": 2024,
+        "value": 1.2,
+        "indexed": 126.32
+      },
+      {
+        "year": 2025,
+        "value": 1.17,
+        "indexed": 123.16
+      }
+    ],
+    "GH": [
+      {
+        "year": 2015,
+        "value": 0.83,
+        "indexed": 100
+      },
+      {
+        "year": 2016,
+        "value": 0.7,
+        "indexed": 84.34
+      },
+      {
+        "year": 2017,
+        "value": 0.77,
+        "indexed": 92.77
+      },
+      {
+        "year": 2018,
+        "value": 0.82,
+        "indexed": 98.8
+      },
+      {
+        "year": 2019,
+        "value": 0.8,
+        "indexed": 96.39
+      },
+      {
+        "year": 2020,
+        "value": 0.64,
+        "indexed": 77.11
+      },
+      {
+        "year": 2021,
+        "value": 0.77,
+        "indexed": 92.77
+      },
+      {
+        "year": 2022,
+        "value": 0.95,
+        "indexed": 114.46
+      },
+      {
+        "year": 2023,
+        "value": 0.88,
+        "indexed": 106.02
+      },
+      {
+        "year": 2024,
+        "value": 0.85,
+        "indexed": 102.41
+      },
+      {
+        "year": 2025,
+        "value": 0.82,
+        "indexed": 98.8
+      }
+    ],
+    "PK": [
+      {
+        "year": 2015,
+        "value": 0.6,
+        "indexed": 100
+      },
+      {
+        "year": 2016,
+        "value": 0.5,
+        "indexed": 83.33
+      },
+      {
+        "year": 2017,
+        "value": 0.57,
+        "indexed": 95
+      },
+      {
+        "year": 2018,
+        "value": 0.64,
+        "indexed": 106.67
+      },
+      {
+        "year": 2019,
+        "value": 0.67,
+        "indexed": 111.67
+      },
+      {
+        "year": 2020,
+        "value": 0.52,
+        "indexed": 86.67
+      },
+      {
+        "year": 2021,
+        "value": 0.7,
+        "indexed": 116.67
+      },
+      {
+        "year": 2022,
+        "value": 0.9,
+        "indexed": 150
+      },
+      {
+        "year": 2023,
+        "value": 1,
+        "indexed": 166.67
+      },
+      {
+        "year": 2024,
+        "value": 0.95,
+        "indexed": 158.33
+      },
+      {
+        "year": 2025,
+        "value": 0.92,
+        "indexed": 153.33
+      }
+    ],
+    "BD": [
+      {
+        "year": 2015,
+        "value": 0.72,
+        "indexed": 100
+      },
+      {
+        "year": 2016,
+        "value": 0.66,
+        "indexed": 91.67
+      },
+      {
+        "year": 2017,
+        "value": 0.71,
+        "indexed": 98.61
+      },
+      {
+        "year": 2018,
+        "value": 0.8,
+        "indexed": 111.11
+      },
+      {
+        "year": 2019,
+        "value": 0.77,
+        "indexed": 106.94
+      },
+      {
+        "year": 2020,
+        "value": 0.65,
+        "indexed": 90.28
+      },
+      {
+        "year": 2021,
+        "value": 0.77,
+        "indexed": 106.94
+      },
+      {
+        "year": 2022,
+        "value": 0.98,
+        "indexed": 136.11
+      },
+      {
+        "year": 2023,
+        "value": 0.92,
+        "indexed": 127.78
+      },
+      {
+        "year": 2024,
+        "value": 0.88,
+        "indexed": 122.22
+      },
+      {
+        "year": 2025,
+        "value": 0.85,
+        "indexed": 118.06
+      }
+    ],
+    "PH": [
+      {
+        "year": 2015,
+        "value": 0.74,
+        "indexed": 100
+      },
+      {
+        "year": 2016,
+        "value": 0.62,
+        "indexed": 83.78
+      },
+      {
+        "year": 2017,
+        "value": 0.72,
+        "indexed": 97.3
+      },
+      {
+        "year": 2018,
+        "value": 0.84,
+        "indexed": 113.51
+      },
+      {
+        "year": 2019,
+        "value": 0.81,
+        "indexed": 109.46
+      },
+      {
+        "year": 2020,
+        "value": 0.6,
+        "indexed": 81.08
+      },
+      {
+        "year": 2021,
+        "value": 0.82,
+        "indexed": 110.81
+      },
+      {
+        "year": 2022,
+        "value": 1.15,
+        "indexed": 155.41
+      },
+      {
+        "year": 2023,
+        "value": 0.98,
+        "indexed": 132.43
+      },
+      {
+        "year": 2024,
+        "value": 0.93,
+        "indexed": 125.68
+      },
+      {
+        "year": 2025,
+        "value": 0.9,
+        "indexed": 121.62
+      }
+    ]
+  }
+}
