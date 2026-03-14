@@ -1,0 +1,34 @@
+{
+  "source": "MOSPI - Household Consumption Expenditure Survey (HCES) 2023-24",
+  "surveyYear": "2023-24",
+  "weights": {
+    "general": 100,
+    "food_beverages": 39.06,
+    "fuel_light": 6.84,
+    "clothing": 6.08,
+    "education": 4.46,
+    "health": 7.00,
+    "housing": 10.07,
+    "miscellaneous": 26.49
+  },
+  "ruralWeights": {
+    "general": 100,
+    "food_beverages": 46.38,
+    "fuel_light": 7.94,
+    "clothing": 6.84,
+    "education": 3.46,
+    "health": 7.21,
+    "housing": 6.73,
+    "miscellaneous": 21.44
+  },
+  "urbanWeights": {
+    "general": 100,
+    "food_beverages": 30.29,
+    "fuel_light": 5.58,
+    "clothing": 5.17,
+    "education": 5.61,
+    "health": 6.75,
+    "housing": 14.07,
+    "miscellaneous": 32.53
+  }
+}

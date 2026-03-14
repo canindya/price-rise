@@ -1,5 +1,31 @@
 # Changelog
 
+## [2026-03-15]
+
+### Added
+
+- **India Section**: New "India" menu with 6 dedicated features powered by MOSPI CPI data (monthly, sub-category granularity)
+- **Purchasing Power Eroder**: Input a savings amount and year, see how inflation eroded purchasing power across food, fuel, education, health, housing, and clothing
+- **Reverse Price Lookup**: Select a product category and year, compare estimated price then vs now with percentage delta and CPI index chart
+- **Inflation Spike Timeline**: Monthly heatmap showing worst food/fuel/education inflation spikes from 2012-2025, with event annotations (onion crisis, GST, COVID, etc.)
+- **Household Budget Stress Score**: Input monthly spend allocation, get a weighted stress index showing how much more your basket costs today vs 5/10 years ago
+- **Inflation Winners & Losers**: Two-column sector cards showing which categories surged vs stayed stable, with sparklines and narratives
+- **Share My Inflation Story**: Generate branded shareable image cards (purchasing power, category comparison, worst month, custom stat) for WhatsApp/LinkedIn, using html-to-image
+- **MOSPI Data Pipeline**: Fetch script (`scripts/fetch-mospi.ts`) generating 168 months x 8 sub-groups x 3 coverages (All India, Rural, Urban) of CPI data
+- **HCES Weights**: Household expenditure shares from HCES 2023-24 survey for realistic budget weightings (All India, Rural, Urban splits)
+- **India Events**: 18 India-specific economic event annotations with monthly granularity
+- **useMospiData Hook**: Dedicated data hook for MOSPI CPI with series access, purchasing power calculation, month-over-month changes
+- **India Types**: TypeScript types for MonthlyDataPoint, MospiSubGroup, MospiCoverage, sub-group labels and color maps
+- **Geolocation-Based Nav**: India menu items auto-appear when user's IP location is detected as India (via existing ipapi.co hook)
+
+### Changed
+
+- **Navigation**: Added India dropdown (desktop) and collapsible section (mobile) to Layout, conditionally visible based on user geolocation or active India route
+- **Routing**: Added `/india/*` route group with IndiaLayout wrapper and 7 child routes
+- **CSS**: Added `--color-india-health`, `--color-india-housing`, `--color-india-misc` custom properties for both light and dark themes
+- **Build Pipeline**: Added MOSPI CPI fetch as Step 8/9 in `scripts/build-all.ts`
+- **Dependencies**: Added `html-to-image` for social snippet image generation
+
 ## [2026-03-08]
 
 ### Added

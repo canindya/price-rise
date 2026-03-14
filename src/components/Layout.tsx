@@ -1,10 +1,11 @@
 import { useState, useEffect, useMemo } from 'react';
-import { Link, NavLink, Outlet } from 'react-router-dom';
+import { Link, NavLink, Outlet, useLocation } from 'react-router-dom';
 import type { Category } from '../types/index';
 import { useCountryData } from '../hooks/useCountryData';
 import { checkAlerts } from './AlertSetup';
 import type { TriggeredAlert } from './AlertSetup';
 import { useTheme } from '../hooks/useTheme';
+import { useUserLocation } from '../hooks/useUserLocation';
 
 export default function Layout() {
   const { getAllCountriesChange, isLoading } = useCountryData();
@@ -12,7 +13,14 @@ export default function Layout() {
   const [dismissedIds, setDismissedIds] = useState<Set<string>>(new Set());
   const [alertDropdownOpen, setAlertDropdownOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [indiaDropdownOpen, setIndiaDropdownOpen] = useState(false);
+  const [mobileIndiaExpanded, setMobileIndiaExpanded] = useState(false);
   const { theme, toggleTheme } = useTheme();
+  const location = useLocation();
+  const isIndiaRoute = location.pathname.startsWith('/india');
+  const { detectedCountry } = useUserLocation();
+  // Show India nav items if user is in India OR is currently on an India route
+  const showIndiaNav = detectedCountry === 'IND' || isIndiaRoute;
 
   const allChanges = useMemo(() => {
     if (isLoading) return {};
@@ -73,6 +81,57 @@ export default function Layout() {
             <NavLink to="/" end className={navLinkClass}>Home</NavLink>
             <NavLink to="/explore" className={navLinkClass}>Explore</NavLink>
             <NavLink to="/compare" className={navLinkClass}>Compare</NavLink>
+
+            {/* India dropdown — visible when user is in India or on India routes */}
+            {showIndiaNav && (
+              <div className="relative">
+                <button
+                  onClick={() => setIndiaDropdownOpen(!indiaDropdownOpen)}
+                  className={`relative flex items-center gap-1 px-1 py-1 text-sm font-medium transition-colors ${
+                    isIndiaRoute
+                      ? 'text-[var(--color-nav-active)] after:absolute after:bottom-[-13px] after:left-0 after:right-0 after:h-[2px] after:rounded-full after:bg-[var(--color-accent)]'
+                      : 'text-[var(--color-nav-inactive)] hover:text-[var(--color-nav-hover)]'
+                  }`}
+                >
+                  India
+                  <svg className={`h-3.5 w-3.5 transition-transform ${indiaDropdownOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+
+                {indiaDropdownOpen && (
+                  <>
+                    <div className="fixed inset-0 z-40" onClick={() => setIndiaDropdownOpen(false)} />
+                    <div
+                      className="absolute left-1/2 z-50 mt-4 w-64 -translate-x-1/2 rounded-xl p-2 shadow-lg"
+                      style={{ backgroundColor: 'var(--color-bg-elevated)', border: '1px solid var(--color-border)' }}
+                    >
+                      {[
+                        { to: '/india', label: 'Overview', desc: 'India deep dive hub' },
+                        { to: '/india/purchasing-power', label: 'Purchasing Power', desc: 'What did your money become?' },
+                        { to: '/india/price-lookup', label: 'Price Lookup', desc: 'What did this cost then?' },
+                        { to: '/india/spike-timeline', label: 'Spike Timeline', desc: 'Which month hurt most?' },
+                        { to: '/india/budget-stress', label: 'Budget Stress', desc: 'Household stress score' },
+                        { to: '/india/sector-cards', label: 'Winners & Losers', desc: 'Sectors that beat inflation' },
+                        { to: '/india/share', label: 'Share Story', desc: 'Generate social cards' },
+                      ].map(({ to, label, desc }) => (
+                        <NavLink
+                          key={to}
+                          to={to}
+                          end={to === '/india'}
+                          onClick={() => setIndiaDropdownOpen(false)}
+                          className="block rounded-lg px-3 py-2 transition-colors hover:bg-[var(--color-bg-subtle-hover)]"
+                        >
+                          <span className="text-sm font-medium" style={{ color: 'var(--color-text)' }}>{label}</span>
+                          <span className="block text-xs" style={{ color: 'var(--color-text-muted)' }}>{desc}</span>
+                        </NavLink>
+                      ))}
+                    </div>
+                  </>
+                )}
+              </div>
+            )}
+
             <NavLink to="/about" className={navLinkClass}>About</NavLink>
 
             {/* Theme toggle */}
@@ -220,7 +279,6 @@ export default function Layout() {
                 { to: '/', label: 'Home', end: true },
                 { to: '/explore', label: 'Explore' },
                 { to: '/compare', label: 'Compare' },
-                { to: '/about', label: 'About' },
               ].map(({ to, label, end }) => (
                 <NavLink
                   key={to}
@@ -239,6 +297,70 @@ export default function Layout() {
                   {label}
                 </NavLink>
               ))}
+
+              {/* India collapsible section — visible when user is in India or on India routes */}
+              {showIndiaNav && (
+                <>
+                  <button
+                    onClick={() => setMobileIndiaExpanded(!mobileIndiaExpanded)}
+                    className={`flex items-center justify-between rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
+                      isIndiaRoute
+                        ? 'text-[var(--color-nav-active)]'
+                        : 'text-[var(--color-nav-inactive)] hover:text-[var(--color-nav-hover)]'
+                    }`}
+                    style={isIndiaRoute ? { backgroundColor: 'var(--color-bg-card)' } : undefined}
+                  >
+                    India
+                    <svg className={`h-3.5 w-3.5 transition-transform ${mobileIndiaExpanded ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+                  {mobileIndiaExpanded && (
+                    <div className="ml-3 flex flex-col gap-0.5 border-l-2" style={{ borderColor: 'var(--color-border)' }}>
+                      {[
+                        { to: '/india', label: 'Overview', end: true },
+                        { to: '/india/purchasing-power', label: 'Purchasing Power' },
+                        { to: '/india/price-lookup', label: 'Price Lookup' },
+                        { to: '/india/spike-timeline', label: 'Spike Timeline' },
+                        { to: '/india/budget-stress', label: 'Budget Stress' },
+                        { to: '/india/sector-cards', label: 'Winners & Losers' },
+                        { to: '/india/share', label: 'Share Story' },
+                      ].map(({ to, label, end }) => (
+                        <NavLink
+                          key={to}
+                          to={to}
+                          end={end}
+                          onClick={() => setMobileMenuOpen(false)}
+                          className={({ isActive }) =>
+                            `rounded-lg px-3 py-1.5 text-sm transition-colors ${
+                              isActive
+                                ? 'font-medium text-[var(--color-nav-active)]'
+                                : 'text-[var(--color-nav-inactive)] hover:text-[var(--color-nav-hover)]'
+                            }`
+                          }
+                        >
+                          {label}
+                        </NavLink>
+                      ))}
+                    </div>
+                  )}
+                </>
+              )}
+
+              <NavLink
+                to="/about"
+                onClick={() => setMobileMenuOpen(false)}
+                className={({ isActive }) =>
+                  `rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
+                    isActive
+                      ? 'text-[var(--color-nav-active)]'
+                      : 'text-[var(--color-nav-inactive)] hover:text-[var(--color-nav-hover)]'
+                  }`
+                }
+                style={({ isActive }) => isActive ? { backgroundColor: 'var(--color-bg-card)' } : undefined}
+              >
+                About
+              </NavLink>
             </div>
           </div>
         )}

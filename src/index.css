@@ -61,6 +61,11 @@
   /* Accent button backgrounds */
   --color-accent-bg: rgba(22, 163, 74, 0.12);
   --color-accent-border: rgba(22, 163, 74, 0.35);
+
+  /* India sub-group colors */
+  --color-india-health: #db2777;
+  --color-india-housing: #0284c7;
+  --color-india-misc: #64748b;
 }
 
 /* ── Dark theme ── */
@@ -123,6 +128,11 @@
   /* Accent button backgrounds */
   --color-accent-bg: rgba(74, 222, 128, 0.15);
   --color-accent-border: rgba(74, 222, 128, 0.4);
+
+  /* India sub-group colors */
+  --color-india-health: #f472b6;
+  --color-india-housing: #38bdf8;
+  --color-india-misc: #94a3b8;
 }
 
 * { box-sizing: border-box; }
